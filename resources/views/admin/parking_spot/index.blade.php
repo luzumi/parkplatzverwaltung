@@ -49,6 +49,8 @@
                 <thead>
                 <tr>
                     <th scope="col">ID</th>
+                    <th scope="col">UserID</th>
+                    <th scope="col">CarID</th>
                     <th scope="col">Nummer</th>
                     <th scope="col">Reihe</th>
                     <th scope="col">Status</th>
@@ -61,6 +63,8 @@
                 @foreach ($viewData["parking_spots"] as $parking_spot)
                     <tr>
                         <td>{{ $parking_spot->getId() }}</td>
+                        <td>{{ $parking_spot->getUserId() }}</td>
+                        <td>{{ $parking_spot->getCarId() }}</td>
                         <td>{{ $parking_spot->getNumber() }}</td>
                         <td>{{ $parking_spot->getRow() }}</td>
                         <td>{{ $parking_spot->getStatus() }}</td>

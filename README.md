@@ -1,15 +1,28 @@
-<p text-align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p text-align="center">
+<p align="center">
 <a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-#  Parkplatzverwaltung
-<p text-align="center"><a href="#" target="_blank"><img src="https://www.ginstr.com/wp-content/uploads/2017/09/smartParkingManager_GAS_appIcon-193x193.png?x31442" width="400" alt="Laravel Logo"></a></p>
+<h1 align="center">  Parkplatzverwaltung</h1>
+<p align="center"><a href="#" target="_blank"><img src="https://www.ginstr.com/wp-content/uploads/2017/09/smartParkingManager_GAS_appIcon-193x193.png?x31442" width="400" alt="Laravel Logo"></a></p>
+<div align="center">
+<h2>Parkplatzverwaltung, das Programm</h2>
+Mit der Parkplatzverwaltungssoftware soll eine Verwaltung eines Parkplatzes gewährleistet werden.
+Jeder der Parkplätze kann direkt von einem Kunden gebucht werden und ist bis zu Ende der Buchung für ihn und sein(e) Fahrzeug(e) reserviert.
+<code>Der Kunde</code> kann, nachdem er sich erfolgreich eingeloggt hat, seine Daten ansehen und verwalten, Fahrzeuge hinzufügen und Parkplätze buchen.
 
+<h5> Die Verwaltung wird von einem <code>Administrator</code> überwacht. Er hat Zugriff auf das Admin-Panel. Dort hat er eine Übersicht über alle Benutzer, Fahrzeuge und Parkplätze. 
+Er hat Zugriff auf die Benutzerdaten und kann diese editieren, Benutzer löschen oder hinzufügen und den Status eines Parkplatzes setzen.</h5>
+
+Er kann Parkplatzbuchungen löschen oder neue Buchungen manuell hinzufügen.
+</h5>
+
+
+***
 ##  Installation
 
 ### Schritt 1 – Apache Web Server installieren
@@ -72,22 +85,33 @@ php --version
 
 Laravel benötigt folgende PHP-Module - Server Requirements.
 
-
-
-    PHP >= 8.0
-    BCMath PHP Extension
-    Ctype PHP Extension
-    cURL PHP Extension
-    DOM PHP Extension
-    Fileinfo PHP Extension
-    JSON PHP Extension
-    Mbstring PHP Extension
-    OpenSSL PHP Extension
-    PCRE PHP Extension
-    PDO PHP Extension
-    Tokenizer PHP Extension
-    XML PHP Extension
-
+> [PHP >= 8.1.0 (8.1.12)] 
+> 
+> OpenSSL PHP Extension 
+> 
+> PDO PHP Extension 
+> 
+> Mbstring PHP Extension 
+> 
+> Tokenizer PHP Extension 
+> 
+> XML PHP Extension 
+> 
+> CTYPE PHP Extension 
+> 
+> JSON PHP Extension 
+> 
+> BCmath PHP Extension 
+> 
+> PHP Bolt Extension 
+> 
+> magic_quotes_gpc: (value: ) 
+> 
+> register_globals: (value: ) 
+> 
+> session.auto_start: (value: 0) 
+> 
+> mbstring.func_overload: (value: ) 
 
 
 ````
@@ -98,7 +122,7 @@ Apache-Dienst neu starten
 systemctl restart apache2
 ````
 ***
-### Schritt 3 – Composer PHP-Paketverwaltung installieren
+### Schritt 3 – Composer Paketverwaltung installieren
 Laden Sie die Binärdatei des Composers herunter und verschieben Sie die Datei in das Verzeichnis ‚/usr/local/bin‘.
 ````
 curl -sS https://getcomposer.org/installer | php
@@ -126,12 +150,12 @@ FLUSH PRIVILEGES;
 ````
 
 ***
-## Parkplatzverwaltung installieren
-wechseln Sie in das Verzeichnis /var/www/html und laden Sie sich das Parkplatzverwaltungspacket herunter
+### Parkplatzverwaltung installieren
+Wechseln Sie in das Verzeichnis /var/www/html und laden Sie sich das Parkplatzverwaltungspacket herunter
 ````
 git clone https://github.com/luzumi/parkplatzverwaltung/tree/Eloquent
 ````
-wechseln Sie ins Rootverzeichnis des Programms ('Parkplatzverwaltung')
+Wechseln Sie ins Rootverzeichnis des Programms ('Parkplatzverwaltung')
 Erstellen Sie eine '.env' Datei
 ````
 cp .env.example .env
@@ -169,12 +193,12 @@ php artisan migrate
 
 ***
 ## Starten der Parkplatzverwaltung
-starten Sie einen Server 
+Starten Sie einen Server 
 ````
 php artisan serve
 ````
 
-starten sie die parkplatzverwaltung im Webbrwoser unter der Adresse
+Starten sie die parkplatzverwaltung im Webbrwoser unter der Adresse
 ````
 'serveradresse':8000
 ````
@@ -182,9 +206,11 @@ starten sie die parkplatzverwaltung im Webbrwoser unter der Adresse
 
 
 
+</div>
 
 ***
-
+***
+***
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:

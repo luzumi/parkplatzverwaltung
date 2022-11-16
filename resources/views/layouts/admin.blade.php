@@ -22,7 +22,7 @@
         <hr/>
         <ul class="nav flex-column">
             <li><a href="{{ route('admin.home.index') }}" class="nav-link text-white">- Admin - Home</a></li>
-            <li><a href="{{ route("admin.car.index") }}" class="nav-link text-white">- Admin - alle Fahrzeuge</a></li>
+{{--            <li><a href="{{ route("admin.car.index") }}" class="nav-link text-white">- Admin - alle Fahrzeuge</a></li>--}}
             <li><a href="{{ route("admin.car.index") }}" class="nav-link text-white">- Admin - Fahrzeuge</a></li>
             <li><a href="{{ route("user.index") }}" class="nav-link text-white">- Admin - alle Users</a></li>
             <li><a href="{{ route("admin.user.index") }}" class="nav-link text-white">- Admin - User</a></li>

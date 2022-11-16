@@ -8,5 +8,6 @@
         <div class="card-body">
             Willkommen im Admin-Panel. Weiter Optionen sind über die Sidebar zu erreichen
         </div>
+
     </div>
 @endsection
