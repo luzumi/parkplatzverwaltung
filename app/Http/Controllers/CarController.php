@@ -3,9 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
+use App\Models\ParkingSpot;
 use App\Models\StorageLinker;
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -23,7 +29,7 @@ class CarController extends Controller
         return view('cars.index')->with('viewData', $viewData);
     }
 
-    public function storeIndex()
+    public function storeIndex(): Factory|View|Application
     {
         $viewData = [];
         $viewData['title'] = 'User add a Car - Parkplatzverwaltung';
@@ -33,19 +39,22 @@ class CarController extends Controller
         return view('user.addCar.index')->with("viewData", $viewData);
     }
 
-    public function show($id)
+    public function show($id): Factory|View|Application
     {
+
         $viewData = [];
         $car = Car::findOrFail($id);
         $viewData['title'] = 'Reservierung: ' . $car->getSign();
         $viewData['subtitle'] = 'Details von ' . $car->getSign();
-        $viewData['sign'] = $car->getSign();
-        $viewData['car'] = $car;
 
-        return view('cars.show')->with('viewData', $viewData);
+        $viewData['car'] = $car;
+        $viewData['parking_spots'] = ParkingSpot::all()->where('status','=','frei');
+        $viewData['selected_spot'] = 0;
+
+        return view('cars.show', [$id])->with('viewData', $viewData);
     }
 
-    public function storeCar(Request $request)
+    public function storeCar(Request $request): Redirector|Application|RedirectResponse
     {
         Car::validate($request);
 

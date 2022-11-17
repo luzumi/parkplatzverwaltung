@@ -51,7 +51,8 @@ class ParkingSpotController extends Controller
         $viewData['subtitle'] = 'Reserve a parking spot - Parkplatzverwaltung';
 
         $selected_ps_number = substr($request->getRequestUri(), -1);
-        $viewData['users'] = User::all()->where('id', Auth::id())->first();
+
+        $viewData['user'] = User::all()->where('id', Auth::id())->first();
         $parking_spot = ParkingSpot::all()->where('number', $selected_ps_number);
         $car = Car::all()->where('user_id', Auth::id());
 
@@ -72,17 +73,43 @@ class ParkingSpotController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(Request $request): Factory|View|Application
     {
+        $viewData = [];
+        $viewData['title'] = 'Reserve a parking spot - Parkplatzverwaltung';
+        $viewData['subtitle'] = 'Reserve a parking spot - Parkplatzverwaltung';
+
         ParkingSpot::validate($request);
 
         $parking_spot_id = $request->get('radio');
 
-        $parking_spot_user = new ParkingSpot();
+        $parking_spot_user = ParkingSpot::findOrFail($parking_spot_id);
         $parking_spot_user->setId($parking_spot_id);
         $parking_spot_user->setUserId(Auth::id());
-//        $parking_spot_user->setIsFree(false);
-        $parking_spot_user->save();
+        $parking_spot_user->setStatus('reserviert');
+        $parking_spot_user->setImage('reserviert.jpg');
+        $parking_spot_user->update();
 
+        return view('user.show', [Auth::id()])->with("viewData", $viewData);
+    }
+
+    public function storeThisCar(Request $request): Factory|View|Application
+    {
+//       dd($request);
+        $viewData = [];
+        $viewData['title'] = 'Reserve a parking spot - Parkplatzverwaltung';
+        $viewData['subtitle'] = 'Reserve a parking spot - Parkplatzverwaltung';
+        $viewData['user'] = Auth::id();
+
+        $parking_spot_id = $request['status'];
+        $parking_spot_user = ParkingSpot::findOrFail($parking_spot_id);
+        $parking_spot_user->setId($parking_spot_id);
+        $parking_spot_user->setUserId(Auth::id());
+        $parking_spot_user->setStatus('reserviert');
+        $parking_spot_user->setImage('reserviert.jpg');
+
+        $parking_spot_user->update();
+
+        return view('user.show', [Auth::id()])->with("viewData", $viewData);
     }
 }

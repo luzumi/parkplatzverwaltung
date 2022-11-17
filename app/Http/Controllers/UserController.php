@@ -23,25 +23,25 @@ class UserController extends Controller
 
     public function show(): Factory|View|Application
     {
+
         $viewData = [];
         $user = User::findOrFail(Auth::id());
-        $viewData["user"] = $user;
+        $viewData['user'] = $user;
         $viewData['cars'] = $user->cars;
-        $viewData["title"] = $user["name"] . " - Parkplatzverwaltung";
-        $viewData["subtitle"] = $user["name"] . " - User information";
+        $viewData['title'] = $user['name'] . " - Parkplatzverwaltung";
+        $viewData['subtitle'] = $user['name'] . " - User information";
 
         return view('user.show', [Auth::id()])->with("viewData", $viewData);
     }
 
-    public function edit($id)
+    public function editor($id): Factory|View|Application
     {
-        $user_id = $id == Auth::id() ? Auth::id() : $id;
         $viewData = [];
-        $user = User::findOrFail($user_id);
+        $user = User::findOrFail($id);
         $viewData["user"] = $user;
-        $viewData["title"] = $user["name"] . "Benutzerdaten - Parkplatzverwaltung";
-        $viewData["subtitle"] = $user["name"] . " - User edit";
+        $viewData["title"] = $user["name"] . "Benutzerdaten editieren - Parkplatzverwaltung";
+        $viewData["subtitle"] = $user["name"] . " - User editor";
 
-        return view('user.edit', [$id])->with("viewData", $viewData);
+        return view('user.editor-id', [$id])->with("viewData", $viewData);
     }
 }

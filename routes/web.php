@@ -26,12 +26,14 @@ Route::get('/parking_spot/{id}', 'App\Http\Controllers\ParkingSpotController@sho
 
 Route::post('/parking_spots/reserve/reserve/{id}', 'App\Http\Controllers\ParkingSpotController@storeIndex')
     ->name("parking_spots.reserve_index");
+Route::post('/parking_spots/reserve/store', 'App\Http\Controllers\ParkingSpotController@storeThisCar')
+    ->name("parking_spots.storeThisCar");
 Route::post('/parking_spots/reserve/store_reserve/{id}', 'App\Http\Controllers\ParkingSpotController@store')
     ->name("parking_spots.reserve.store_reserve");
 
 Route::get('/user/', 'App\Http\Controllers\UserController@index')->name("user.index");
 Route::get('/user/{id}', 'App\Http\Controllers\UserController@show')->name("user.show");
-Route::get('/user/edit/{id}', 'App\Http\Controllers\UserController@edit')->name("user.edit");
+Route::get('user/editor/{id}', 'App\Http\Controllers\UserController@editor')->name("user.editor-id");
 
 Route::get('/user/addCar/index', 'App\Http\Controllers\CarController@storeIndex')->name('user.addCar.index');
 Route::post('/user/addCar/storeCar', 'App\Http\Controllers\CarController@storeCar')->name('user.addCar.storeCar');
@@ -68,20 +70,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     Route::put('/admin/parking_spots/{id}/update', 'App\Http\Controllers\Admin\AdminParkingSpotController@update')
         ->name("admin.parking-spot.update");
 
-    Route::get('/user', 'App\Http\Controllers\UserController@index')->name("user.index");
+//    Route::get('/user', 'App\Http\Controllers\UserController@index')->name("user.index");
 });
 
-Route::group(['prefix'=>'admin','middleware'=>'auth'],function(){
+Route::group(['prefix'=>'admin','middleware'=>'auth'], function () {
     Route::get('/admin', 'Admin\AdminHomeController@index');
 });
-//
-//Route::group(['middleware' => ['auth']], function() {
-//    /**
-//     * Logout Route
-//     */
-//    Route::get('/', 'App\Http\Controllers\LogoutController@perform')->name('logout.perform');
-//});
 
 Auth::routes();
-
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
