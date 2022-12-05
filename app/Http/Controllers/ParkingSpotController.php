@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateMessage;
 use App\Http\Requests\ParkingSpotRequest;
 use App\Models\Address;
 use App\Models\Car;
@@ -41,9 +42,9 @@ class ParkingSpotController extends Controller
         return view('parking_spots.show')->with("viewData", $viewData);
     }
 
-    public function storeIndex(ParkingSpotRequest $request): Factory|View|Application
+    public function storeIndex(ParkingSpotRequest $request, CreateMessage $message): Factory|View|Application
     {
-        ParkingSpotService::update($request);
+        ParkingSpotService::update($request, $message);
 
         $user = User::findOrFail(Auth::id())->first();
         $viewData = [];
@@ -56,9 +57,9 @@ class ParkingSpotController extends Controller
     }
 
 
-    public function store(ParkingSpotRequest $request): Factory|View|Application
+    public function store(ParkingSpotRequest $request, CreateMessage $message): Factory|View|Application
     {
-        ParkingSpotService::update($request);
+        ParkingSpotService::update($request, $message);
 
         $viewData = [];
         $viewData['title'] = 'Reserve a parking spot - Parkplatzverwaltung';
@@ -67,9 +68,9 @@ class ParkingSpotController extends Controller
         return view('user.show', [Auth::id()])->with("viewData", $viewData);
     }
 
-    public function storeThisCar(ParkingSpotRequest $request): Factory|View|Application
+    public function storeThisCar(ParkingSpotRequest $request, CreateMessage $message): Factory|View|Application
     {
-        ParkingSpotService::update($request);
+        ParkingSpotService::update($request, $message);
         $viewData = [];
         $viewData['title'] = 'Reserve a parking spot - Parkplatzverwaltung';
         $viewData['subtitle'] = 'Reserve a parking spot - Parkplatzverwaltung';
@@ -83,9 +84,9 @@ class ParkingSpotController extends Controller
         return view('parking_spots.reserve.store_reserve')->with("viewData", $viewData);
     }
 
-    public function cancel($ps_id): Application|Factory|View
+    public function cancel($ps_id, CreateMessage $message): Application|Factory|View
     {
-        ParkingSpotService::resetParkingSpot($ps_id);
+        ParkingSpotService::resetParkingSpot($ps_id, $message);
 
         $viewData = [];
         $viewData["title"] = "Parkplatzansicht";

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Actions\Admin\AdminCreateUser;
+use App\Actions\CreateMessage;
 use App\Actions\SaveAddress;
 use App\Actions\SetImageName;
 use App\Actions\UpdateUser;
@@ -38,12 +39,17 @@ class AdminUserController extends Controller
      * @param User $user
      * @return RedirectResponse
      */
-    public function store(UserRequest $request, AdminCreateUser $createUser, SetImageName $setImageName, User $user): RedirectResponse
-    {
-        $createUser->handle($request, $setImageName, $user);
+    public function store(
+        UserRequest     $request,
+        AdminCreateUser $createUser,
+        SetImageName    $setImageName,
+        User            $user
+    ): RedirectResponse {
+        $createUser->handle($request);
 
         return back();
     }
+
 
     /**
      * @param $id
@@ -54,6 +60,7 @@ class AdminUserController extends Controller
         User::destroy($id);
         return back();
     }
+
 
     /**
      * @param $id
@@ -67,27 +74,31 @@ class AdminUserController extends Controller
         $viewData['address'] = Address::where('user_id', $id)->first();
 
         return view('admin.user.edit')->with('viewData', $viewData);
-
     }
+
 
     /**
      * @param UserRequest $request
      * @param AddressRequest $addressRequest
      * @param SetImageName $setImageName
-     * @param UpdateUser $updateUser
+     * @param CreateMessage $createMessage
      * @param SaveAddress $saveAddress
-     * @param $user_id
+     * @param int $user_id
+     * @param UpdateUser $updateUser
      * @return Application|Factory|View
      */
-    public function update(UserRequest    $request,
-                           AddressRequest $addressRequest,
-                           SetImageName   $setImageName,
-                           UpdateUser     $updateUser,
-                           SaveAddress    $saveAddress,
-                                          $user_id): Application|Factory|View
-    {
-        $updateUser->update($request, $updateUser, $setImageName, $user_id);
-        $saveAddress->handle($addressRequest, $user_id);
+    public function update(
+        UserRequest    $request,
+        AddressRequest $addressRequest,
+        SetImageName   $setImageName,
+        CreateMessage  $createMessage,
+        SaveAddress    $saveAddress,
+        int            $user_id,
+        UpdateUser $updateUser
+    ): Application|Factory|View {
+
+        $updateUser->update($request, $setImageName, $user_id, $createMessage);
+        $saveAddress->handle($addressRequest, $user_id, $createMessage);
 
         $viewData['title'] = 'Admin-Page - Editiere Fahrzeug - Parkplatzverwaltung';
         $viewData['users'] = User::all();

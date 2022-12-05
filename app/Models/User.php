@@ -13,10 +13,6 @@ use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-/**
- * @method static findOrFail(int|string|null $id)
- * @method static create(array $creationData)
- */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -103,5 +99,13 @@ class User extends Authenticatable
     public function hasRole($roleName): bool
     {
         return $this->role == $roleName;
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function message(): HasMany
+    {
+        return $this->hasMany(Message::class);
     }
 }

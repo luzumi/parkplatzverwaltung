@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Actions\Admin\AdminUpdateCar;
+use App\Actions\CreateMessage;
 use App\Actions\CreateNewCar;
 use App\Actions\SetImageName;
+use App\Enums\MessageType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CarRequest;
 use App\Models\Car;
@@ -31,23 +33,32 @@ class AdminCarController extends Controller
      * @param CarRequest $request
      * @param CreateNewCar $createNewCar
      * @param SetImageName $setImageName
+     * @param CreateMessage $createMessage
      * @return RedirectResponse
      */
-    public function store(CarRequest $request, CreateNewCar $createNewCar, SetImageName $setImageName): RedirectResponse
-    {
-        $createNewCar->handle($request, $setImageName);
+    public function store(
+        CarRequest $request,
+        CreateNewCar $createNewCar,
+        SetImageName $setImageName,
+        CreateMessage $createMessage
+    ): RedirectResponse {
+
+        $createNewCar->handle($request, $setImageName, $createMessage);
         return back();
     }
+
 
     /**
      * @param $id
      * @return RedirectResponse
      */
-    public function delete($id): RedirectResponse
+    public function delete($id, CreateMessage $createMessage): RedirectResponse
     {
         Car::destroy($id);
+        $createMessage->handle(MessageType::DeleteCar);
         return back();
     }
+
 
     /**
      * @param $id
@@ -60,19 +71,27 @@ class AdminCarController extends Controller
         $viewData['car'] = Car::findOrFail($id);
 
         return view('admin.car.edit')->with('viewData', $viewData);
-
     }
+
 
     /**
      * @param CarRequest $request
      * @param SetImageName $setImageName
      * @param int $car_id
      * @param AdminUpdateCar $updateCar
+     * @param CreateMessage $createMessage
      * @return RedirectResponse
      */
-    public function update(CarRequest $request, SetImageName $setImageName, int $car_id, AdminUpdateCar $updateCar): RedirectResponse
-    {
-        $updateCar->handle($request, $setImageName, $car_id);
+    public function update(
+        CarRequest $request,
+        SetImageName $setImageName,
+        int $car_id,
+        AdminUpdateCar
+        $updateCar,
+        CreateMessage $createMessage
+    ): RedirectResponse {
+
+        $updateCar->handle($request, $setImageName, $car_id, $createMessage);
 
         return redirect()->route('admin.car.index');
     }

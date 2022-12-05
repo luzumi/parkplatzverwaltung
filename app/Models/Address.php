@@ -7,9 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Request;
 
-/**
- * @method static where(string $string, $id)
- */
 class Address extends Model
 {
     /**

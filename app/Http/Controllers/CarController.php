@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateMessage;
 use App\Actions\CreateNewCar;
 use App\Actions\SetImageName;
+use App\Enums\MessageType;
 use App\Http\Requests\CarRequest;
 use App\Models\Car;
 use App\Models\ParkingSpot;
@@ -64,12 +66,14 @@ class CarController extends Controller
      * @param SetImageName $setImageName
      * @return Redirector|Application|RedirectResponse
      */
-    public function addCar(CarRequest   $request,
-                           CreateNewCar $createNewCar,
-                           SetImageName $setImageName): Redirector|Application|RedirectResponse
+    public function addCar(
+        CarRequest    $request,
+        CreateNewCar  $createNewCar,
+        SetImageName  $setImageName,
+        CreateMessage $createMessage,
+    ): Redirector|Application|RedirectResponse
     {
-        $car = $createNewCar->handle($request, $setImageName);
-
+        $car = $createNewCar->handle($request, $setImageName, $createMessage);
         return redirect('/user/' . $car->user_id);
     }
 }

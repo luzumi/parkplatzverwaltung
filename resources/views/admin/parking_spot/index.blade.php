@@ -68,7 +68,7 @@
                         <td>{{ $parking_spot->row }}</td>
                         <td>{{ $parking_spot->status }}</td>
 {{-- Ausgabe des Nummernschildes --}}
-                        <td>{{ $parking_spot->sign ?? '' }}</td>
+                        <td>{{ $parking_spot->car->sign ?? '' }}</td>
 {{-- Ausgabe des Vorschaubildes --}}
                         <td>
                             <img src="{{ asset('/storage/media/'. $parking_spot->image) }}"

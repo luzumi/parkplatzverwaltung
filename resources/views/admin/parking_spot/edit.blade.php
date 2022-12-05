@@ -3,7 +3,7 @@
 @section('content')
     <div class="card mb-4">
         <div class="card-header">
-            Editiere Fahrzeug
+            Editiere Parkplatz {{$viewData['parking_spot']->id}}
         </div>
         <div class="card-body">
             @if($errors->any())

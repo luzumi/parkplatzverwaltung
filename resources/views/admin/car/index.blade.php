@@ -83,15 +83,15 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th scope="col">User</th>
-                    <th scope="col">Parkplatz</th>
-                    <th scope="col">Vorschau</th>
-                    <th scope="col">Kennzeichen</th>
-                    <th scope="col">Hersteller</th>
-                    <th scope="col">Modell</th>
-                    <th scope="col">Farbe</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col">Delete</th>
+                    <th class="col">User</th>
+                    <th class="col">Parkplatz</th>
+                    <th class="col">Vorschau</th>
+                    <th class="col">Kennzeichen</th>
+                    <th class="col">Hersteller</th>
+                    <th class="col">Modell</th>
+                    <th class="col">Farbe</th>
+                    <th class="col">Edit</th>
+                    <th class="col">Delete</th>
                 </tr>
                 </thead>
                 <tbody>

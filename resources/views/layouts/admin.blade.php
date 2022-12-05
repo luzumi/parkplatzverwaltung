@@ -13,7 +13,7 @@
 </head>
 
 <body>
-<div class="row g-0">
+<div class="row g-0 h-25">
 {{-- sidebar --}}
     <div class="p-3 col fixed text-white bg-dark">
         <a href="{{ route('admin.home.index') }}" class="text-white text-decoration-none">

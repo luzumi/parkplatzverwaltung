@@ -6,15 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use LaravelIdea\Helper\App\Models\_IH_ParkingSpot_C;
 
-/**
- * @method static findOrFail($id)
- * @method static create(array $creationData)
- * @method static where(string $string, string $selected_ps_number)
- */
 class ParkingSpot extends Model
 {
     use HasFactory;
@@ -24,9 +17,21 @@ class ParkingSpot extends Model
     /**
      * @return ParkingSpot[]|_IH_ParkingSpot_C
      */
-    public static function getAllParkingSpotsWithCars(): array|_IH_ParkingSpot_C
+    public static function getAllParkingSpotsWithCars()
     {
         return ParkingSpot::with('car')->get();
+//        return ParkingSpot::select(
+//            'parking_spots.id',
+//            'parking_spots.user_id',
+//            'parking_spots.user_id',
+//            'parking_spots.number',
+//            'parking_spots.row',
+//            'parking_spots.status',
+//            'cars.sign',
+//            'cars.image'
+//        )
+//            ->join('cars', 'parking_spots.car_id', '=', 'cars.id', 'left outer')
+//            ->get();
     }
 
 
@@ -55,7 +60,7 @@ class ParkingSpot extends Model
     {
         return match ($this->status) {
             'frei', 'electro', 'Behindertenparkplatz' => ' - derzeit frei',
-            'reserviert', 'besetzt', 'gesperrt' =>  $this->status . ' - Reservierung nicht möglich',
+            'reserviert', 'besetzt', 'gesperrt' => $this->status . ' - Reservierung nicht möglich',
             default => ' !!! Parkplatzstatus ungültig! Informieren SIe einen Administrator !!!',
         };
     }
@@ -73,10 +78,10 @@ class ParkingSpot extends Model
 
 
     /**
-     * @return HasOne
+     * @return BelongsTo
      */
-    public function car(): HasOne
+    public function car(): BelongsTo
     {
-        return $this->hasOne(Car::class);
+        return $this->belongsTo(Car::class);
     }
 }

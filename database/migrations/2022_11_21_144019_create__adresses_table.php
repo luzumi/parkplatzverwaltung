@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('Land')->default('');
-            $table->integer('PLZ', false, true)->default(0);
-            $table->string('Stadt')->default('');
-            $table->string('Strasse')->default('');
-            $table->integer('Nummer', false, true)->default(0);
+            $table->string('Land')->nullable();
+            $table->integer('PLZ', false, true)->nullable();
+            $table->string('Stadt')->nullable();
+            $table->string('Strasse')->nullable();
+            $table->integer('Nummer', false, true)->nullable();
             $table->timestamps();
         });
     }

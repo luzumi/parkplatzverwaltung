@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Enums\MessageType;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 
@@ -9,17 +10,20 @@ class UpdateUser
 {
     /**
      * @param UserRequest $request
-     * @param UpdateUser $updateUser
      * @param SetImageName $setImageName
      * @param int $user_id
+     * @param CreateMessage $message
      * @return User
      */
-    public function update(UserRequest  $request,
-                           UpdateUser   $updateUser,
-                           SetImageName $setImageName,
-                           int          $user_id): User
-    {
+    public function update(
+        UserRequest  $request,
+        SetImageName $setImageName,
+        int          $user_id,
+        CreateMessage $message
+    ): User {
+
         $user = User::findOrFail($user_id);
+        $message->handle(MessageType::EditUser);
 
         return $user->updateOrCreate([
             'name' => $request->input('name'),

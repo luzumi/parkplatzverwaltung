@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Actions\Admin\AdminCreateNewParkingSpot;
 use App\Actions\Admin\AdminUpdateParkingSpot;
+use App\Actions\CreateMessage;
 use App\Actions\SetImageName;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ParkingSpotRequest;
@@ -13,8 +14,6 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class AdminParkingSpotController extends Controller
 {
@@ -34,14 +33,19 @@ class AdminParkingSpotController extends Controller
     /**
      * @param ParkingSpotRequest $request
      * @param AdminCreateNewParkingSpot $createNewParkingSpot
+     * @param CreateMessage $createMessage
      * @return RedirectResponse
      */
-    public function storeNewParkingSpot(ParkingSpotRequest $request, AdminCreateNewParkingSpot $createNewParkingSpot): RedirectResponse
-    {
-        $createNewParkingSpot->handle($request);
+    public function storeNewParkingSpot(
+        ParkingSpotRequest        $request,
+        AdminCreateNewParkingSpot $createNewParkingSpot,
+        CreateMessage             $createMessage
+    ): RedirectResponse {
+        $createNewParkingSpot->handle($request, $createMessage);
 
         return back();
     }
+
 
     /**
      * @param $id
@@ -52,6 +56,7 @@ class AdminParkingSpotController extends Controller
         ParkingSpot::destroy($id);
         return back();
     }
+
 
     /**
      * @param $id
@@ -64,19 +69,25 @@ class AdminParkingSpotController extends Controller
         $viewData['parking_spot'] = ParkingSpot::findOrFail($id);
 
         return view('admin.parking_spot.edit')->with('viewData', $viewData);
-
     }
+
 
     /**
      * @param ParkingSpotRequest $request
      * @param SetImageName $setImageName
      * @param int $car_id
      * @param AdminUpdateParkingSpot $updateParkingSpot
+     * @param CreateMessage $createMessage
      * @return RedirectResponse
      */
-    public function update(ParkingSpotRequest $request, SetImageName $setImageName, int $car_id, AdminUpdateParkingSpot $updateParkingSpot): RedirectResponse
-    {
-        $updateParkingSpot->handle($request, $setImageName, $car_id);
+    public function update(
+        ParkingSpotRequest     $request,
+        SetImageName           $setImageName,
+        int                    $car_id,
+        AdminUpdateParkingSpot $updateParkingSpot,
+        CreateMessage          $createMessage
+    ): RedirectResponse {
+        $updateParkingSpot->handle($request, $setImageName, $car_id, $createMessage);
 
         return redirect()->route('admin.parking_spot.index');
     }

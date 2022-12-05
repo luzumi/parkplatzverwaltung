@@ -40,16 +40,15 @@
 {{-- Auflistung der Fahrzeuge des Users--}}
                                     @foreach($viewData['cars'] as $car)
                                         <tr class="table-active">
-{{-- Wenn Fahrzeug bereits einen Parkplatz reserviert hat wird ein Button zum Löschen angezeigt, statt des Radiobuttons--}}
+{{-- Wenn Fahrzeug bereits einen Parkplatz reserviert hat wird ein Button zum Löschen angezeigt, statt des Buttons--}}
                                         @if(!isset($car->parkingSpot))
+
                                                 <td>
                                                     <div class="status">
                                                         <label class="input-group-sm">
 {{--                                                            <input type="radio" id='{{ $car->id }}' name="car_id" value="{{ $car->id }}">--}}
                                                             <a href="{{ route('cars.show', ['id'=> $car->id]) }}">
-                                                                <img src="{{ asset('/storage/media/parking_spot.png') }}"
-                                                                     class="img-thumbnail row-cols-sm-4"
-                                                                     alt="cd">
+                                                                <p class="btn btn-primary {{ $viewData["parking_spot"]->switchStatus() }} text-white ">Zur Parkplatzreservierung</p>
                                                             </a>
                                                         </label>
                                                     </div>

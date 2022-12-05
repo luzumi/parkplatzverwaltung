@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Actions\CreateMessage;
 use App\Actions\SetImageName;
+use App\Enums\MessageType;
 use App\Http\Requests\UserPictureRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\Address;
@@ -17,11 +19,36 @@ use Illuminate\Support\Facades\Auth;
 class UserService
 {
     /**
-     * @param UserRequest $request
-     * @param $user_id
+     * @param UserPictureRequest $request
+     * @param SetImageName $setImageName
+     * @param int $user_id
+     * @param CreateMessage $createMessage
      * @return RedirectResponse
      */
-    public function update(UserRequest $request, $user_id): RedirectResponse
+    public function updatePicture(
+        UserPictureRequest $request,
+        SetImageName       $setImageName,
+        int                $user_id,
+        CreateMessage      $createMessage
+    ): RedirectResponse {
+        $user = User::findOrFail($user_id);
+        $user->update([
+            'image' => $setImageName->handle($request, $user),
+        ]);
+
+        $createMessage->handle(MessageType::EditUser);
+
+        return redirect()->route('user.show', $user_id);
+    }
+
+
+    /**
+     * @param UserRequest $request
+     * @param $user_id
+     * @param CreateMessage $createMessage
+     * @return RedirectResponse
+     */
+    public function update(UserRequest $request, $user_id, CreateMessage $createMessage): RedirectResponse
     {
         $user = User::findOrFail($user_id);
         $user->update([
@@ -30,33 +57,24 @@ class UserService
             'telefon' => $request->input('telefon'),
         ]);
 
-        return redirect()->route('user.show', $user_id);
-    }
-
-    /**
-     * @param UserPictureRequest $request
-     * @param $user_id
-     * @return RedirectResponse
-     */
-    public function updatePicture(UserPictureRequest $request, SetImageName $setImageName, $user_id): RedirectResponse
-    {
-        $user = User::findOrFail($user_id);
-        $user->update([
-            'image' => $setImageName->handle($request, $user),
-        ]);
+        $createMessage->handle(MessageType::EditUser);
 
         return redirect()->route('user.show', $user_id);
     }
 
+
     /**
+     * @param CreateMessage $createMessage
      * @return Redirector|Application|RedirectResponse
      */
-    public function delete(): Redirector|Application|RedirectResponse
+    public function delete(CreateMessage $createMessage): Redirector|Application|RedirectResponse
     {
         User::destroy(Auth::id());
         Address::where('user_id', Auth::id())->delete();
         Car::where('user_id', Auth::id())->delete();
-        ParkingSpot::resetParkingSpot();
+        ParkingSpot::where('user_id', Auth::id())->delete();
+
+        $createMessage->handle(MessageType::DeleteUser);
 
         return redirect('/');
     }
