@@ -131,7 +131,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/admin', 'Admin\AdminHomeController@index');
 });
 
-Route::post('/user/change-password', 'App\Http\Controllers\HomeController@updatePassword')->name('user.update-password');
+Route::post('/user/change-password', 'App\Http\Controllers\HomeController@updatePassword')
+    ->name('user.update-password');
 
 
 Auth::routes();
+
+
