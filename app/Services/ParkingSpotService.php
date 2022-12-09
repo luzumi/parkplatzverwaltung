@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-
 use App\Actions\CreateMessage;
 use App\Enums\MessageType;
 use App\Http\Requests\ParkingSpotRequest;
@@ -29,17 +28,18 @@ class ParkingSpotService
             'image' => 'reserviert.jpg',
         ]);
 
-        $message->handle(MessageType::ReserveParkingSpot);
+        $message->handle(MessageType::ReserveParkingSpot, $car_id, $parking_spot_id);
     }
 
     /**
-     * @param $parking_spot_id
      * @param CreateMessage $message
+     * @param $parking_spot_id
+     * @param $car_id
      * @return bool
      */
-    public static function resetParkingSpot($parking_spot_id, CreateMessage $message): bool
+    public static function resetParkingSpot(CreateMessage $message, $parking_spot_id, $car_id): bool
     {
-        $message->handle(MessageType::ResetParkingSpot);
+        $message->handle(MessageType::ResetParkingSpot, $car_id, null);
 
         return ParkingSpot::findOrFail($parking_spot_id)->update([
             'user_id' => '1',

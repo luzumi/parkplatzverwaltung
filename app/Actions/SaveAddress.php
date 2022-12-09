@@ -16,7 +16,7 @@ class SaveAddress
      */
     public function handle(AddressRequest $request, int $user_id, CreateMessage $message): Address
     {
-        $message->handle(MessageType::EditAddress);
+        $message->handle(MessageType::EditAddress, null, null);
         $address = Address::where('user_id', $user_id)->first();
         $address->update([
             'user_id' => $user_id,

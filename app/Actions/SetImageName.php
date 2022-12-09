@@ -33,7 +33,6 @@ class SetImageName
         if ($model instanceof ParkingSpot) {
             $model->image = $this->setParkingSpotImage($model);
         }
-
         return $model->image;
     }
 

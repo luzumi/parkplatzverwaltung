@@ -23,7 +23,7 @@ class UpdateUser
     ): User {
 
         $user = User::findOrFail($user_id);
-        $message->handle(MessageType::EditUser);
+        $message->handle(MessageType::EditUser, null, null);
 
         return $user->updateOrCreate([
             'name' => $request->input('name'),

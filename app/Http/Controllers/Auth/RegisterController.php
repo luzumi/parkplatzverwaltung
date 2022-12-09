@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Actions\CreateMessage;
+use App\Enums\MessageType;
 use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Providers\RouteServiceProvider;
@@ -69,7 +71,7 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data): User
+    protected function create(array $data, CreateMessage $createMessage): User
     {
         $user = User::create([
             'name' => $data['name'],
@@ -80,6 +82,8 @@ class RegisterController extends Controller
             'balance' => 5000,
         ]);
         $user->address()->create();
+
+        $createMessage->handle(MessageType::AddUser, null, null);
 
         return $user;
     }

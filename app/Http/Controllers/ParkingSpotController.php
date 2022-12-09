@@ -86,7 +86,7 @@ class ParkingSpotController extends Controller
 
     public function cancel($ps_id, CreateMessage $message): Application|Factory|View
     {
-        ParkingSpotService::resetParkingSpot($ps_id, $message);
+        ParkingSpotService::resetParkingSpot($message, $ps_id, null);
 
         $viewData = [];
         $viewData["title"] = "Parkplatzansicht";

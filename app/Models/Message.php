@@ -12,9 +12,11 @@ class Message extends Model
     use HasFactory;
 
     protected $fillable = [
-        'sender_user_id',
+        'user_id',
         'receiver_user_id',
         'message',
+        'car_id',
+        'parking_spot_id',
         'status'
     ];
 
@@ -23,10 +25,26 @@ class Message extends Model
     ];
 
     /**
-     * @return HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user(): HasOne
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->hasOne(Message::class);
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function car(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Car::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function parkingSpot(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(ParkingSpot::class);
     }
 }

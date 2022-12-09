@@ -22,9 +22,9 @@ class AdminUpdateCar
         int $car_id,
         CreateMessage $createMessage
     ): bool {
-        
+
         $car = Car::findOrFail($car_id);
-        $createMessage->handle(MessageType::EditCar);
+        $createMessage->handle(MessageType::EditCar, $car->id, null);
         return $car->update([
             'sign' =>  $request->input('sign'),
             'manufacturer' =>  $request->input('manufacturer'),

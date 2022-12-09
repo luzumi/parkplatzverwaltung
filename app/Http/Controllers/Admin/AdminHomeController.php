@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Car;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -17,9 +19,7 @@ class AdminHomeController extends Controller
     {
         $viewData = [];
         $viewData['title'] = 'Adminpage - Home -Parkplatzverwaltung';
-//        $viewData['messages'] = Message::all()->sortbyDesc('messages');
-        $viewData['messages'] = Message::all()->sortDesc();
-//        dd($viewData);
+        $viewData['messages'] = Message::with('user', 'car', 'parkingSpot')->get()->sortDesc();
 
         return view('admin.home.index')->with("viewData", $viewData);
     }

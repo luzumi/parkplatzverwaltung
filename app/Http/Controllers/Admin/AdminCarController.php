@@ -55,7 +55,7 @@ class AdminCarController extends Controller
     public function delete($id, CreateMessage $createMessage): RedirectResponse
     {
         Car::destroy($id);
-        $createMessage->handle(MessageType::DeleteCar);
+        $createMessage->handle(MessageType::DeleteCar, $id, null);
         return back();
     }
 

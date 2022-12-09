@@ -36,7 +36,7 @@ class UserService
             'image' => $setImageName->handle($request, $user),
         ]);
 
-        $createMessage->handle(MessageType::EditUser);
+        $createMessage->handle(MessageType::EditUser, null, null);
 
         return redirect()->route('user.show', $user_id);
     }
@@ -57,7 +57,7 @@ class UserService
             'telefon' => $request->input('telefon'),
         ]);
 
-        $createMessage->handle(MessageType::EditUser);
+        $createMessage->handle(MessageType::EditUser, null, null);
 
         return redirect()->route('user.show', $user_id);
     }
@@ -74,7 +74,7 @@ class UserService
         Car::where('user_id', Auth::id())->delete();
         ParkingSpot::where('user_id', Auth::id())->delete();
 
-        $createMessage->handle(MessageType::DeleteUser);
+        $createMessage->handle(MessageType::DeleteUser, null, null);
 
         return redirect('/');
     }

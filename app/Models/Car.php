@@ -25,4 +25,12 @@ class Car extends Model
     {
         return $this->hasOne(ParkingSpot::class);
     }
+
+    /**
+     * @return HasOne
+     */
+    public function message(): HasOne
+    {
+        return $this->hasOne(Message::class);
+    }
 }

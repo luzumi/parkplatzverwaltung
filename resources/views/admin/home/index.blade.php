@@ -18,15 +18,53 @@
                 </tr>
                 </thead>
                 <tbody class="overflow-auto table-hover table-striped" >
-                @foreach ($viewData["messages"] as $message)
+                @foreach ($viewData["messages"] as $mess)
                     <tr >
                         {{-- Fahrzeug hat Parkplatz reserviert? wenn ja, Anzeige der Parkplatznummer --}}
-                        <td class="col-sm-1">{{ $message->id }}</td>
-                        <td class="col-sm-1">{{ $message->sender_user_id }}</td>
-                        <td class="col-sm-1">{{ $message->receiver_user_id }}</td>
-                        <td class="col-sm-3">{{ $message->message }}</td>
-                        <td class="col-sm-1">{{ $message->status }}</td>
-                        <td class="col-sm-2">{{ $message->updated_at }}</td>
+                        <td class="col-sm-1">{{ $mess->id }}</td>
+                        <td class="col-sm-1">{{ $mess->user_id }}</td>
+                        <td class="col-sm-1">{{ $mess->receiver_user_id }}</td>
+                        <td class="col-sm-3">
+{{-- Admin Message Übersicht - Ausgabe je nach MessageStatus angepasst--}}
+                            @if($mess->message == \App\Enums\MessageType::AddCar->value)
+                                {!! 'Neues Fahrzeug : User ' . $mess->user->getAttribute('name') . ' [USER-ID ('.$mess->user->getAttribute('id') . ')] </br>' !!}
+                                {!! 'CAR-ID: '. $mess->car_id . ' | Kennzeichen: '. $mess->car->sign !!}
+                            @elseif($mess->message == \App\Enums\MessageType::EditCar->value)
+                                {!! 'Fahrzeug editiert : User ' . $mess->user->getAttribute('name') . ' [USER-ID ('.$mess->user->getAttribute('id') . ')] </br>' !!}
+                                {!! 'CAR-ID: '. $mess->car_id . ' | Kennzeichen: '. $mess->car->sign !!}
+                            @elseif($mess->message == \App\Enums\MessageType::DeleteCar->value)
+                                {!! 'Fahrzeug gelöscht : User ' . $mess->user->getAttribute('name') . ' [USER-ID ('.$mess->user->getAttribute('id') . ')] </br>' !!}
+                                {!! 'CAR-ID: '. $mess->car_id . ' | Kennzeichen: '. $mess->car->sign !!}
+                            @elseif($mess->message == \App\Enums\MessageType::AddUser->value)
+                                {!! 'Neuer User </br>' !!}
+                                {!! $mess->user->getAttribute('name') . ' [USER-ID ('.$mess->user->getAttribute('id') . ')] </br>' !!}
+                            @elseif($mess->message == \App\Enums\MessageType::EditAddress->value || $mess->message == \App\Enums\MessageType::EditUser->value)
+                                {!! 'Userdaten geändert </br>' !!}
+                                {!! $mess->user->getAttribute('name') . ' [USER-ID ('.$mess->user->getAttribute('id') . ')] </br>' !!}
+                            @elseif($mess->message == \App\Enums\MessageType::DeleteUser->value)
+                                {!! 'User Gelöscht </br>' !!}
+                                {!! $mess->user->getAttribute('name') . ' [USER-ID ('.$mess->user->getAttribute('id') . ')] </br>' !!}
+                            @elseif($mess->message == \App\Enums\MessageType::AddParkingSpot->value)
+                                {!! 'Parkplatz hinzugefügt : Parkplatz ' . $mess->parkingSpot->getAttribute('number') . ' [ID ('.$mess->parkingSpot->getAttribute('id') . ')] </br>' !!}
+
+                            @elseif($mess->message == \App\Enums\MessageType::EditParkingSpot->value)
+                                {!! 'Parkplatz editiert : Parkplatz ' . $mess->parkingSpot->getAttribute('number') . ' [ID ('.$mess->parkingSpot->getAttribute('id') . ')] </br>' !!}
+
+                            @elseif($mess->message == \App\Enums\MessageType::ReserveParkingSpot->value)
+                                {!! 'Parkplatz-Reservierungsanfrage : User ' . $mess->user->getAttribute('name') . ' [USER-ID ('.$mess->user->getAttribute('id') . ')] </br>' !!}
+                                {!! 'CAR-ID: '. $mess->car_id . ' | Kennzeichen: '. $mess->car->sign . ' PARKPLATZ NR: ' . $mess->parking_spot_id !!}
+                            @elseif($mess->message == \App\Enums\MessageType::ResetParkingSpot->value)
+                                {!! 'Parkplatz zurückgesetzt : Parkplatz ' . $mess->parkingSpot->getAttribute('number') . ' [ID ('.$mess->parkingSpot->getAttribute('id') . ')] </br>' !!}
+
+                            @elseif($mess->message == \App\Enums\MessageType::DeleteParkingSpot->value)
+                                {!! 'Parkplatz gelöscht : Parkplatz ' . $mess->parkingSpot->getAttribute('number') . ' [ID ('.$mess->parkingSpot->getAttribute('id') . ')] </br>' !!}
+
+                            @else
+                                    {{$mess->message}}
+                            @endif
+                        </td>
+                        <td class="col-sm-1">{{ $mess->status }}</td>
+                        <td class="col-sm-2">{{ $mess->updated_at }}</td>
                     </tr>
                 @endforeach
                 </tbody>

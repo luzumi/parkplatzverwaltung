@@ -15,9 +15,11 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('sender_user_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('receiver_user_id');
             $table->string('message')->default('freeMessage');
+            $table->string('car_id')->nullable();
+            $table->string('parking_spot_id')->nullable();
             $table->string('status');
             $table->timestamps();
         });
