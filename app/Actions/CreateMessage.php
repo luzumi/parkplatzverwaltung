@@ -16,10 +16,10 @@ class CreateMessage
      * @param $parking_spot_id
      * @return Message
      */
-    public function handle(MessageType $message, $car_id, $parking_spot_id): Message
+    public function handle(MessageType $message, $user_id, $car_id, $parking_spot_id): Message
     {
         return Message::create([
-            'user_id' => Auth::id(),
+            'user_id' => $user_id,
             'receiver_user_id' => User::where('role', 'admin')->first()->id,
             'message' => $message,
             'car_id' => $car_id,

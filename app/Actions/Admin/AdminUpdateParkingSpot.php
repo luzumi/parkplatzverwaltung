@@ -30,7 +30,7 @@ class AdminUpdateParkingSpot
         $parking_spot->update(['status' => $request->input('status')]);
         $parking_spot->update(['image' => $setImageName->handle($request, $parking_spot)]);
 
-        $createMessage->handle(MessageType::EditParkingSpot, null, $parking_spot_id);
+        $createMessage->handle(MessageType::EditParkingSpot, $parking_spot->user_id, null, $parking_spot_id);
 
         return $parking_spot;
     }

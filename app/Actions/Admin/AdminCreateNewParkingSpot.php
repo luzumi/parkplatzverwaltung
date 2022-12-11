@@ -25,7 +25,7 @@ class AdminCreateNewParkingSpot
             'image' => $request->input('status') . '.jpg',
             'status' => $request->input('status'),
         ]);
-        $createMessage->handle(MessageType::AddParkingSpot, null, $parkingSpot->id);
+        $createMessage->handle(MessageType::AddParkingSpot, $parkingSpot->user_id, null, $parkingSpot->id);
 
         return $parkingSpot;
     }

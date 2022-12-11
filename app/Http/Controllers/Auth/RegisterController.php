@@ -71,7 +71,7 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data, CreateMessage $createMessage): User
+    protected function create(array $data): User
     {
         $user = User::create([
             'name' => $data['name'],
@@ -82,8 +82,8 @@ class RegisterController extends Controller
             'balance' => 5000,
         ]);
         $user->address()->create();
-
-        $createMessage->handle(MessageType::AddUser, null, null);
+        $createMessage = new CreateMessage();
+        $createMessage->handle(MessageType::AddUser, $user->id, null, null);
 
         return $user;
     }

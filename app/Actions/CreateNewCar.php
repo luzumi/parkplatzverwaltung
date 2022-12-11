@@ -32,7 +32,7 @@ class CreateNewCar extends Model
             'image' => $setImageName->handle($request, $car),
         ]);
 
-        $message->handle(MessageType::AddCar, $car->id, null);
+        $message->handle(MessageType::AddCar, $car->user_id, $car->id, null);
 
         return $car;
     }

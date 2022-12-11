@@ -24,7 +24,7 @@ class AdminUpdateCar
     ): bool {
 
         $car = Car::findOrFail($car_id);
-        $createMessage->handle(MessageType::EditCar, $car->id, null);
+        $createMessage->handle(MessageType::EditCar, $car->user_id, $car->id, null);
         return $car->update([
             'sign' =>  $request->input('sign'),
             'manufacturer' =>  $request->input('manufacturer'),

@@ -36,7 +36,7 @@ class UserService
             'image' => $setImageName->handle($request, $user),
         ]);
 
-        $createMessage->handle(MessageType::EditUser, null, null);
+        $createMessage->handle(MessageType::EditUser, $user_id, null, null);
 
         return redirect()->route('user.show', $user_id);
     }
@@ -57,7 +57,7 @@ class UserService
             'telefon' => $request->input('telefon'),
         ]);
 
-        $createMessage->handle(MessageType::EditUser, null, null);
+        $createMessage->handle(MessageType::EditUser, $user_id, null, null);
 
         return redirect()->route('user.show', $user_id);
     }
@@ -69,12 +69,13 @@ class UserService
      */
     public function delete(CreateMessage $createMessage): Redirector|Application|RedirectResponse
     {
+        $id = Auth::id();
         User::destroy(Auth::id());
         Address::where('user_id', Auth::id())->delete();
         Car::where('user_id', Auth::id())->delete();
         ParkingSpot::where('user_id', Auth::id())->delete();
 
-        $createMessage->handle(MessageType::DeleteUser, null, null);
+        $createMessage->handle(MessageType::DeleteUser, $id, null, null);
 
         return redirect('/');
     }
