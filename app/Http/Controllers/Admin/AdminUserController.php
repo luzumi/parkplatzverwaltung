@@ -7,10 +7,13 @@ use App\Actions\CreateMessage;
 use App\Actions\SaveAddress;
 use App\Actions\SetImageName;
 use App\Actions\UpdateUser;
+use App\Enums\MessageType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddressRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\Address;
+use App\Models\Car;
+use App\Models\ParkingSpot;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -26,7 +29,7 @@ class AdminUserController extends Controller
     {
         $viewData = [];
         $viewData['title'] = 'Admin-Panel - User-Übersicht - Parkplatzverwaltung';
-        $viewData['users'] = User::all();
+        $viewData['users'] = User::all()->where('deleted_at', null);
 
         return view('admin.user.index')->with("viewData", $viewData);
     }
@@ -44,7 +47,8 @@ class AdminUserController extends Controller
         AdminCreateUser $createUser,
         SetImageName    $setImageName,
         User            $user
-    ): RedirectResponse {
+    ): RedirectResponse
+    {
         $createUser->handle($request);
 
         return back();
@@ -55,9 +59,25 @@ class AdminUserController extends Controller
      * @param $id
      * @return RedirectResponse
      */
-    public function delete($id): RedirectResponse
+    public function delete($id, CreateMessage $createMessage): RedirectResponse
     {
-        User::destroy($id);
+        User::where('id', $id)
+            ->update([
+                'deleted_at' => now(),
+            ]);
+        Car::where('user_id', $id)
+            ->update([
+                'deleted_at' => now()
+            ]);
+        ParkingSpot::where('user_id', $id)
+            ->update([
+                'user_id' => '1',
+                'image' => 'frei.jpg',
+                'status' => 'frei',
+            ]);
+
+        $createMessage->handle(MessageType::DeleteUser, $id, null, null);
+
         return back();
     }
 
@@ -94,8 +114,9 @@ class AdminUserController extends Controller
         CreateMessage  $createMessage,
         SaveAddress    $saveAddress,
         int            $user_id,
-        UpdateUser $updateUser
-    ): Application|Factory|View {
+        UpdateUser     $updateUser
+    ): Application|Factory|View
+    {
 
         $updateUser->update($request, $setImageName, $user_id, $createMessage);
         $saveAddress->handle($addressRequest, $user_id, $createMessage);

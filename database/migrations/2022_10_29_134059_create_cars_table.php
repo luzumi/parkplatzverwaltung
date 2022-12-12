@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('color');
             $table->string('image');
             $table->string('status');
+            $table->string('deleted_at')->nullable();
             $table->timestamps();
         });
     }

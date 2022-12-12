@@ -55,7 +55,9 @@ class AdminCarController extends Controller
     public function delete($car_id, CreateMessage $createMessage): RedirectResponse
     {
         $car = Car::findOrFail($car_id);
-        Car::destroy($car_id);
+        $car->update([
+            "deleted-at" => now()
+        ]);
         $createMessage->handle(MessageType::DeleteCar, $car->id, $car_id, null);
         return back();
     }
@@ -69,7 +71,7 @@ class AdminCarController extends Controller
     {
         $viewData = [];
         $viewData['title'] = 'Admin-Page - Editiere Fahrzeug - Parkplatzverwaltung';
-        $viewData['car'] = Car::findOrFail($id);
+        $viewData['car'] = Car::findOrFail($id)->where('deleted_at', null);
 
         return view('admin.car.edit')->with('viewData', $viewData);
     }

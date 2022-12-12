@@ -24,11 +24,11 @@ class AddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'Land' => 'required|string|max:30',
+            'Land' => 'required|string|max:50',
             'PLZ' => 'required|integer|digits:5',
-            'Stadt' => 'required|string',
-            'Strasse' => 'required|string',
-            'Nummer' => 'required|integer',
+            'Stadt' => 'required|string|max:50',
+            'Strasse' => 'required|string|max:100',
+            'Nummer' => 'required|integer|max_digits:5',
         ];
     }
 }

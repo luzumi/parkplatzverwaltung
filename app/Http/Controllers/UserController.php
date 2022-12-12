@@ -19,7 +19,7 @@ class UserController extends Controller
         $viewData = [];
         $viewData["title"] = "Parkplatzverwaltung";
         $viewData["subtitle"] = "User-Übersicht";
-        $viewData["users"] = User::all();
+        $viewData["users"] = User::all()->where('deleted_at', null);
 
         return view('user.index')->with("viewData", $viewData);
     }
@@ -30,7 +30,7 @@ class UserController extends Controller
      */
     public function show($user_id): Factory|View|Application
     {
-        $user = User::findOrFail($user_id);
+        $user = User::findOrFail($user_id)->where('deleted_at', null);
 
         $viewData = [];
         $viewData['user'] = $user;
@@ -48,7 +48,7 @@ class UserController extends Controller
      */
     public function editor($user_id): Factory|View|Application
     {
-        $user = User::findOrFail($user_id);
+        $user = User::findOrFail($user_id)->where('deleted_at', null);
 
         $viewData = [];
         $viewData["subtitle"] = $user["name"] . " - User editor";

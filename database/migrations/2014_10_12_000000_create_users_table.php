@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('status')->default(true);
             $table->string('role')->default('client');
             $table->integer('balance')->default(5555);
+            $table->string('deleted_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

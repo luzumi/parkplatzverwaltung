@@ -6,6 +6,7 @@ use App\Actions\Admin\AdminCreateNewParkingSpot;
 use App\Actions\Admin\AdminUpdateParkingSpot;
 use App\Actions\CreateMessage;
 use App\Actions\SetImageName;
+use App\Enums\MessageType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ParkingSpotRequest;
 use App\Models\Car;
@@ -14,6 +15,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class AdminParkingSpotController extends Controller
 {
@@ -51,9 +53,17 @@ class AdminParkingSpotController extends Controller
      * @param $id
      * @return RedirectResponse
      */
-    public function delete($id): RedirectResponse
+    public function delete($id, CreateMessage $createMessage): RedirectResponse
     {
-        ParkingSpot::destroy($id);
+        ParkingSpot::where('id', $id)
+            ->update([
+                'user_id' => '1',
+                'image' => 'frei.jpg',
+                'status' => 'frei',
+                'deleted_at' => now(),
+            ]);
+
+        $createMessage->handle(MessageType::DeleteParkingSpot, Auth::id(), null, $id);
         return back();
     }
 

@@ -21,15 +21,17 @@ class UpdateUser
         int          $user_id,
         CreateMessage $message
     ): User {
-
         $user = User::findOrFail($user_id);
         $message->handle(MessageType::EditUser, $user_id, null, null);
-
-        return $user->updateOrCreate([
+//        dd($user->email, $request->email);
+        $user->update([
             'name' => $request->input('name'),
+            'password' => $user->password,
             'email' => $request->input('email'),
             'telefon' => $request->input('telefon'),
             'image' => $setImageName->handle($request, $user)
         ]);
+
+        return $user;
     }
 }

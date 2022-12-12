@@ -70,10 +70,20 @@ class UserService
     public function delete(CreateMessage $createMessage): Redirector|Application|RedirectResponse
     {
         $id = Auth::id();
-        User::destroy(Auth::id());
-        Address::where('user_id', Auth::id())->delete();
-        Car::where('user_id', Auth::id())->delete();
-        ParkingSpot::where('user_id', Auth::id())->delete();
+        User::where('id', $id)
+            ->update([
+                'deleted_at' => now(),
+            ]);
+        Car::where('user_id', $id)
+            ->update([
+                'deleted_at' => now()
+            ]);
+        ParkingSpot::where('user_id', $id)
+            ->update([
+                'user_id' => '1',
+                'image' => 'frei.jpg',
+                'status' => 'frei',
+            ]);
 
         $createMessage->handle(MessageType::DeleteUser, $id, null, null);
 

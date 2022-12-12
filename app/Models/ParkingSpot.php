@@ -15,7 +15,7 @@ class ParkingSpot extends Model
     protected $fillable = ['user_id', 'car_id', 'number', 'row', 'image', 'status'];
 
     /**
-     * @return ParkingSpot[]|_IH_ParkingSpot_C
+     * @return \Illuminate\Database\Eloquent\Collection|ParkingSpot[]
      */
     public static function getAllParkingSpotsWithCars()
     {
