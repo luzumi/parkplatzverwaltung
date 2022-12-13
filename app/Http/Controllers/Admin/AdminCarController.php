@@ -24,7 +24,7 @@ class AdminCarController extends Controller
     {
         $viewData = [];
         $viewData['title'] = 'Admin-Panel - Fahrzeugübersicht - Parkplatzverwaltung';
-        $viewData['cars'] = Car::with('parkingSpot')->get();
+        $viewData['cars'] = Car::with('parkingSpot')->where('deleted_at', null)->get();
 
         return view('admin.car.index')->with("viewData", $viewData);
     }
