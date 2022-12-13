@@ -1,7 +1,6 @@
 @extends('layouts.admin')
 @section('title', $viewData["title"])
 @section('content')
-
     <div class="card mb-4">
         <div class="card-header">
             Neuen User erstellen

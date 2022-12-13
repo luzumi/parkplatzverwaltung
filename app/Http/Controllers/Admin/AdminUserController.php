@@ -29,7 +29,7 @@ class AdminUserController extends Controller
     {
         $viewData = [];
         $viewData['title'] = 'Admin-Panel - User-Übersicht - Parkplatzverwaltung';
-        $viewData['users'] = User::all()->where('deleted_at', null);
+        $viewData['users'] = User::where('deleted_at','=', null)->get();
 
         return view('admin.user.index')->with("viewData", $viewData);
     }
@@ -61,6 +61,7 @@ class AdminUserController extends Controller
      */
     public function delete($id, CreateMessage $createMessage): RedirectResponse
     {
+
         User::where('id', $id)
             ->update([
                 'deleted_at' => now(),
@@ -78,7 +79,7 @@ class AdminUserController extends Controller
 
         $createMessage->handle(MessageType::DeleteUser, $id, null, null);
 
-        return back();
+        return redirect('/');
     }
 
 

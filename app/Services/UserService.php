@@ -11,6 +11,7 @@ use App\Models\Address;
 use App\Models\Car;
 use App\Models\ParkingSpot;
 use App\Models\User;
+use DateTimeZone;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
@@ -70,8 +71,11 @@ class UserService
     public function delete(CreateMessage $createMessage): Redirector|Application|RedirectResponse
     {
         $id = Auth::id();
-        User::where('id', $id)
-            ->update([
+        $user = User::where('id', $id)->first();
+        $count = User::where('deleted_at')->count();
+
+        $user->update([
+                'email' => 'deleted_'. $count . '_' . $user->email,
                 'deleted_at' => now(),
             ]);
         Car::where('user_id', $id)
@@ -86,7 +90,7 @@ class UserService
             ]);
 
         $createMessage->handle(MessageType::DeleteUser, $id, null, null);
-
+        Auth::logout();
         return redirect('/');
     }
 }

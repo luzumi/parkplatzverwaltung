@@ -23,7 +23,7 @@ class ParkingSpotService
         $parking_spot_id = $request->get('radio')??$request->get('status');
 
         $parking_spot = ParkingSpot::findOrFail($parking_spot_id);
-        $parking_spot->updateOrCreate([
+        $parking_spot->update([
             'user_id' => Auth::id(),
             'car_id' => $car_id,
             'number' => $parking_spot->number,

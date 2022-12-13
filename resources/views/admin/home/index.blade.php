@@ -43,7 +43,7 @@
                                 {!! $mess->user->getAttribute('name') . ' [USER-ID ('.$mess->user->getAttribute('id') . ')] </br>' !!}
                             @elseif($mess->message == \App\Enums\MessageType::DeleteUser->value)
                                 {!! 'User Gelöscht: [USER-ID ('.$mess->user->getAttribute('id') . ') - Name: ' . $mess->user->getAttribute('name') . ' -  ] </br>' !!}
-{{--                                {!! $mess->user->getAttribute('name') . ' [USER-ID ('.$mess->user->getAttribute('id') . ')] </br>' !!}--}}
+
                             @elseif($mess->message == \App\Enums\MessageType::AddParkingSpot->value)
                                 {!! 'Parkplatz hinzugefügt : Parkplatz ' . $mess->parkingSpot->getAttribute('number') . ' [ID ('.$mess->parkingSpot->getAttribute('id') . ')] </br>' !!}
 
@@ -54,7 +54,7 @@
                                 {!! 'Parkplatz-Reservierungsanfrage : User ' . $mess->user->getAttribute('name') . ' [USER-ID ('.$mess->user->getAttribute('id') . ')] </br>' !!}
                                 {!! 'CAR-ID: '. $mess->car_id . ' | Kennzeichen: '. $mess->car->sign . ' PARKPLATZ NR: ' . $mess->parking_spot_id !!}
                             @elseif($mess->message == \App\Enums\MessageType::ResetParkingSpot->value)
-                                {!! 'Parkplatz zurückgesetzt : Parkplatz ' . $mess->parkingSpot->number . ' [ID ('.$mess->parkingSpot->id . ')] </br>' !!}
+                                {!! 'Parkplatz zurückgesetzt : Parkplatz ' . $mess->parkingSpot->getAttribute('number') . ' [ID ('.$mess->parkingSpot->getAttribute('id') . ')] </br>' !!}
 
                             @elseif($mess->message == \App\Enums\MessageType::DeleteParkingSpot->value)
                                 {!! 'Parkplatz gelöscht : Parkplatz ' . $mess->parkingSpot->getAttribute('number') . ' [ID ('.$mess->parkingSpot->getAttribute('id') . ')] </br>' !!}
