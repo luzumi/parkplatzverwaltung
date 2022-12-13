@@ -17,11 +17,11 @@
                         eMail: {{ $viewData["user"]->email }} <br>
                         Telefon: {{ $viewData["user"]->telefon }} <br>
 
-                        Land: {{ $viewData["address"]['Land'] }} <br>
-                        PLZ: {{ $viewData["address"]['PLZ'] }} <br>
-                        Stadt: {{ $viewData["address"]['Stadt'] }} <br>
-                        Straße: {{ $viewData["address"]['Strasse'] . " "
-                        . $viewData["address"]['Nummer'] }} <br>
+                        Land: {{ $viewData["address"]->Land }} <br>
+                        PLZ: {{ $viewData["address"]->PLZ }} <br>
+                        Stadt: {{ $viewData["address"]->Stadt }} <br>
+                        Straße: {{ $viewData["address"]->Strasse . " "
+                        . $viewData["address"]->Nummer }} <br>
                         <br>
                         <p class="mb-sm-auto">Letzter Login: {{ $viewData["user"]->updatedAt }}</p>
 

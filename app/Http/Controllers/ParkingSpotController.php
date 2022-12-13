@@ -92,11 +92,13 @@ class ParkingSpotController extends Controller
         $viewData["title"] = "Parkplatzansicht";
         $viewData["subtitle"] = "Parkplatz Nr. " . $ps_id;
         $viewData['user'] = User::findOrFail(Auth::id());
+        $viewData['address'] = Address::where('user_id', Auth::id())->first();
+
         $viewData['parking_spots'] = ParkingSpot::all();
         $viewData['cars'] = Car::with('parkingSpot')
             ->where('cars.user_id', Auth::id())
             ->get();
 
-        return view('parking_spots.index')->with("viewData", $viewData);
+        return view('user.show', [Auth::id()])->with("viewData", $viewData);
     }
 }
