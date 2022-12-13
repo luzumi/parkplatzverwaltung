@@ -63,7 +63,7 @@
                                     {{$mess->message}}
                             @endif
                         </td>
-                        <td class="col-sm-1">{{ $mess->status }}</td>
+                        <td class="col-sm-1">{!!  \App\Actions\Admin\StatusLink::createLink($mess)  !!}</td>
                         <td class="col-sm-2">{{ $mess->updated_at }}</td>
                     </tr>
                 @endforeach

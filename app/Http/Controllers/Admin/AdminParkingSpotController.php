@@ -26,7 +26,7 @@ class AdminParkingSpotController extends Controller
     {
         $viewData = [];
         $viewData['title'] = 'Admin-Panel - Parkplatzübersicht - Parkplatzverwaltung';
-        $viewData['parking_spots'] = ParkingSpot::getAllParkingSpotsWithCars();
+        $viewData['parking_spots'] = ParkingSpot::with('car')->where('deleted_at', '=', null)->get();
         $viewData['cars'] = Car::with('parkingSpot')->where('user_id', '!=', '1')->get();
 
         return view('admin.parking_spot.index')->with("viewData", $viewData);

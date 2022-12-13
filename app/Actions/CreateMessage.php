@@ -3,10 +3,8 @@
 namespace App\Actions;
 
 use App\Enums\MessageType;
-use App\Http\Requests\MessageRequest;
 use App\Models\Message;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 
 class CreateMessage
 {
@@ -18,13 +16,38 @@ class CreateMessage
      */
     public function handle(MessageType $message, $user_id, $car_id, $parking_spot_id): Message
     {
+        switch ($message) {
+            case MessageType::AddParkingSpot;
+            case MessageType::DeleteUser;
+            case MessageType::AddUser;
+            case MessageType::EditAddress;
+            case MessageType::EditUser;
+            case MessageType::AddCar;
+            case MessageType::EditCar;
+            case MessageType::DeleteCar;
+                $status = 'closed';
+                break;
+            case MessageType::EditParkingSpot;
+            case MessageType::ResetParkingSpot;
+                $status = 'closed';
+                $messages = Message::where('parking_spot_id', '=', $parking_spot_id)->get();
+                foreach ($messages as $mess) {
+                    $mess->update([
+                        'status' => $status
+                    ]);
+                }
+                break;
+            default:
+                $status = 'open';
+        }
+
         return Message::create([
             'user_id' => $user_id,
             'receiver_user_id' => User::where('role', 'admin')->first()->id,
             'message' => $message,
             'car_id' => $car_id,
             'parking_spot_id' => $parking_spot_id,
-            'status' => 'offen',
+            'status' => $status,
         ]);
     }
 }

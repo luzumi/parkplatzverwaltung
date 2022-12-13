@@ -16,7 +16,7 @@ class AdminCreateNewParkingSpot
      */
     public function handle(ParkingSpotRequest $request, CreateMessage $createMessage): ParkingSpot
     {
-        $count = ParkingSpot::count() + 1;
+        $count = ParkingSpot::where('deleted_at', '=' , null)->count() + 1;
 
         $parkingSpot =  ParkingSpot::create([
             'user_id' => 1,
