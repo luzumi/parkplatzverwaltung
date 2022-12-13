@@ -3,7 +3,12 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Car;
+use App\Models\ParkingSpot;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,11 +19,31 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+
+         User::factory()->create([
+             'name' => 'admin',
+             'email' => 'admin@admin.de',
+             'telefon' => fake()->phoneNumber(),
+             'email_verified_at' => now(),
+             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+             'remember_token' => Str::random(10),
+         ]);
+         ParkingSpot::factory()->create([
+             'user_id' => 1,
+             'number' => 1,
+             'row' => 1,
+             'image' => 'frei.jpg',
+             'status' => 'frei',
+         ]);
+         Car::factory()->create([
+             'user_id' => 1,
+             'sign' => 'ABC DE 123',
+             'manufacturer' => 'ADMIN',
+             'model' => 'ISTRATOR',
+             'color' => 'RED',
+             'image' => 'testCar.jpg',
+             'status' => true,
+         ]);
     }
 }
