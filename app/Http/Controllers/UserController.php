@@ -30,7 +30,7 @@ class UserController extends Controller
      */
     public function show($user_id): Factory|View|Application
     {
-        $user = User::findOrFail($user_id)->where('deleted_at', null);
+        $user = User::findOrFail($user_id);
 
         $viewData = [];
         $viewData['user'] = $user;
@@ -48,7 +48,7 @@ class UserController extends Controller
      */
     public function editor($user_id): Factory|View|Application
     {
-        $user = User::findOrFail($user_id)->where('deleted_at', null);
+        $user = User::findOrFail($user_id);
 
         $viewData = [];
         $viewData["subtitle"] = $user["name"] . " - User editor";

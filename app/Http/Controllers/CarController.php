@@ -39,7 +39,7 @@ class CarController extends Controller
     {
         $viewData = [];
         $viewData['title'] = 'User add a Car - Parkplatzverwaltung';
-        $viewData['users'] = User::findOrFail(Auth::id())->where('deleted_at', null);
+        $viewData['users'] = User::findOrFail(Auth::id());
 
         return view('user.addCar.index')->with("viewData", $viewData);
     }
