@@ -3,8 +3,9 @@
 <html lang="de">
 <head>
     <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
           crossorigin="anonymous"/>
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet"/>
     <title>@yield('title', 'Parkplatzverwaltung')</title>
@@ -26,6 +27,7 @@
                     <a class="nav-link active" href="{{ route('user.addCar.index') }}">Add Car</a>
                 @endif
                 <a class="nav-link active" href="{{ route('parking_spot.index') }}">Parkplatz</a>
+                <a class="nav-link active" href="{{ route('messages.create') }}">Message</a>
                 <a class="nav-link active" href="{{ route('home.about') }}">About</a>
                 <div class="vr bg-white mx-2 d-none d-lg-block"></div>
                 @guest
@@ -38,12 +40,14 @@
                         @csrf
                     </form>
                 @endguest
-                <img class="img-profile rounded-circle  col-1"
-                     src=" {{asset( '/storage/media/'. (Auth::user()->image ?? 'undraw_profile.svg')) }} " alt="z">
+                <a href="{{ route('messages') }}" class="img-profile "><img class="rounded-circle  col-6"
+                            src=" {{ asset( '/storage/media/'. (Auth::user()->image ?? 'testUser.svg')) }} " alt="z">
+                </a>
             </div>
         </div>
     </div>
 </nav>
+
 
 <header class="masthead bg-primary text-white text-center py-4">
     <div class="container d-flex align-items-center flex-column">
