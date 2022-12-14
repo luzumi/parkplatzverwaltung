@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Actions\Admin\AdminCreateNewParkingSpot;
 use App\Actions\Admin\AdminUpdateParkingSpot;
+use App\Actions\Admin\AdminCreateMessage;
 use App\Actions\CreateMessage;
 use App\Actions\SetImageName;
 use App\Enums\MessageType;
@@ -95,7 +96,7 @@ class AdminParkingSpotController extends Controller
         SetImageName           $setImageName,
         int                    $car_id,
         AdminUpdateParkingSpot $updateParkingSpot,
-        CreateMessage          $createMessage
+        AdminCreateMessage          $createMessage
     ): RedirectResponse {
         $updateParkingSpot->handle($request, $setImageName, $car_id, $createMessage);
 

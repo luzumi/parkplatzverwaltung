@@ -21,7 +21,7 @@ class AdminUpdateParkingSpot
         ParkingSpotRequest $request,
         SetImageName       $setImageName,
         int                $parking_spot_id,
-        CreateMessage      $createMessage
+        AdminCreateMessage      $createMessage
     ): ParkingSpot
     {
         $parking_spot = ParkingSpot::findOrFail($parking_spot_id);

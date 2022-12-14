@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('row');
             $table->string('image');
             $table->string('status');
-            $table->string('deleted_ad')->nullable();
+            $table->string('deleted_at')->nullable();
             $table->timestamps();
         });
     }

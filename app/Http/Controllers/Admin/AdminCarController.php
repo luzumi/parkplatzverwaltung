@@ -71,7 +71,7 @@ class AdminCarController extends Controller
     {
         $viewData = [];
         $viewData['title'] = 'Admin-Page - Editiere Fahrzeug - Parkplatzverwaltung';
-        $viewData['car'] = Car::findOrFail($id)->where('deleted_at', null);
+        $viewData['car'] = Car::findOrFail($id)->where('deleted_at', null)->first();
 
         return view('admin.car.edit')->with('viewData', $viewData);
     }
