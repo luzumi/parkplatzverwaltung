@@ -25,9 +25,9 @@
                 @if (auth()->check())
                     <a class="nav-link active" href="{{ route('user.show', (Auth::check())? Auth::id() : 0) }}">User</a>
                     <a class="nav-link active" href="{{ route('user.addCar.index') }}">Add Car</a>
+                    <a class="nav-link active" href="{{ route('messages') }}">Postfach</a>
                 @endif
                 <a class="nav-link active" href="{{ route('parking_spot.index') }}">Parkplatz</a>
-                <a class="nav-link active" href="{{ route('messages.create') }}">Message</a>
                 <a class="nav-link active" href="{{ route('home.about') }}">About</a>
                 <div class="vr bg-white mx-2 d-none d-lg-block"></div>
                 @guest
@@ -40,9 +40,11 @@
                         @csrf
                     </form>
                 @endguest
+                @if (auth()->check())
                 <a href="{{ route('messages') }}" class="img-profile "><img class="rounded-circle  col-6"
                             src=" {{ asset( '/storage/media/'. (Auth::user()->image ?? 'testUser.svg')) }} " alt="z">
                 </a>
+                @endif
             </div>
         </div>
     </div>
@@ -52,6 +54,7 @@
 <header class="masthead bg-primary text-white text-center py-4">
     <div class="container d-flex align-items-center flex-column">
         <h2>@yield('subtitle', 'Laravel Parkplatzverwaltung')</h2>
+        <div>@yield('messages')</div>
     </div>
 </header>
 <!-- header -->

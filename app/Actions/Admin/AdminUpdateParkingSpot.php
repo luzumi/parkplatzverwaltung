@@ -31,7 +31,7 @@ class AdminUpdateParkingSpot
         ]);
         $parking_spot->update(['image' => $setImageName->handle($request, $parking_spot)]);
 
-        $createMessage->handle(MessageType::EditParkingSpot, $parking_spot->user_id, null, $parking_spot_id);
+        $createMessage->handle(MessageType::AntwortMessage, $parking_spot->user_id, $parking_spot->car_id, $parking_spot_id);
 
         return $parking_spot;
     }

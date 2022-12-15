@@ -16,5 +16,6 @@ enum MessageType: string
     case ResetParkingSpot = ' Parkplatz zurückgesetzt ';
     case DeleteParkingSpot = ' Parkplatz gelöscht ';
     case EditAddress = ' Adresse editiert ';
+    case AntwortMessage = ' Anliegen bearbeitet ';
     case FreeMessage = ' Mitteilung ';
 }

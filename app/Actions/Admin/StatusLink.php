@@ -13,6 +13,7 @@ class StatusLink
         switch ($message->message) {
             case MessageType::ReserveParkingSpot->value:
                 return self::getParkingSpotLink($message);
+
             default:
                 return 'Done';
         }
@@ -21,7 +22,7 @@ class StatusLink
 
     private static function getParkingSpotLink($message)
     {
-        if ($message->status != 'open') return 'Done';
+        if ( $message->status != 'open' && $message->status != 'pending' ) return 'Done';
 
         return '<a class="btn btn-primary"
                        href="' . route('admin.parking-spot.edit', ['id' => $message->parkingSpot->id]) . '">

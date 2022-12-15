@@ -29,14 +29,15 @@ class CreateMessage
                 break;
             case MessageType::EditParkingSpot;
             case MessageType::ResetParkingSpot;
-                $status = 'closed';
                 $messages = Message::where('parking_spot_id', '=', $parking_spot_id)->get();
+                $status = 'closed';
                 foreach ($messages as $mess) {
                     $mess->update([
                         'status' => $status
                     ]);
                 }
                 break;
+
             default:
                 $status = 'open';
         }

@@ -4,7 +4,6 @@ namespace App\Actions\Admin;
 
 use App\Enums\MessageType;
 use App\Models\Message;
-use App\Models\User;
 use Auth;
 
 class AdminCreateMessage
@@ -34,6 +33,19 @@ class AdminCreateMessage
                 foreach ($messages as $mess) {
                     $mess->update([
                         'status' => $status
+                    ]);
+                }
+                break;
+            case MessageType::AntwortMessage;
+                $status = 'pending';
+                $messages = Message::where('parking_spot_id', '=', $parking_spot_id)
+                    ->where('car_id', $car_id)
+                    ->where('user_id', $user_id)
+                    ->where('status', '!=', 'closed')
+                    ->get();
+                foreach ($messages as $mess) {
+                    $mess->update([
+                        'status' => 'closed'
                     ]);
                 }
                 break;
