@@ -18,7 +18,8 @@
         @foreach($viewData['messages'] as $message)
             <span>Ihre Anfrage den Parkplatz {{$message->parkingSpot->getAttribute('number')}}
                 für das Fahrzeug {{$message->car->getAttribute('sign')}}
-                wurde vom Administrator genehmigt!
+                wurde vom Administrator
+                {{$message->parkingSpot->getAttribute('status') == 'gesperrt'? 'abgelehnt': 'genehmigt'}}!
                 <a href="{{ route('home.acceptMessage', $message->id) }}">&#9989;</a>
              </span>
         @endforeach
