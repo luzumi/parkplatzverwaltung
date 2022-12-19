@@ -3,7 +3,7 @@
 namespace App\Actions\Admin;
 
 use App\Enums\MessageType;
-use App\Models\Message;
+use App\Models\LogMessage;
 
 class StatusLink
 {
