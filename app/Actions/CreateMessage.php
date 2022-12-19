@@ -3,7 +3,7 @@
 namespace App\Actions;
 
 use App\Enums\MessageType;
-use App\Models\Message;
+use App\Models\LogMessage;
 use App\Models\User;
 
 class CreateMessage
@@ -12,9 +12,9 @@ class CreateMessage
      * @param MessageType $message
      * @param $car_id
      * @param $parking_spot_id
-     * @return Message
+     * @return LogMessage
      */
-    public function handle(MessageType $message, $user_id, $car_id, $parking_spot_id): Message
+    public function handle(MessageType $message, $user_id, $car_id, $parking_spot_id): LogMessage
     {
         switch ($message) {
             case MessageType::AddParkingSpot;
@@ -30,7 +30,7 @@ class CreateMessage
             case MessageType::EditParkingSpot;
             case MessageType::ResetParkingSpot;
                 $status = 'closed';
-                $messages = Message::where('parking_spot_id', '=', $parking_spot_id)->get();
+                $messages = LogMessage::where('parking_spot_id', '=', $parking_spot_id)->get();
                 foreach ($messages as $mess) {
                     $mess->update([
                         'status' => $status
@@ -41,7 +41,7 @@ class CreateMessage
                 $status = 'open';
         }
 
-        return Message::create([
+        return LogMessage::create([
             'user_id' => $user_id,
             'receiver_user_id' => User::where('role', 'admin')->first()->id,
             'message' => $message,

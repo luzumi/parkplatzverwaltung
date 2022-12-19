@@ -33,6 +33,6 @@ class Car extends Model
      */
     public function message(): HasOne
     {
-        return $this->hasOne(Message::class);
+        return $this->hasOne(LogMessage::class);
     }
 }

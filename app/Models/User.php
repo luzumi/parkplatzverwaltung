@@ -107,6 +107,6 @@ class User extends Authenticatable
      */
     public function message(): HasMany
     {
-        return $this->hasMany(Message::class);
+        return $this->hasMany(LogMessage::class);
     }
 }
