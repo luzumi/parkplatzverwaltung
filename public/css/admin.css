@@ -31,3 +31,27 @@ hr {
     background-color: #f8f9fc;
     border-bottom: 1px solid #e3e6f0;
 }
+:root
+{
+    --clr: #212529;
+}
+
+topmenu
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 18vh;
+    background: linear-gradient(to left, #424549, #212529 15%, #212529 85%, #424549);
+}
+
+.list-active
+{
+    border-radius: 10px;
+    background: #212529;
+}
+
+.list-active:hover
+{
+    background: linear-gradient(to left, #212529, #414448);
+}

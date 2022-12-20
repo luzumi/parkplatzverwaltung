@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 @section('title', $viewData["title"])
 @section('content')
+<div class="card h-50">
     <div class="card mb-4">
         <div class="card-header">
             Neuen User erstellen
@@ -56,7 +57,7 @@
     </div>
 
 
-    <div class="card">
+    <div class="card mb-4">
         <div class="card-header">
             Manage Users
         </div>
@@ -64,15 +65,15 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Vorschau</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">email</th>
-                    <th scope="col">Telefon</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Bild</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col">Delete</th>
+                    <th class="col-sm-1">ID</th>
+                    <th class="col-sm-1">Vorschau</th>
+                    <th class="col-sm-1">Name</th>
+                    <th class="col-sm-1">email</th>
+                    <th class="col-sm-1">Telefon</th>
+                    <th class="col-sm-1">Role</th>
+                    <th class="col-sm-1">Bild</th>
+                    <th class="col-sm-1">Edit</th>
+                    <th class="col-sm-1">Delete</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -108,4 +109,5 @@
             </table>
         </div>
     </div>
+</div>
 @endsection

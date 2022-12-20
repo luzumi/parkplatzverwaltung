@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 @section('title', $viewData['title'])
 @section('content')
-    <div class="card h-auto">
+    <div class="card h-50">
         <div class="card-header">
             Adminpanel - Admin - Parkplatzverwaltung
         </div>
         <div class="table-responsive">
-            <table class="table">
-                <thead>
+            <table class="table table-hover">
+                <thead class="table-header">
                 <tr>
                     <td class="col-sm-1">ID</td>
                     <td class="col-sm-1">Sender-ID</td>
@@ -17,7 +17,7 @@
                     <td class="col-sm-2">Zeit</td>
                 </tr>
                 </thead>
-                <tbody class="overflow-auto table-hover table-striped" >
+                <tbody class="table-body overflow-auto table-hover h-75 index1" >
                 @foreach ($viewData["messages"] as $mess)
                     <tr >
                         {{-- Fahrzeug hat Parkplatz reserviert? wenn ja, Anzeige der Parkplatznummer --}}
