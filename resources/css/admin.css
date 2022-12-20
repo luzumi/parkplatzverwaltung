@@ -56,3 +56,19 @@ hr {
     background-color: #f39c12;
     border-color: #e67e22;
 }
+.table-header-fixed
+{
+    position: sticky;
+    top: 0;
+}
+
+.table-header {
+    position: sticky;
+    top: 0;
+}
+.table-body {
+    height: 300px;
+    overflow-y: scroll;
+}
+
+

@@ -13,47 +13,73 @@
 </head>
 
 <body>
-<div class="row g-0 h-25">
-{{-- sidebar --}}
-    <div class="p-3 col fixed text-white bg-dark">
-        <a href="{{ route('admin.home.index') }}" class="text-white text-decoration-none">
-            <span class="fs-4">Admin Panel</span>
-        </a>
-        <hr/>
-        <ul class="nav flex-column">
-            <li><a href="{{ route('admin.home.index') }}" class="nav-link text-white">- Admin - Home</a></li>
-            <li><a href="{{ route("admin.car.index") }}" class="nav-link text-white">- Admin - alle Fahrzeuge</a></li>
-            <li><a href="{{ route("user.index") }}" class="nav-link text-white">- Admin - alle Users</a></li>
-            <li><a href="{{ route("admin.user.index") }}" class="nav-link text-white">- Admin - User</a></li>
-            <li><a href="{{ route("admin.parking_spot.index") }}" class="nav-link text-white">- Admin - Parkplätze</a>
-            </li>
+<topmenu>
+    <div class="row g-0 w-75">
+        {{-- sidebar --}}
+        <div class="p-3 col fixed text-white bg-dark">
+            <a href="{{ route('admin.home.index') }}" class="text-white text-decoration-none">
+                <span class="fs-4">Admin Panel</span>
+            </a>
+            <hr/>
+            <ul class="nav flex-column">
+                <li class="list-active" id="li1">
+                    <a href="{{ route('admin.home.index') }}" class="nav-link text-white">
+                        <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
+                        <span class="text">&nbsp;Home</span>
+                    </a>
+                </li>
+                <li class="list-active">
+                    <a href="{{ route("admin.car.index") }}" class="nav-link text-white">
+                        <span class="icon"><ion-icon name="car-sport"></ion-icon></span>
+                        <span class="text">&nbsp;alle Fahrzeuge</span>
+                    </a>
+                </li>
+                <li class="list-active">
+                    <a href="{{ route("user.index") }}" class="nav-link text-white">
+                        <span class="icon"><ion-icon name="chatbubbles"></ion-icon></span>
+                        <span class="text">&nbsp;Nachrichten</span>
+                    </a>
+                </li>
+                <li class="list-active">
+                    <a href="{{ route("admin.user.index") }}" class="nav-link text-white">
+                        <span class="icon"><ion-icon name="person-circle-outline"></ion-icon></span>
+                        <span class="text">&nbsp;User</span>
+                    </a>
+                </li>
+                <li class="list-active">
+                    <a href="{{ route("admin.parking_spot.index") }}" class="nav-link text-white">
+                        <span class="icon"><ion-icon name="help-buoy-outline"></ion-icon></span>
+                        <span class="text">&nbsp;Parkplatz-Übersicht</span>
+                    </a>
+                </li>
 
-            <li>
-                <a href="{{ route('home.index') }}" class="mt-2 btn bg-primary text-white">Go back to the home page</a>
-            </li>
-        </ul>
-    </div>
-    <!-- sidebar -->
-    <div class="col content-grey">
-        <nav class="p-3 shadow text-end">
-            <span class="profile-font">Admin</span>
-            <form id="logout" action="{{ route('logout') }}" method="POST">
-                <a role="button" class="nav-link active"
-                   onclick="document.getElementById('logout').submit();">Logout</a>
-                @csrf
-                <img class="img-profile rounded-circle"
-                     src="{{ asset('/storage/media/' . User::findOrFail(Auth::id())->image) }}"
-                     alt="Image not Found">
-            </form>
+                <li>
+                    <a href="{{ route('home.index') }}" class="mt-2 btn bg-primary text-white">Go back to the home
+                        page</a>
+                </li>
+            </ul>
+        </div>
+        <!-- sidebar -->
+        <div class="col content-grey">
+            <nav class="p-3 shadow text-end">
+                <span class="profile-font">Admin</span>
+                <form id="logout" action="{{ route('logout') }}" method="POST">
+                    <a role="button" class="nav-link active"
+                       onclick="document.getElementById('logout').submit();">Logout</a>
+                    @csrf
+                    <img class="img-profile rounded-circle"
+                         src="{{ asset('/storage/media/' . User::findOrFail(Auth::id())->image) }}"
+                         alt="Image not Found">
+                </form>
 
-        </nav>
+            </nav>
 
-        <div class="g-0 m-5">
-            @yield('content')
+            <div class="g-0 m-5 h-75">
+                @yield('content')
+            </div>
         </div>
     </div>
-</div>
-
+</topmenu>
 <!-- footer -->
 <div class="copyright py-4 text-center text-white">
     <div class="container">
@@ -66,9 +92,24 @@
     </div>
 </div>
 <!-- footer -->
+<script>
+    const list = document.querySelectorAll('.list');
 
+    function activeLink() {
+        list.forEach((item) =>
+            item.classList.remove('active')
+        );
+        this.classList.add('active');
+    }
+
+    list.forEach((item) =>
+        item.addEventListener('mouseover', activeLink)
+    );
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
 </script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 
 </html>

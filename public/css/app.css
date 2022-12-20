@@ -160,39 +160,39 @@ topmenu
 
 .navigation ul li:nth-child(1).active ~ .indicator
 {
-    transform: translateX(calc(425px + 55px * 0));
+    transform: translateX(calc(421px + 56px * 0));
 }
 .navigation ul li:nth-child(2).active ~ .indicator
 {
-    transform: translateX(calc(425px + 55px * 1));
+    transform: translateX(calc(421px + 56px * 1));
 }
 .navigation ul li:nth-child(3).active ~ .indicator
 {
-    transform: translateX(calc(425px + 55px * 2));
+    transform: translateX(calc(421px + 56px * 2));
 }
 .navigation ul li:nth-child(4).active ~ .indicator
 {
-    transform: translateX(calc(425px + 55px * 3));
+    transform: translateX(calc(421px + 56px * 3));
 }
 .navigation ul li:nth-child(5).active ~ .indicator
 {
-    transform: translateX(calc(425px + 55px * 4));
+    transform: translateX(calc(421px + 56px * 4));
 }
 .navigation ul li:nth-child(6).active ~ .indicator
 {
-    transform: translateX(calc(425px + 55px * 5));
+    transform: translateX(calc(421px + 56px * 5));
 }
 .navigation ul li:nth-child(7).active ~ .indicator
 {
-    transform: translateX(calc(425px + 55px * 6));
+    transform: translateX(calc(421px + 56px * 6));
 }
 .navigation ul li:nth-child(8).active ~ .indicator
 {
-    transform: translateX(calc(425px + 55px * 7));
+    transform: translateX(calc(421px + 56px * 7));
 }
 .navigation ul li:nth-child(9).active ~ .indicator
 {
-    transform: translateX(calc(425px + 55px * 8));
+    transform: translateX(calc(421px + 56px * 8));
 }
 
 
