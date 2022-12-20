@@ -12,8 +12,8 @@
 <body>
 <!-- header -->
 <topmenu>
-    <a class="h1 text-decoration-none text-white" href="{{ route('home.index') }}">Parkplatzverwaltung&nbsp;&nbsp;&nbsp;&nbsp;</a>
     <nav class="navigation">
+        <a class="h1 text-decoration-none text-white" href="{{ route('home.index') }}">&nbsp;&nbsp;Parkplatzverwaltung&nbsp;&nbsp;&nbsp;&nbsp;</a>
         <div class="container">
             {{--            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"--}}
             {{--                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">--}}
@@ -31,7 +31,7 @@
                     <li class="list">
                         <a class="nav-link active" href="{{ route('user.show', (Auth::check())? Auth::id() : 0) }}">
                             <span class="icon"><ion-icon name="person-circle-outline"></ion-icon></span>
-                            <span class="text">User</span>
+                            <span class="text">Profil</span>
                         </a>
                     </li>
                     <li class="list">
@@ -50,7 +50,7 @@
                 <li class="list">
                     <a class="nav-link active" href="{{ route('parking_spot.index') }}">
                         <span class="icon"><ion-icon name="help-buoy-outline"></ion-icon></span>
-                        <span class="text">Parkplatz</span>
+                        <span class="text">Parkplatz-<br>Übersicht</span>
                     </a>
                 </li>
                 <li class="list">
