@@ -25,13 +25,22 @@ class MessagesController extends Controller
         $threads = Thread::getAllLatest()->get();
 
         // All threads that user is participating in
-        // $threads = Thread::forUser(Auth::id())->latest('updated_at')->get();
+        $threads = Thread::forUser(Auth::id())->latest('updated_at')->get();
 
         // All threads that user is participating in, with new messages
         // $threads = Thread::forUserWithNewMessages(Auth::id())->latest('updated_at')->get();
 
-        return view('messenger.index', compact('threads'));
+        $lastThread = $threads->first();
+        if ($lastThread) {
+            $latestMessage = $lastThread->messages()->latest()->first();
+        } else {
+            $latestMessage = null;
+        }
+
+        return view('messenger.index', compact('threads', 'latestMessage'));
     }
+
+
 
     /**
      * Shows a message thread.
