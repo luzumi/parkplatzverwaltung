@@ -57,7 +57,7 @@
     <script>
         function showThread(threadId) {
             $('#subject').css('display', 'flex');
-
+            $('#messages').empty();
             // Abrufen aller Nachrichten des Threads mit Hilfe von AJAX
             $.ajax({
                 url: '/messages/' + threadId,
