@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PasswordRequest;
 use App\Models\Address;
+use App\Models\LogMessage;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class HomeController extends Controller
         $viewData = [];
         $viewData["title"] = "Home Page - Parkplatzverwaltung";
         $viewData['image'] = Auth::user()->image ?? '/storage/media/unregistered_user.png';
-        $viewData['messages'] = Message::with('parkingSpot', 'car', 'user')
+        $viewData['messages'] = LogMessage::with('parkingSpot', 'car', 'user')
             ->where('receiver_user_id','=', Auth::id())
             ->where('status', '=','pending')
             ->get();

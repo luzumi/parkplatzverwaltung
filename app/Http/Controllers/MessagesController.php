@@ -22,10 +22,10 @@ class MessagesController extends Controller
     public function index()
     {
         // All threads, ignore deleted/archived participants
-        $threads = Thread::getAllLatest()->get();
+        $threads = Thread::getAllLatest()->with('messages')->get();
 
         // All threads that user is participating in
-        $threads = Thread::forUser(Auth::id())->latest('updated_at')->get();
+//        $threads = Thread::forUser(Auth::id())->latest('updated_at')->get();
 
         // All threads that user is participating in, with new messages
         // $threads = Thread::forUserWithNewMessages(Auth::id())->latest('updated_at')->get();
@@ -41,34 +41,57 @@ class MessagesController extends Controller
     }
 
 
-
-    /**
-     * Shows a message thread.
-     *
-     * @param $id
-     * @return mixed
-     */
     public function show($id)
     {
         try {
             $thread = Thread::findOrFail($id);
         } catch (ModelNotFoundException $e) {
             Session::flash('error_message', 'The thread with ID: ' . $id . ' was not found.');
-
             return redirect()->route('messages');
         }
 
-        // show current user in list if not a current participant
-        // $users = User::whereNotIn('id', $thread->participantsUserIds())->get();
+        $messages = $thread->messages;
 
-        // don't show the current user in list
-        $userId = Auth::id();
-        $users = User::whereNotIn('id', $thread->participantsUserIds($userId))->get();
-
-        $thread->markAsRead($userId);
-
-        return view('messenger.show', compact('thread', 'users'));
+        return response()->json([
+            'subject' => $thread->subject,
+            'messages' => $messages->map(function ($message) {
+                return [
+                    'sender' => $message->user->getAttribute('name'),
+                    'body' => $message->body,
+                ];
+            })
+        ]);
     }
+
+
+
+//    /**
+//     * Shows a message thread.
+//     *
+//     * @param $id
+//     * @return mixed
+//     */
+//    public function show($id)
+//    {
+//        try {
+//            $thread = Thread::findOrFail($id);
+//        } catch (ModelNotFoundException $e) {
+//            Session::flash('error_message', 'The thread with ID: ' . $id . ' was not found.');
+//
+//            return redirect()->route('messages');
+//        }
+//
+//        // show current user in list if not a current participant
+//        // $users = User::whereNotIn('id', $thread->participantsUserIds())->get();
+//
+//        // don't show the current user in list
+//        $userId = Auth::id();
+//        $users = User::whereNotIn('id', $thread->participantsUserIds($userId))->get();
+//
+//        $thread->markAsRead($userId);
+//
+//        return view('messenger.show', compact('thread', 'users'));
+//    }
 
     /**
      * Creates a new message thread.

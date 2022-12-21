@@ -35,7 +35,7 @@
                         </a>
                     </li>
                     <li class="list">
-                        <a class="nav-link active" href="{{ route('user.show', (Auth::check())? Auth::id() : 0) }}">
+                        <a class="nav-link active" href="{{ route('messages') }}">
                             <span class="icon"><ion-icon name="chatbubbles"></ion-icon></span>
                             <span class="text">Nachrichten</span>
                         </a>
@@ -135,5 +135,6 @@
         crossorigin="anonymous"></script>
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>

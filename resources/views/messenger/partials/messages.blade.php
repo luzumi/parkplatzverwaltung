@@ -1,13 +1,19 @@
-<div class="media">
-    <a class="pull-left" href="#">
-        <img src="//www.gravatar.com/avatar/{{ md5($message->user->email) }} ?s=64"
-             alt="{{ $message->user->name }}" class="img-circle">
-    </a>
-    <div class="media-body">
-        <h5 class="media-heading">{{ $message->user->name }}</h5>
-        <p>{{ $message->body }}</p>
-        <div class="text-muted">
-            <small>Posted {{ $message->created_at->diffForHumans() }}</small>
-        </div>
+<div class="card mb-3">
+    <div class="card-header font-weight-bold d-flex justify-content-between align-items-center" id="thread-subject">
+        {{ $thread->subject }}
+        <span class="badge badge-secondary">{{ $thread->updated_at->format('d.m.Y H:i') }}</span>
+    </div>
+    <div class="card-body">
+        @foreach($thread->messages as $message)
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    {{ $message->user->name }}
+                    <span class="badge badge-secondary">{{ $message->created_at->format('d.m.Y H:i') }}</span>
+                </div>
+                <div class="card-body">
+                    {{ $message->body }}
+                </div>
+            </div>
+        @endforeach
     </div>
 </div>

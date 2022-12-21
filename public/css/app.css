@@ -195,4 +195,14 @@ topmenu
     transform: translateX(calc(421px + 56px * 8));
 }
 
+.message.from-current-user {
+    background-color: #d3e3f3;
+    color: #333;
+    text-align: right;
+}
 
+.message.from-other-user {
+    background-color: #f3e3d3;
+    color: #333;
+    text-align: left;
+}
