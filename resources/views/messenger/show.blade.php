@@ -24,7 +24,7 @@
                                             <img src="{{ asset('storage/media/' . $thread->users[1]->image) }}" class="col-12 rounded-circle align-self-center mr-2" alt="User image">
                                         </div>
                                         <div class="col">
-                                            <h5 class="mb-1">{{$thread->creator()->getAttribute('name')}}</h5>
+                                            <h5 class="mb-1">{{ $thread->creator()->getAttribute('name')}}</h5>
                                             <small class="mb-4 text-xs">{{ substr($thread->latestMessage->body, 0, 30) . '...' }}</small>
                                         </div>
                                     </div>

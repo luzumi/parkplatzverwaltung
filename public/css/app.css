@@ -206,3 +206,36 @@ topmenu
     color: #333;
     text-align: left;
 }
+
+.chat-messages
+{
+    height: 40vh;
+}
+.messageView
+{
+    height: 40vh;
+    overflow-y: scroll;
+}
+.tabs {
+    display: flex; /* Stelle die Schaltflächen nebeneinander dar */
+}
+
+.tab-btn {
+    flex: 1; /* Verteile den Platz gleichmäßig auf die Schaltflächen */
+    border: none;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+}
+
+.tab-btn.active {
+    background-color: #ddd; /* Färbe die aktive Schaltfläche grau */
+}
+
+.tab-content {
+    display: none; /* Verberge alle Tab-Inhalte standardmäßig */
+}
+
+.tab-content.active {
+    display: block; /* Zeige den aktiven Tab-Inhalt an */
+}

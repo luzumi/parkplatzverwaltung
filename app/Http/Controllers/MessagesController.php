@@ -110,9 +110,9 @@ class MessagesController extends Controller
      *
      * @return mixed
      */
-    public function store()
+    public function store(Request $request)
     {
-        $input = Request::all();
+        $input = $request->all();
 
         $thread = Thread::create([
             'subject' => $input['subject'],
@@ -133,7 +133,7 @@ class MessagesController extends Controller
         ]);
 
         // Recipients
-        if (Request::has('recipients')) {
+        if ($request->has('recipients')) {
             $thread->addParticipant($input['recipients']);
         }
 
@@ -146,7 +146,7 @@ class MessagesController extends Controller
      * @param $id
      * @return mixed
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
         try {
             $thread = Thread::findOrFail($id);
@@ -162,7 +162,7 @@ class MessagesController extends Controller
         Message::create([
             'thread_id' => $thread->id,
             'user_id' => Auth::id(),
-            'body' => Request::input('message'),
+            'body' => $request->input('message'),
         ]);
 
         // Add replier as a participant
@@ -174,8 +174,8 @@ class MessagesController extends Controller
         $participant->save();
 
         // Recipients
-        if (Request::has('recipients')) {
-            $thread->addParticipant(Request::input('recipients'));
+        if ($request->has('recipients')) {
+            $thread->addParticipant($request->input('recipients'));
         }
 
         return redirect()->route('messages.show', $id);

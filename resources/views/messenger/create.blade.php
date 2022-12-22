@@ -19,25 +19,25 @@
                     @endforeach
                 </ul>
             </div>
-            {{--            <!-- Message Form Input -->--}}
-            {{--            <div class="form-group">--}}
-            {{--                <label class="control-label">Message</label>--}}
-            {{--                <textarea name="message" class="form-control">{{ old('message') }}</textarea>--}}
-            {{--            </div>--}}
+                        <!-- Message Form Input -->
+                        <div class="form-group">
+                            <label class="control-label">Message</label>
+                            <textarea name="message" class="form-control">{{ old('message') }}</textarea>
+                        </div>
 
-            {{--            @if($users->count() > 0)--}}
-            {{--                <div class="checkbox">--}}
-            {{--                    @foreach($users as $user)--}}
-            {{--                        <label>{{ $user->getAttribute('name') }}<input type="checkbox" name="recipients[]"--}}
-            {{--                                                                       value="{{ $user->id }}">{!!$user->name!!}</label>--}}
-            {{--                    @endforeach--}}
-            {{--                </div>--}}
-            {{--            @endif--}}
+                        @if($users->count() > 0)
+                            <div class="checkbox">
+                                @foreach($users as $user)
+                                    <label>{{ $user->getAttribute('name') }}<input type="checkbox" name="recipients[]"
+                                                                                   value="{{ $user->id }}">{!!$user->name!!}</label>
+                                @endforeach
+                            </div>
+                        @endif
 
-            {{--            <!-- Submit Form Input -->--}}
-            {{--            <div class="form-group">--}}
-            {{--                <button type="submit" class="btn btn-primary form-control">Submit</button>--}}
-            {{--            </div>--}}
+                        <!-- Submit Form Input -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary form-control">Submit</button>
+                        </div>
         </div>
     </form>
 @stop
