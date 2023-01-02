@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use Carbon\Carbon;
@@ -9,10 +9,11 @@ use Cmgmyr\Messenger\Models\Participant;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
-class MessagesController extends Controller
+class AdminMessagesController extends Controller
 {
     /**
      * Show all of the message threads to the user.
@@ -36,8 +37,8 @@ class MessagesController extends Controller
         } else {
             $latestMessage = null;
         }
-
-        return view('messenger.index', compact('threads', 'latestMessage'));
+//dd($threads);
+        return view('admin.messenger.index', compact('threads', 'latestMessage'));
     }
 
 
@@ -51,7 +52,7 @@ class MessagesController extends Controller
             ]);
         } catch (ModelNotFoundException $e) {
             Session::flash('error_message', 'The thread with ID: ' . $id . ' was not found.');
-            return redirect()->route('messages');
+            return redirect()->route('admin.messages');
         }
 
         $messages = $thread->messages;
@@ -104,10 +105,9 @@ class MessagesController extends Controller
      */
     public function create()
     {
-//        $users = User::where('id', '!=', Auth::id())->get();
-        $users = User::all();
+        $users = User::where('id', '!=', Auth::id())->get();
 
-        return view('messenger.create', compact('users'));
+        return view('admin.messenger.create', compact('users'));
     }
 
     /**
@@ -118,33 +118,36 @@ class MessagesController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
-        $recipients = json_decode($input['recipients'][0], true);
-        $id = $recipients['id'];
 
-        $thread = Thread::create([
-            'subject' => $input['subject'],
-        ]);
+        foreach ($input['recipients'] as $recipient) {
+            $recipients = json_decode($recipient, true);
+            $id = $recipients;
 
-        // Message
-        Message::create([
-            'thread_id' => $thread->id,
-            'user_id' => Auth::id(),
-            'body' => $input['message'],
-        ]);
+            $thread = Thread::create([
+                'subject' => $input['subject'],
+            ]);
 
-        // Sender
-        Participant::create([
-            'thread_id' => $thread->id,
-            'user_id' => Auth::id(),
-            'last_read' => new Carbon(),
-        ]);
+            // Message
+            Message::create([
+                'thread_id' => $thread->id,
+                'user_id' => Auth::id(),
+                'body' => $input['message'],
+            ]);
 
-        // Recipients
-        if ($request->has('recipients')) {
-            $thread->addParticipant($id);
+            // Sender
+            Participant::create([
+                'thread_id' => $thread->id,
+                'user_id' => Auth::id(),
+                'last_read' => new Carbon(),
+            ]);
+
+            // Recipients
+            if ($request->has('recipients')) {
+                $thread->addParticipant($id);
+            }
+
         }
-
-        return redirect()->route('messages');
+        return redirect()->route('admin.messages');
     }
 
     /**
@@ -155,13 +158,14 @@ class MessagesController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         try {
             $thread = Thread::findOrFail($id);
 
         } catch (ModelNotFoundException $e) {
             Session::flash('error_message', 'The thread with ID: ' . $id . ' was not found.');
 
-            return redirect()->route('messages');
+            return redirect()->route('admin.messages');
         }
 
         $thread->activateAllParticipants();
@@ -172,19 +176,21 @@ class MessagesController extends Controller
             'user_id' => Auth::id(),
             'body' => $request->input('message'),
         ]);
+
         // Add replier as a participant
         $participant = Participant::firstOrCreate([
             'thread_id' => $thread->id,
             'user_id' => Auth::id(),
         ]);
-
         $participant->last_read = new Carbon();
         $participant->save();
+
         // Recipients
         if ($request->has('recipients')) {
             $thread->addParticipant($id);
         }
 
-        return redirect()->route('messages');
+
+        return redirect()->route('admin.messages');
     }
 }

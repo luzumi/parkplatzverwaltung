@@ -142,7 +142,20 @@ Route::group(['prefix' => 'messages'], function () {
     Route::put('{id}', ['as' => 'messages.update', 'uses' => 'App\Http\Controllers\MessagesController@update']);
 });
 
-Route::post('/user/change-password', 'App\Http\Controllers\HomeController@updatePassword')->name('user.update-password');
+Route::group(['prefix' => 'admin/messages'], function () {
+    Route::get('/', ['as' => 'admin.messages', 'uses' => 'App\Http\Controllers\Admin\AdminMessagesController@index']);
+    Route::get('create', ['as' => 'admin.messages.create',
+        'uses' => 'App\Http\Controllers\Admin\AdminMessagesController@create']);
+    Route::post('/', ['as' => 'admin.messages.store',
+        'uses' => 'App\Http\Controllers\Admin\AdminMessagesController@store']);
+    Route::get('{id}', ['as' => 'admin.messages.show',
+        'uses' => 'App\Http\Controllers\Admin\AdminMessagesController@show']);
+    Route::put('{id}', ['as' => 'admin.messages.update',
+        'uses' => 'App\Http\Controllers\Admin\AdminMessagesController@update']);
+});
+
+Route::post('/user/change-password', 'App\Http\Controllers\HomeController@updatePassword')
+    ->name('user.update-password');
 
 
 Auth::routes();

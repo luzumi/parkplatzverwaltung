@@ -10,8 +10,7 @@
     <title>@yield('title', 'Parkplatzverwaltung')</title>
 </head>
 <body>
-data-current-user-name = {{Auth::user()->getAttribute('name')}};
-data-last-thread-id = {{Auth::user()->last_thread_id}};
+
 <!-- header -->
 <topmenu>
     <nav class="navigation">

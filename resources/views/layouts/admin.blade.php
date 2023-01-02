@@ -10,6 +10,7 @@
     <link href="{{ asset('/css/admin.css') }}" rel="stylesheet"/>
     <title>@yield('title', 'Admin - Online Store')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{{ asset('/css/app.css') }}" rel="stylesheet"/>
 </head>
 
 <body>
@@ -35,7 +36,7 @@
                     </a>
                 </li>
                 <li class="list-active">
-                    <a href="{{ route("user.index") }}" class="nav-link text-white">
+                    <a href="{{ route("admin.messages") }}" class="nav-link text-white">
                         <span class="icon"><ion-icon name="chatbubbles"></ion-icon></span>
                         <span class="text">&nbsp;Nachrichten</span>
                     </a>
@@ -76,6 +77,9 @@
 
             <div class="g-0 m-5 h-75">
                 @yield('content')
+                @section('create')
+                    @yield('create')
+                @endsection
             </div>
         </div>
     </div>
@@ -106,10 +110,11 @@
         item.addEventListener('mouseover', activeLink)
     );
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
-</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 
 </html>
