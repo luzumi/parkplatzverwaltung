@@ -218,6 +218,7 @@ topmenu
 }
 .tabs {
     display: flex; /* Stelle die Schaltflächen nebeneinander dar */
+    width: 30rem;
 }
 
 .tab-btn {

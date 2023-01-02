@@ -29,6 +29,7 @@ class User extends Authenticatable
         'email',
         'password',
         'deleted_at',
+        'last_thread_id'
     ];
 
     /**
