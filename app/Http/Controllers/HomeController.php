@@ -3,15 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PasswordRequest;
-use App\Models\Address;
 use App\Models\LogMessage;
-use App\Models\Message;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
-use Symfony\Component\Mime\Exception\AddressEncoderException;
 
 class HomeController extends Controller
 {
@@ -21,8 +16,8 @@ class HomeController extends Controller
         $viewData["title"] = "Home Page - Parkplatzverwaltung";
         $viewData['image'] = Auth::user()->image ?? '/storage/media/unregistered_user.png';
         $viewData['messages'] = LogMessage::with('parkingSpot', 'car', 'user')
-            ->where('receiver_user_id','=', Auth::id())
-            ->where('status', '=','pending')
+            ->where('receiver_user_id', '=', Auth::id())
+            ->where('status', '=', 'pending')
             ->get();
 
         return view('home.index')->with("viewData", $viewData);
@@ -33,14 +28,14 @@ class HomeController extends Controller
         $viewData = [];
         $viewData['title'] = "About us - Parkplatzverwaltung";
         $viewData['subtitle'] = "About us";
-        $viewData['description'] = "This is an about page ...";
+        $viewData['description'] = "";
         $viewData['author'] = "Developed by: luzumi";
         return view('home.about')->with("viewData", $viewData);
     }
 
     public function updatePassword(PasswordRequest $request)
     {
-        if(!Hash::check($request->old_password, auth()->user()->password)){
+        if (!Hash::check($request->old_password, auth()->user()->password)) {
             return back()->with("error", "Old Password Doesn't match!");
         }
 

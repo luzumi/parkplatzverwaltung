@@ -97,6 +97,7 @@
 @stop
 
 
+
 <script>
     function showThread(threadId) {
         $('#subject').css('display', 'flex');
