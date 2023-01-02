@@ -118,7 +118,7 @@ class AdminMessagesController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
-
+//        dd($request);
         foreach ($input['recipients'] as $recipient) {
             $recipients = json_decode($recipient, true);
             $id = $recipients;

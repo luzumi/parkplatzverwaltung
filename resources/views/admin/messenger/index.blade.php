@@ -5,11 +5,13 @@
     <div class="container mt-3 h-75">
         <div class="tabs">
             <button id="adminTabChatBtn" class="tab-btn active" data-tab="#chat" onclick="showTab()">Chat</button>
-            <button id="adminTabNewMessageBtn" class="tab-btn" data-tab="#new-message" onclick="showTab()">Neue Nachricht</button>
+            <button id="adminTabNewMessageBtn" class="tab-btn" data-tab="#new-message" onclick="showTab()">Neue
+                Nachricht
+            </button>
         </div>
 
 
-        <div id="admin-chat" >
+        <div id="admin-chat">
             <!-- chat area goes here -->
 
             <div class="row">
@@ -19,7 +21,6 @@
                         <ul class="list-group list-group-flush">
                             @if (count($threads) > 0)
                                 @foreach($threads as $thread)
-    {{--    {{dd($thread)}}--}}
                                     <li class="list-group-item m-0">
                                         <a href="#" onclick="showThread({{ $thread->id }})">
                                             <div class="row">
@@ -31,8 +32,9 @@
                                                 </div>
                                                 <div class="col">
                                                     <h5><span
-                                                            class="mb-1">{{$thread->users[1]->getAttribute('name')}}</span>
-                                                        <span class="mb-3 text-sm-end">{{substr($thread->subject, 0, 16) . '...'}}</span>
+                                                            class="mb-1">{{ $thread->users[1]->getAttribute('name')}}</span>
+                                                        <span
+                                                            class="mb-3 text-sm-end">{{substr($thread->subject, 0, 16) . '...'}}</span>
                                                     </h5>
                                                     <small
                                                         class="mb-4 text-xs">{{ substr($thread->latestMessage->body, 0, 20) . '...' }}</small>
@@ -62,28 +64,27 @@
                         </div>
                     </div>
                     <div id="admin-form">
-                        @if (count($threads) > 0)
-                        <form action="{{ route('admin.messages.update', $thread->id) }}" method="post">
+                        <form action="{{ route('admin.messages.update', ':threadId') }}" method="post">
                             {{ method_field('put') }}
                             {{ csrf_field() }}
+                            <input type="hidden" name="thread_id" value="{{ $thread->id }}">
 
-                            <!-- Message Form Input -->
-                            <div class="form-group w-100">
-                                <label>
-                                    <textarea name="message" class="form-control" placeholder="Antwort:"></textarea>
-                                </label>
+                            <!-- Subject Form Input -->
+                            <div class="form-group">
+                                <label for="subject">Betreff: {{$thread->subject}}</label>
                             </div>
 
-                            <label title="{{ $thread->users[1]->getAttribute('name') }}">
-                                <input type="hidden" name="recipients[]" value="{{$thread->id}}" checked>
-                            </label>
+                            <!-- Message Form Input -->
+                            <div class="form-group">
+                                <label for="message">Nachricht:</label>
+                                <textarea name="message" class="form-control" id="message" placeholder="Nachricht..."></textarea>
+                            </div>
 
                             <!-- Submit Form Input -->
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary form-control">Submit</button>
+                                <button type="submit" class="btn btn-primary form-control">Senden</button>
                             </div>
                         </form>
-                            @endif
                     </div>
                 </div>
             </div>
@@ -91,23 +92,34 @@
         <div id="admin-new-message" class="tab-content" style="display:none">
             <!-- new message form goes here -->
 
-                @include('admin.messenger.create')
+            @include('admin.messenger.create')
 
         </div>
     </div>
 @stop
 
 
-
 <script>
+    let currentThreadId;
+
+    function getId(threadID){
+        currentThreadId = threadID;
+        return currentThreadId;
+    }
+
     function showThread(threadId) {
         $('#admin-subject').css('display', 'flex');
         $('#admin-messages').empty();
         $('#admin-form').css('display', 'block');
+        currentThreadId = threadId;
 
         // Abrufen aller Nachrichten des Threads mithilfe von AJAX
         $.ajax({
             url: '/admin/messages/' + threadId,
+            data: {
+                _token: '{{ csrf_token() }}',
+                id: currentThreadId
+            },
             success: function (data) {
                 $('#admin-thread-subject').text(data.subject);
 
@@ -131,10 +143,43 @@
                 scrollToBottom();
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                console.log(jqXHR.status + ': ' + errorThrown );
+                console.log(jqXHR.status + ': ' + errorThrown);
             }
         });
     }
+
+    {{--function sendMessage(threadId) {--}}
+    {{--    // Get message from form--}}
+    {{--    const message = $('#admin-form-message').val();--}}
+
+    {{--    // Send message to server using AJAX--}}
+    {{--    $.ajax({--}}
+    {{--        url: '/admin/messages/' + threadId,--}}
+    {{--        method: 'POST',--}}
+    {{--        data: {--}}
+    {{--            _token: '{{ csrf_token() }}',--}}
+    {{--            message: message--}}
+    {{--        },--}}
+    {{--        success: function (data) {--}}
+    {{--            // Append message to chat window--}}
+    {{--            const messageHTML = `--}}
+    {{--      <div class="message from-current-user">--}}
+    {{--        ${message}--}}
+    {{--        <hr>--}}
+    {{--      </div>`;--}}
+    {{--            $('#admin-messages').append(messageHTML);--}}
+
+    {{--            // Clear message form--}}
+    {{--            $('#admin-form-message').val('');--}}
+
+    {{--            // Scroll chat window to bottom--}}
+    {{--            scrollToBottom();--}}
+    {{--        },--}}
+    {{--        error: function (jqXHR, textStatus, errorThrown) {--}}
+    {{--            console.log(jqXHR.status + ': ' + errorThrown);--}}
+    {{--        }--}}
+    {{--    });--}}
+    {{--}--}}
 
     function scrollToBottom() {
         const chatMessages = document.getElementById('admin-messages');
@@ -166,14 +211,14 @@
         }
     }
 
-    tabButtons.forEach(function(btn) {
-        btn.addEventListener('click', function(event) {
+    tabButtons.forEach(function (btn) {
+        btn.addEventListener('click', function (event) {
             showTab(event.target.dataset.tab);
         });
     });
 
 
-    window.onload = function() {
+    window.onload = function () {
         // show default tab
         showTab('#admin-chat');
         // Wandle last_thread_id in eine JavaScript-Variable um
@@ -182,10 +227,4 @@
 
 
 </script>
-
-
-
-
-
-
 

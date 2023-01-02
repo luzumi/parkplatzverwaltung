@@ -5,11 +5,12 @@
     <div class="container mt-3 h-75">
         <div class="tabs">
             <button id="tabChatBtn" class="tab-btn active" data-tab="#chat" onclick="showTab()">Chat</button>
-            <button id="tabNewMessageBtn" class="tab-btn" data-tab="#new-message" onclick="showTab()">Neue Nachricht</button>
+            <button id="tabNewMessageBtn" class="tab-btn" data-tab="#new-message" onclick="showTab()">Neue Nachricht
+            </button>
         </div>
 
 
-        <div id="chat" >
+        <div id="chat">
             <!-- chat area goes here -->
 
             <div class="row">
@@ -18,30 +19,31 @@
                         <div class="card-header font-weight-bold">Chats</div>
                         <ul class="list-group list-group-flush">
                             @if (count($threads) > 0)
-                            @foreach($threads as $thread)
-{{--    {{dd($thread)}}--}}
-                                <li class="list-group-item m-0">
-                                    <a href="#" onclick="showThread({{ $thread->id }})">
-                                        <div class="row">
-                                            <div class="col-2">
-                                                <img
-                                                    src="{{ asset('storage/media/' . $thread->users[0]->image) }}"
-                                                    class="col-12 rounded-circle align-self-center mr-2"
-                                                    alt="User image">
+                                @foreach($threads as $thread)
+                                    {{--    {{dd($thread)}}--}}
+                                    <li class="list-group-item m-0">
+                                        <a href="#" onclick="showThread({{ $thread->id }})">
+                                            <div class="row">
+                                                <div class="col-2">
+                                                    <img
+                                                        src="{{ asset('storage/media/' . $thread->users[0]->image) }}"
+                                                        class="col-12 rounded-circle align-self-center mr-2"
+                                                        alt="User image">
+                                                </div>
+                                                <div class="col">
+                                                    <h5><span
+                                                            class="mb-1">{{$thread->users[0]->getAttribute('name')}}</span>
+                                                        <span
+                                                            class="mb-3 text-sm-end">{{substr($thread->subject, 0, 16) . '...'}}</span>
+                                                    </h5>
+                                                    <small
+                                                        class="mb-4 text-xs">{{ substr($thread->latestMessage->body, 0, 20) . '...' }}</small>
+                                                </div>
                                             </div>
-                                            <div class="col">
-                                                <h5><span
-                                                        class="mb-1">{{$thread->users[0]->getAttribute('name')}}</span>
-                                                    <span class="mb-3 text-sm-end">{{substr($thread->subject, 0, 16) . '...'}}</span>
-                                                </h5>
-                                                <small
-                                                    class="mb-4 text-xs">{{ substr($thread->latestMessage->body, 0, 20) . '...' }}</small>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                            @endforeach
-                                @endif
+                                        </a>
+                                    </li>
+                                @endforeach
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -62,28 +64,28 @@
                         </div>
                     </div>
                     <div id="form">
-                        @if (count($threads) > 0)
                         <form action="{{ route('messages.update', $thread->id) }}" method="post">
                             {{ method_field('put') }}
                             {{ csrf_field() }}
+                            <input type="hidden" name="thread_id" value="{{ $thread->id }}">
 
-                            <!-- Message Form Input -->
-                            <div class="form-group w-100">
-                                <label>
-                                    <textarea name="message" class="form-control" placeholder="Antwort:"></textarea>
-                                </label>
+                            <!-- Subject Form Input -->
+                            <div class="form-group">
+                                <label for="subject">Betreff: {{$thread->subject}}</label>
                             </div>
 
-                            <label title="{{ $thread->users[1]->getAttribute('name') }}">
-                                <input type="checkbox" name="recipients[]" value="{{$thread->id}}" checked>
-                            </label>
+                            <!-- Message Form Input -->
+                            <div class="form-group">
+                                <label for="message">Nachricht:</label>
+                                <textarea name="message" class="form-control" id="message"
+                                          placeholder="Nachricht..."></textarea>
+                            </div>
 
                             <!-- Submit Form Input -->
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary form-control">Submit</button>
+                                <button type="submit" class="btn btn-primary form-control">Senden</button>
                             </div>
                         </form>
-                            @endif
                     </div>
                 </div>
             </div>
@@ -93,20 +95,26 @@
             @include('messenger.create')
         </div>
     </div>
-{{ $lastThreadId =  Auth::user()->last_thread_id }}
 @stop
 
 
 
 <script>
+    let currentThreadId = null;
+
     function showThread(threadId) {
         $('#subject').css('display', 'flex');
         $('#messages').empty();
         $('#form').css('display', 'block');
+        currentThreadId = threadId;
 
         // Abrufen aller Nachrichten des Threads mithilfe von AJAX
         $.ajax({
-            url: '/messages/' + threadId,
+            url: '/admin/messages/' + threadId,
+            data: {
+                _token: '{{ csrf_token() }}',
+                id: threadId
+            },
             success: function (data) {
                 $('#thread-subject').text(data.subject);
 
@@ -123,14 +131,14 @@
                             ${isCurrentUser ? message.body + ' ' + sender : sender + ' ' + message.body}
                         <hr>
                         </div>`;
-                    $('#messages').append(messageHTML).append({{$thread->id}});
+                    $('#messages').append(messageHTML);
 
                 });
                 // Chatverlauf nach unten scrollen, nachdem die Nachricht angezeigt wurde
                 scrollToBottom();
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                console.log(jqXHR.status + ': ' + errorThrown );
+                console.log(jqXHR.status + ': ' + errorThrown);
             }
         });
     }
@@ -165,14 +173,14 @@
         }
     }
 
-    tabButtons.forEach(function(btn) {
-        btn.addEventListener('click', function(event) {
+    tabButtons.forEach(function (btn) {
+        btn.addEventListener('click', function (event) {
             showTab(event.target.dataset.tab);
         });
     });
 
 
-    window.onload = function() {
+    window.onload = function () {
         // show default tab
         showTab('#chat');
         // Wandle last_thread_id in eine JavaScript-Variable um
