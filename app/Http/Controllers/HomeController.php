@@ -20,7 +20,7 @@ class HomeController extends Controller
             ->where('status', '=', 'pending')
             ->get();
 
-        return view('home.index')->with("viewData", $viewData);
+        return view('home.index', compact("viewData"));
     }
 
     public function about()
@@ -30,7 +30,7 @@ class HomeController extends Controller
         $viewData['subtitle'] = "About us";
         $viewData['description'] = "";
         $viewData['author'] = "Developed by: luzumi";
-        return view('home.about')->with("viewData", $viewData);
+        return view('home.about',compact("viewData"));
     }
 
     public function updatePassword(PasswordRequest $request)

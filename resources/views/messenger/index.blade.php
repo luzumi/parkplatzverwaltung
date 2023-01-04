@@ -64,28 +64,30 @@
                         </div>
                     </div>
                     <div id="form">
-                        <form action="{{ route('messages.update', $thread->id) }}" method="post">
-                            {{ method_field('put') }}
-                            {{ csrf_field() }}
-                            <input type="hidden" name="thread_id" value="{{ $thread->id }}">
+                        @if(isset($thread->id))
+                            <form action="{{ route('messages.update', $thread->id) }}" method="post">
+                                {{ method_field('put') }}
+                                {{ csrf_field() }}
+                                <input type="hidden" name="thread_id" value="{{ $thread->id }}">
 
-                            <!-- Subject Form Input -->
-                            <div class="form-group">
-                                <label for="subject">Betreff: {{$thread->subject}}</label>
-                            </div>
+                                <!-- Subject Form Input -->
+                                <div class="form-group">
+                                    <label for="subject">Betreff: {{$thread->subject}}</label>
+                                </div>
 
-                            <!-- Message Form Input -->
-                            <div class="form-group">
-                                <label for="message">Nachricht:</label>
-                                <textarea name="message" class="form-control" id="message"
-                                          placeholder="Nachricht..."></textarea>
-                            </div>
+                                <!-- Message Form Input -->
+                                <div class="form-group">
+                                    <label for="message">Nachricht:</label>
+                                    <textarea name="message" class="form-control" id="message"
+                                              placeholder="Nachricht..."></textarea>
+                                </div>
 
-                            <!-- Submit Form Input -->
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary form-control">Senden</button>
-                            </div>
-                        </form>
+                                <!-- Submit Form Input -->
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary form-control">Senden</button>
+                                </div>
+                            </form>
+                        @endif
                     </div>
                 </div>
             </div>

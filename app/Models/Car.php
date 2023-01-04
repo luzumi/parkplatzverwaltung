@@ -10,7 +10,15 @@ class Car extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'sign', 'manufacturer', 'model', 'color', 'image', 'status'];
+    protected $fillable = [
+        'user_id',
+        'sign',
+        'manufacturer',
+        'model',
+        'color',
+        'image',
+        'status',
+        'deleted_at'];
 
     /**
      * @return HasOne

@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use LaravelIdea\Helper\App\Models\_IH_ParkingSpot_C;
+
 
 class ParkingSpot extends Model
 {
@@ -20,18 +19,7 @@ class ParkingSpot extends Model
     public static function getAllParkingSpotsWithCars()
     {
         return ParkingSpot::with('car')->get();
-//        return ParkingSpot::select(
-//            'parking_spots.id',
-//            'parking_spots.user_id',
-//            'parking_spots.user_id',
-//            'parking_spots.number',
-//            'parking_spots.row',
-//            'parking_spots.status',
-//            'cars.sign',
-//            'cars.image'
-//        )
-//            ->join('cars', 'parking_spots.car_id', '=', 'cars.id', 'left outer')
-//            ->get();
+
     }
 
 

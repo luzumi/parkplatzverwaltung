@@ -7,11 +7,11 @@ use App\Actions\SetImageName;
 use App\Enums\MessageType;
 use App\Http\Requests\UserPictureRequest;
 use App\Http\Requests\UserRequest;
-use App\Models\Address;
 use App\Models\Car;
 use App\Models\ParkingSpot;
 use App\Models\User;
-use DateTimeZone;
+use Carbon\Carbon;
+use http\Exception\InvalidArgumentException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
@@ -31,7 +31,8 @@ class UserService
         SetImageName       $setImageName,
         int                $user_id,
         CreateMessage      $createMessage
-    ): RedirectResponse {
+    ): RedirectResponse
+    {
         $user = User::findOrFail($user_id);
         $user->update([
             'image' => $setImageName->handle($request, $user),
@@ -70,18 +71,23 @@ class UserService
      */
     public function delete(CreateMessage $createMessage): Redirector|Application|RedirectResponse
     {
+        if (Auth::id() === null) {
+            throw new InvalidArgumentException('User ID must not be null');
+        }
         $id = Auth::id();
         $user = User::where('id', $id)->first();
-        $count = User::where('deleted_at')->count();
+        $count = User::where('deleted_at', '!=', null)->count();
 
         $user->update([
-                'email' => 'deleted_'. $count . '_' . $user->email,
-                'deleted_at' => now(),
-            ]);
+            'email' => 'deleted_' . $count . '_' . $user->email,
+            'deleted_at' =>  Carbon::now()->toString(),
+        ]);
+
         Car::where('user_id', $id)
             ->update([
-                'deleted_at' => now()
+                'deleted_at' =>  Carbon::now()->toString()
             ]);
+
         ParkingSpot::where('user_id', $id)
             ->update([
                 'user_id' => '1',

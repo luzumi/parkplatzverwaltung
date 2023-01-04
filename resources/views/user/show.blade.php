@@ -6,22 +6,23 @@
     <div class="card mb-3">
         <div class="row g-0">
             <div class="col-md-4">
-                    <img src="{{ asset('/storage/media/'. $viewData['user']->image) }}"
-                         class="img-card rounded-start"
-                         alt="">
+                <img src="{{ asset('/storage/media/'. $viewData['user']->image) }}"
+                     class="img-card rounded-start"
+                     alt="">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
                     <h5 class="card-title">
                         Name: {{ $viewData["user"]->name }} <br>
                         eMail: {{ $viewData["user"]->email }} <br>
-                        Telefon: {{ $viewData["user"]->telefon }} <br>
-
-                        Land: {{ $viewData["address"]->Land }} <br>
-                        PLZ: {{ $viewData["address"]->PLZ }} <br>
-                        Stadt: {{ $viewData["address"]->Stadt }} <br>
-                        Straße: {{ $viewData["address"]->Strasse . " "
-                        . $viewData["address"]->Nummer }} <br>
+                        Telefon: {{ $viewData["user"]->telefon??'' }} <br>
+                        @if( isset($viewData["address"]))
+                            Land: {{ $viewData["address"]->Land??'' }} <br>
+                            PLZ: {{ $viewData["address"]->PLZ??'' }} <br>
+                            Stadt: {{ $viewData["address"]->Stadt??'' }} <br>
+                            Straße: {{ $viewData["address"]->Strasse??'' . " "
+                                        . $viewData["address"]->Nummer??'' }} <br>
+                        @endif
                         <br>
                         <p class="mb-sm-auto">Letzter Login: {{ $viewData["user"]->updatedAt }}</p>
 
@@ -48,10 +49,10 @@
                             <object{{ $i = 0 }}>
                                 @foreach($viewData['cars'] as $car)
                                     <tr class="table-active">
-                                        <td>{{ $car->sign }}</td>
-                                        <td>{{ $car->manufacturer }}</td>
-                                        <td>{{ $car->model }}</td>
-                                        <td>{{ $car->color }}</td>
+                                        <td>{{ $car->sign??'' }}</td>
+                                        <td>{{ $car->manufacturer??'' }}</td>
+                                        <td>{{ $car->model??'' }}</td>
+                                        <td>{{ $car->color??'' }}</td>
                                         <td>
                                             {{-- Fahrzeugbild bekommt einen Link, wenn es noch keinem Parkplatz zugeordnet ist--}}
                                             @if(!isset($viewData['cars'][$i++]->parkingSpot->number))

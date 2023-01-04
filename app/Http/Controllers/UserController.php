@@ -21,7 +21,7 @@ class UserController extends Controller
         $viewData["subtitle"] = "User-Übersicht";
         $viewData["users"] = User::all()->where('deleted_at', null);
 
-        return view('user.index')->with("viewData", $viewData);
+        return view('user.index', compact("viewData"));
     }
 
     /**
@@ -31,7 +31,6 @@ class UserController extends Controller
     public function show($user_id): Factory|View|Application
     {
         $user = User::findOrFail($user_id);
-
         $viewData = [];
         $viewData['user'] = $user;
         $viewData['cars'] = Car::with('parkingSpot')->where('cars.user_id', $user_id)->get();
@@ -39,7 +38,7 @@ class UserController extends Controller
         $viewData['title'] = $user['name'] . " - Parkplatzverwaltung";
         $viewData['subtitle'] = $user['name'] . " - User information";
 
-        return view('user.show', [$user_id])->with("viewData", $viewData);
+        return view('user.show', [$user_id], compact("viewData"));
     }
 
     /**
@@ -56,7 +55,7 @@ class UserController extends Controller
         $viewData["user"] = $user;
         $viewData["title"] = $user["name"] . "Benutzerdaten editieren - Parkplatzverwaltung";
 
-        return view('user.editor-id', [$user_id])->with("viewData", $viewData);
+        return view('user.editor-id', [$user_id], compact("viewData"));
 
     }
 }
