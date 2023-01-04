@@ -4,7 +4,6 @@ namespace Tests\Unit;
 
 use App\Actions\CreateMessage;
 use App\Actions\SetImageName;
-use App\Enums\MessageType;
 use App\Http\Requests\UserPictureRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\Car;
@@ -12,7 +11,6 @@ use App\Models\LogMessage;
 use App\Models\ParkingSpot;
 use App\Models\User;
 use App\Services\UserService;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -29,61 +27,6 @@ class UserServiceTest extends TestCase
     private $userService;
     private $imageName;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->admin = User::create([
-            'role' => 'admin',
-            'name' => 'admin',
-            'email' => 'admin@admin.admin',
-            'password' => 'admin'
-        ]);
-
-        $this->user = User::create([
-            'name' => 'testName',
-            'email' => 'test@test.test',
-            'password' => 'test',
-            'deleted_at' => null
-        ]);
-
-        $this->car = Car::create([
-            'user_id' => $this->user->id,
-            'sign' => 'TE ST 1234',
-            'manufacturer' => 'Tester',
-            'model' => 'TRY',
-            'color' => 'White',
-            'image' => 'testCar.jpg',
-            'status' => 1,
-            'deleted_at' => null
-        ]);
-
-        $this->parking_spot = ParkingSpot::create([
-            'user_id' => $this->user->id,
-            'car_id' => $this->car->id,
-            'number' => 1,
-            'row' => 1,
-            'image' => 'besetzt',
-            'status' => 'besetzt',
-            'deleted_at' => null
-        ]);
-
-        $this->request = new UserRequest([
-            'name' => 'New Name',
-            'email' => 'new@email.com',
-            'telefon' => '123456',
-        ]);
-
-        $this->pictureRequest = new UserPictureRequest([
-            'image' => 'NewImage.jpg',
-        ]);
-
-        $this->userService = new UserService();
-        $this->imagename = new SetImageName();
-        $this->imagename->handle($this->pictureRequest, $this->user);
-    }
-
-//User deleting
     public function testUserServiceDeleteSuccessful()
     {
         // Zähle die Anzahl der Benutzer in der Datenbank vor dem Löschen
@@ -98,6 +41,8 @@ class UserServiceTest extends TestCase
         $afterCount = User::where('deleted_at', null)->count();
         $this->assertEquals($beforeCount - 1, $afterCount);
     }
+
+//User deleting
 
     public function testUserServiceCarIsDeletedAfterDeletingSuccessful()
     {
@@ -150,8 +95,6 @@ class UserServiceTest extends TestCase
         $this->assertGuest();
     }
 
-
-    //User updating
     public function testUserCanUpdateTheirDataSuccessful()
     {
         // Rufe die update-Methode auf
@@ -165,6 +108,9 @@ class UserServiceTest extends TestCase
         $this->assertEquals('new@email.com', $updatedUser->email);
         $this->assertEquals('123456', $updatedUser->telefon);
     }
+
+
+    //User updating
 
     public function testUserUpdateCreateAMessageSuccessful()
     {
@@ -223,5 +169,59 @@ class UserServiceTest extends TestCase
         );
         $this->assertTrue($response->isRedirection());
         $this->assertEquals('http://localhost/user/' . $this->user->id, $response->getTargetUrl());
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->admin = User::create([
+            'role' => 'admin',
+            'name' => 'admin',
+            'email' => 'admin@admin.admin',
+            'password' => 'admin'
+        ]);
+
+        $this->user = User::create([
+            'name' => 'testName',
+            'email' => 'test@test.test',
+            'password' => 'test',
+            'deleted_at' => null
+        ]);
+
+        $this->car = Car::create([
+            'user_id' => $this->user->id,
+            'sign' => 'TE ST 1234',
+            'manufacturer' => 'Tester',
+            'model' => 'TRY',
+            'color' => 'White',
+            'image' => 'testCar.jpg',
+            'status' => 1,
+            'deleted_at' => null
+        ]);
+
+        $this->parking_spot = ParkingSpot::create([
+            'user_id' => $this->user->id,
+            'car_id' => $this->car->id,
+            'number' => 1,
+            'row' => 1,
+            'image' => 'besetzt',
+            'status' => 'besetzt',
+            'deleted_at' => null
+        ]);
+
+        $this->request = new UserRequest([
+            'name' => 'New Name',
+            'email' => 'new@email.com',
+            'telefon' => '123456',
+        ]);
+
+        $this->pictureRequest = new UserPictureRequest([
+            'image' => 'NewImage.jpg',
+        ]);
+
+        $this->userService = new UserService();
+        $this->imagename = new SetImageName();
+        $this->imagename->handle($this->pictureRequest, $this->user);
     }
 }
