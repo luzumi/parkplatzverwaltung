@@ -32,7 +32,6 @@ class AddressTest extends TestCase
             'Strasse' => $this->faker->streetName,
             'Nummer' => $this->faker->numerify(),
         ]);
-
     }
 
     public function test_user_can_be_added_to_address(): void

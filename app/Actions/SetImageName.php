@@ -40,8 +40,8 @@ class SetImageName
     {
         if ($request->hasFile('image')) {
             $storageLinker = new StorageLinker([
-                $model->name,
-                $request->file('image')->extension()]);
+                'original' => $model->name,
+                'extension' => $request->file('image')->extension()]);
 
             $imageName = $storageLinker['hash'];
 
@@ -55,8 +55,8 @@ class SetImageName
     {
         if ($request->hasFile('image')) {
             $storageLinker = new StorageLinker([
-                $model->sign,
-                $request->file('image')->extension()]);
+                'original' => $model->sign,
+                'extension' => $request->file('image')->extension()]);
 
             $imageName = $storageLinker['hash'];
 
@@ -71,8 +71,8 @@ class SetImageName
         $name = $model->status;
         $imageName = $name . '.jpg';
         $storageLinker = new StorageLinker([
-            $imageName,
-            $imageName,
+            'original' => $imageName,
+            'extension' => $imageName,
         ]);
 
 

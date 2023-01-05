@@ -2,27 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class StorageLinker extends Model
 {
-    /**
-     * @param array $attributes [0]=name, [1]=extension
-     */
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $input = $attributes[0];
-        $extension = $attributes[1];
+    protected $original;
+    protected $hash;
 
-        $this->attributes['original'] = $input . "." . $extension;
-        $hash = Hash::make($input);
-        $this->attributes['hash'] = $hash . "." . $extension;
-        $this->save();
-    }
+    protected $table = 'storage_linkers';
 
     /**
      * The attributes that are mass assignable.
@@ -33,6 +22,22 @@ class StorageLinker extends Model
         'original',
         'hash',
     ];
+
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $input = $attributes['filename'];
+        $extension = $attributes['extension'];
+        $hash = Hash::make($input);
+
+        $this->create([
+            'original' => $input . "." . $extension,
+            'hash' => $hash . "." . $extension,
+        ]);
+//        $this->save();
+    }
+
 
     /**
      * @param Request $request
@@ -46,9 +51,9 @@ class StorageLinker extends Model
         ]);
     }
 
-//    public function getHash()
-//    {
-//        return $this->attributes['hash'];
-//    }
+    public function getHash()
+    {
+        return $this->attributes['hash'];
+    }
 
 }
