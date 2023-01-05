@@ -17,7 +17,7 @@ class UsersTest extends TestCase
 
     private User $user;
     private Car $car;
-    private Faker $faker;
+    private \Faker\Generator $faker;
 
     protected function setUp(): void
     {
