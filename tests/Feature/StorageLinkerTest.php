@@ -25,16 +25,20 @@ class StorageLinkerTest extends TestCase
             'extension' => 'jpg'
         ];
 
-        $this->storageLinker = new StorageLinker($attributes);
+        $storageLinker = new StorageLinker();
+        $this->storageLinker = $storageLinker->createStorageLink($attributes);
+
     }
 
 
-    public function testValidate()
+    public function test_request_is_validated_successful()
     {
         $this->assertIsObject($this->storageLinker);
         $this->assertObjectHasAttribute('original', $this->storageLinker);
-        $this->assertObjectHasAttribute('hash', $this->storageLinker);
+        $this->assertNotNull($this->storageLinker->original);
+        $this->assertNotNull($this->storageLinker->hash);
     }
+
 
     public function testGetHash()
     {

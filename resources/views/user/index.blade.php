@@ -3,6 +3,7 @@
 @section('title', $viewData["title"])
 @section('subtitle', $viewData["subtitle"])
 @section('content')
+
     <div class="row">
         @foreach ($viewData["users"] as $user)
             <div class="col-md-4 col-lg-3 mb-2">

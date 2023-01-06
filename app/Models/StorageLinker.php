@@ -8,9 +8,7 @@ use Illuminate\Support\Facades\Hash;
 
 class StorageLinker extends Model
 {
-    protected $original;
-    protected $hash;
-
+    public StorageLinker $storageLinker;
     protected $table = 'storage_linkers';
 
     /**
@@ -24,19 +22,19 @@ class StorageLinker extends Model
     ];
 
 
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $input = $attributes['filename'];
-        $extension = $attributes['extension'];
-        $hash = Hash::make($input);
-
-        $this->create([
-            'original' => $input . "." . $extension,
-            'hash' => $hash . "." . $extension,
-        ]);
-//        $this->save();
-    }
+//    public function __construct(array $attributes = [])
+//    {
+//        parent::__construct($attributes);
+//        $input = $attributes['filename'];
+//        $extension = $attributes['extension'];
+//        $hash = Hash::make($input);
+//
+//        $this->create([
+//            'original' => $input . "." . $extension,
+//            'hash' => $hash . "." . $extension,
+//        ]);
+////        $this->save();
+//    }
 
 
     /**
@@ -56,4 +54,15 @@ class StorageLinker extends Model
         return $this->attributes['hash'];
     }
 
+    public function createStorageLink(array $attributes = [])
+    {
+        $input = $attributes['filename'];
+        $extension = $attributes['extension'];
+        $hash = Hash::make($input);
+
+        return StorageLinker::create([
+            'original' => $input . "." . $extension,
+            'hash' => $hash . "." . $extension,
+        ]);
+    }
 }
