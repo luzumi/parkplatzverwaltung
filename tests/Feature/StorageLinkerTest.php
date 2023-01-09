@@ -25,9 +25,7 @@ class StorageLinkerTest extends TestCase
             'extension' => 'jpg'
         ];
 
-        $storageLinker = new StorageLinker();
-        $this->storageLinker = $storageLinker->createStorageLink($attributes);
-
+        $this->storageLinker = new StorageLinker($attributes);
     }
 
 

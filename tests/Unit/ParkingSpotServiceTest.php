@@ -61,23 +61,19 @@ class ParkingSpotServiceTest extends TestCase
         ]);
 
         $this->parking_spot_service = new ParkingSpotService();
-        $this->request = new ParkingSpotRequest([ 'status'=>'1']);
+        $this->request = new ParkingSpotRequest([ 'status'=> true]);
         $this->actingAs($this->user)->get('/parking_spot/'.$this->parking_spot->id.'/');
         $this->session = app(Session::class);
         $this->request->setSession($this->session);
-        $this->request->server->set('HTTP_REFERER', '/1');
+        $this->request->server->set('HTTP_REFERER', '//'.$this->parking_spot->id);
     }
 
     public function testParkingSpotCanUpdateDataSuccessful()
     {
-
-        // Rufe die update-Methode auf
         $this->parking_spot_service->update($this->request, new CreateMessage());
 
-        // Hole den Parkplatz erneut aus der Datenbank
         $updated_parking_spot = ParkingSpot::findOrFail($this->parking_spot->id);
 
-        // Vergleiche die Werte des Benutzers vor und nach der Aktualisierung
         $this->assertEquals($this->user->id, $updated_parking_spot->getAttribute('user_id'));
         $this->assertEquals($this->car->id, $updated_parking_spot->car_id);
         $this->assertEquals('reserviert', $updated_parking_spot->status);
@@ -86,29 +82,23 @@ class ParkingSpotServiceTest extends TestCase
 
     public function testParkingSpotUpdateCreateAMessageSuccessful()
     {
-        // Anzahl der Nachrichten in der Datenbank vor dem Aufruf von handle ermitteln
         $beforeCount = LogMessage::count();
 
-        // Rufe die update-Methode auf
         $this->parking_spot_service->update($this->request, new CreateMessage());
 
-        // Anzahl der Nachrichten in der Datenbank nach dem Aufruf von handle ermitteln
         $afterCount = LogMessage::count();
 
-        // Vergleichen, ob eine Nachricht hinzugefügt wurde
         $this->assertEquals($beforeCount + 1, $afterCount);
 
     }
 
     public function testresetParkingSpotSuccessful()
     {
-        // Rufe die Methode auf
         $this->actingAs($this->admin)->parking_spot_service->resetParkingSpot(
             new CreateMessage(),
             $this->parking_spot->id,
             $this->car->id);
 
-        // Überprüfe, ob der Parkplatz aktualisiert wurde
         $this->assertDatabaseHas('parking_spots', [
             'user_id' => $this->admin->id,
             'car_id' => null,
@@ -119,16 +109,12 @@ class ParkingSpotServiceTest extends TestCase
 
     public function testResetParkingSpotCreateAMessageSuccessful()
     {
-        // Anzahl der Nachrichten in der Datenbank vor dem Aufruf von handle ermitteln
         $beforeCount = LogMessage::count();
 
-        // Rufe die update-Methode auf
         $this->parking_spot_service->resetParkingSpot(new CreateMessage(), $this->parking_spot->id, $this->car->id);
 
-        // Anzahl der Nachrichten in der Datenbank nach dem Aufruf von handle ermitteln
         $afterCount = LogMessage::count();
 
-        // Vergleichen, ob eine Nachricht hinzugefügt wurde
         $this->assertEquals($beforeCount + 1, $afterCount);
 
     }

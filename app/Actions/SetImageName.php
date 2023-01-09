@@ -39,9 +39,8 @@ class SetImageName
     private function setUserImage(UserRequest|UserPictureRequest $request, User $model)
     {
         if ($request->hasFile('image')) {
-            $storageLinker = new StorageLinker();
-            $storageLinker->createStorageLink([
-                'original' => $model->name,
+            $storageLinker = new StorageLinker([
+                'filename' => $model->getAttribute('name'),
                 'extension' => $request->file('image')->extension()
             ]);
 
@@ -56,9 +55,8 @@ class SetImageName
     private function setCarImage(CarRequest $request, Car $model)
     {
         if ($request->hasFile('image')) {
-            $storageLinker = new StorageLinker();
-            $storageLinker->createStorageLink([
-                'original' => $model->sign,
+            $storageLinker = new StorageLinker([
+                'filename' => $model->sign,
                 'extension' => $request->file('image')->extension()
             ]);
 
@@ -74,9 +72,8 @@ class SetImageName
     {
         $name = $model->status;
         $imageName = $name . '.jpg';
-        $storageLinker = new StorageLinker();
-        $storageLinker->createStorageLink([
-            'original' => $imageName,
+        $storageLinker = new StorageLinker([
+            'filename' => $imageName,
             'extension' => $imageName,
         ]);
 

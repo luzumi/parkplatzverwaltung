@@ -5,14 +5,9 @@ namespace Tests\Feature;
 use App\Models\Address;
 use App\Models\Car;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\View;
-use Mockery;
-use Tests\TestCase;
 use Faker\Factory as Faker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class UserControllerTest extends TestCase
 {
@@ -63,7 +58,7 @@ class UserControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee($title);
         $response->assertSee($subtitle);
-        $response->assertSee($users->getAttribute('name'));
+        $response->assertSee($users[0]->getAttribute('name'));
     }
 
     public function test_index_should_return_view_when_called_and_User_list_is_guest(): void
@@ -115,7 +110,7 @@ class UserControllerTest extends TestCase
         $title = $this->user->getAttribute('name') . " - Parkplatzverwaltung";
         $subtitle = $this->user->getAttribute('name') . " - User information";
 
-        $response = $this->actingAs($this->user)->get('/user/'. $this->user->id);
+        $response = $this->actingAs($this->user)->get('/user/' . $this->user->id);
 
         $this->assertEquals($title, $response->original->viewData['title']);
         $this->assertEquals($subtitle, $response->original->viewData['subtitle']);
@@ -124,20 +119,20 @@ class UserControllerTest extends TestCase
 
     public function testUserDataIsPopulated()
     {
-        $user_id = 1;
+        $user_id = $this->user->id;
         $user = User::findOrFail($user_id);
 
-        $response = $this->actingAs($this->user)->get('/user/editor/'. $this->user->id);
+        $response = $this->actingAs($this->user)->get('/user/editor/' . $this->user->id);
 
         $this->assertEquals($user->id, $response->original->viewData['user']->id);
     }
 
     public function testSubtitleIsPopulated()
     {
-        $user_id = 1;
+        $user_id = $this->user->id;
         $user = User::findOrFail($user_id);
 
-        $response = $this->actingAs($this->user)->get('/user/editor/'. $this->user->id);
+        $response = $this->actingAs($this->user)->get('/user/editor/' . $this->user->id);
 
         $expectedSubtitle = $user["name"] . " - User editor";
         $this->assertEquals($expectedSubtitle, $response->original->viewData['subtitle']);
@@ -147,7 +142,7 @@ class UserControllerTest extends TestCase
     {
         $expectedAddress = Address::where('user_id', $this->user->id)->first();
 
-        $response = $this->actingAs($this->user)->get('/user/editor/'. $this->user->id);
+        $response = $this->actingAs($this->user)->get('/user/editor/' . $this->user->id);
 
         $this->assertEquals($expectedAddress, $response->original->viewData['address']);
     }

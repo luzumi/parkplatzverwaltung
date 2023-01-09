@@ -19,6 +19,7 @@ class AdminHomeController extends Controller
     {
         $viewData = [];
         $viewData['title'] = 'Adminpage - Home -Parkplatzverwaltung';
+        $viewData['subtitle'] = '';
         $viewData['messages'] = LogMessage::with('user', 'car', 'parkingSpot')->get()->sortDesc();
 
         return view('admin.home.index')->with("viewData", $viewData);

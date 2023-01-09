@@ -22,19 +22,18 @@ class StorageLinker extends Model
     ];
 
 
-//    public function __construct(array $attributes = [])
-//    {
-//        parent::__construct($attributes);
-//        $input = $attributes['filename'];
-//        $extension = $attributes['extension'];
-//        $hash = Hash::make($input);
-//
-//        $this->create([
-//            'original' => $input . "." . $extension,
-//            'hash' => $hash . "." . $extension,
-//        ]);
-////        $this->save();
-//    }
+    public function __construct(array $attributes = [])
+    {
+
+        parent::__construct($attributes);
+        $input = $attributes['filename'];
+        $extension = $attributes['extension'];
+
+        $this->attributes['original'] = $input . "." . $extension;
+        $hash = Hash::make($input);
+        $this->attributes['hash'] = $hash . "." . $extension;
+        $this->save();
+    }
 
 
     /**

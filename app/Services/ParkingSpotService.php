@@ -18,6 +18,7 @@ class ParkingSpotService
      */
     public static function update(ParkingSpotRequest $request, CreateMessage $message): void
     {
+        $user = User::where('role', '=', 'admin')->first();
         if ($request->server->has('HTTP_REFERER')) {
             $offset = strripos($request->server->get('HTTP_REFERER'), '/') + 1;
             $car_id = substr($request->server->get('HTTP_REFERER'), $offset);
@@ -29,7 +30,7 @@ class ParkingSpotService
 
         $parking_spot = ParkingSpot::findOrFail($parking_spot_id);
         $parking_spot->update([
-            'user_id' => Auth::id(),
+            'user_id' => $user->id,
             'car_id' => $car_id,
             'number' => $parking_spot->number,
             'row' => $parking_spot->row,
@@ -37,7 +38,7 @@ class ParkingSpotService
             'image' => 'reserviert.jpg',
         ]);
 
-        $message->handle(MessageType::ReserveParkingSpot, Auth::id(), $car_id, $parking_spot_id);
+        $message->handle(MessageType::ReserveParkingSpot, $user->id, $car_id, $parking_spot_id);
     }
 
     /**

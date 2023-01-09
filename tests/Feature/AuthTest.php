@@ -39,7 +39,7 @@ class AuthTest extends TestCase
 
     public function testAuthenticatedUserCanShowProfile()
     {
-        $response = $this->actingAs($this->user)->get('/user/1');
+        $response = $this->actingAs($this->user)->get('/user/' . $this->user->id);
         $this->assertAuthenticated();
         $response->assertStatus(200);
     }

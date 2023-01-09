@@ -76,7 +76,7 @@
             </nav>
 
             <div class="g-0 m-5 h-75">
-                <div><h3>{{$viewData["subtitle"]}}</h3></div>
+                <div><h3>{{$viewData["subtitle"]??''}}</h3></div>
                 @yield('content')
                 @section('create')
                     @yield('create')

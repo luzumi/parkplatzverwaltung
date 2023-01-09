@@ -14,7 +14,7 @@ class CreateMessage
      * @param $parking_spot_id
      * @return LogMessage
      */
-    public function handle(MessageType $message, $user_id, $car_id, $parking_spot_id): LogMessage
+    public function handle(MessageType $message, int|null $user_id, int|null $car_id, int|null $parking_spot_id): LogMessage
     {
         switch ($message) {
             case MessageType::AddParkingSpot;

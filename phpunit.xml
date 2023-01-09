@@ -24,8 +24,8 @@
         <env name="DB_CONNECTION" value="mysql"/>
 <!--        <server name="DB_HOST" value="localhost"/>-->
 <!--        <server name="DB_DATABASE" value="testppv"/>-->
-<!--        <server name="DB_USERNAME" value="root"/>-->
-<!--        <server name="DB_PASSWORD" value=""/>-->
+<!--        <server name="DB_USERNAME" value="admin"/>-->
+<!--        <server name="DB_PASSWORD" value="admin"/>-->
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
