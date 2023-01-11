@@ -2,6 +2,7 @@
 
 @section('content')
     @include('messenger.partials.flash')
+
     <div class="container mt-3 h-75">
         <div class="tabs">
             <button id="tabChatBtn" class="tab-btn active" data-tab="#chat" onclick="showTab()">Chat</button>
@@ -20,9 +21,9 @@
                         <ul class="list-group list-group-flush">
                             @if (count($threads) > 0)
                                 @foreach($threads as $thread)
-                                    {{--    {{dd($thread)}}--}}
+{{--                                                                            {{dd($thread)}}--}}
                                     <li class="list-group-item m-0">
-                                        <a href="#" onclick="showThread({{ $thread->id }})">
+                                        <a href="" onclick="showThread({{$thread->id}})">
                                             <div class="row">
                                                 <div class="col-2">
                                                     <img
@@ -32,7 +33,7 @@
                                                 </div>
                                                 <div class="col">
                                                     <h5><span
-                                                            class="mb-1">{{$thread->users[0]->getAttribute('name')}}</span>
+                                                            class="mb-1">{{ $thread->users[0]->getAttribute('name') }}</span>
                                                         <span
                                                             class="mb-3 text-sm-end">{{substr($thread->subject, 0, 16) . '...'}}</span>
                                                     </h5>
@@ -102,21 +103,15 @@
 
 
 <script>
-    let currentThreadId = null;
-
     function showThread(threadId) {
-        $('#subject').css('display', 'flex');
+        $('#subject').css('display', 'block');
         $('#messages').empty();
         $('#form').css('display', 'block');
-        currentThreadId = threadId;
 
         // Abrufen aller Nachrichten des Threads mithilfe von AJAX
         $.ajax({
-            url: '/admin/messages/' + threadId,
-            data: {
-                _token: '{{ csrf_token() }}',
-                id: threadId
-            },
+            url: '/messages/' + threadId,
+            data: {},
             success: function (data) {
                 $('#thread-subject').text(data.subject);
 
@@ -140,7 +135,7 @@
                 scrollToBottom();
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                console.log(jqXHR.status + ': ' + errorThrown);
+                console.log('ERROR:' + jqXHR.status + ': ' + errorThrown);
             }
         });
     }
@@ -149,8 +144,6 @@
         const chatMessages = document.getElementById('messages');
         chatMessages.scrollTo(0, chatMessages.scrollHeight);
     }
-
-    const tabButtons = document.querySelectorAll('.tab-btn');
 
     function showTab() {
         const chatElement = document.getElementById('chat');
@@ -175,20 +168,14 @@
         }
     }
 
-    tabButtons.forEach(function (btn) {
-        btn.addEventListener('click', function (event) {
-            showTab(event.target.dataset.tab);
-        });
-    });
-
 
     window.onload = function () {
         // show default tab
         showTab('#chat');
         // Wandle last_thread_id in eine JavaScript-Variable um
         showThread({{Auth::user()->last_thread_id}});
-    };
 
+    };
 
 </script>
 

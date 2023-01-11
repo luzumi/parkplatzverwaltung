@@ -5,7 +5,6 @@
         $('#form').css('display', 'block');
 
         // Abrufen aller Nachrichten des Threads mithilfe von AJAX
-        // Abrufen aller Nachrichten des Threads mithilfe von AJAX
         $.ajax({
             url: '/messages/' + threadId,
             success: function (data) {

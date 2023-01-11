@@ -42,10 +42,31 @@
             // Abrufen des Thread-Bodys mit Hilfe von AJAX
             $.ajax({
                 url: '/admin/messages/' + threadId,
-                success: function(data) {
-                    // Anzeigen des Thread-Bodys im rechten Teil der Chatansicht
+                data: {},
+                success: function (data) {
                     $('#thread-subject').text(data.subject);
-                    $('#messages').html(data.body);
+
+                    // Anzeigen aller Nachrichten im rechten Teil der Chatansicht
+                    data.messages.forEach(function (message) {
+                        // Bestimmen, ob die Nachricht von Auth::User oder von einem anderen Benutzer gesendet wurde
+                        const isCurrentUser = message.sender === '{{ Auth::user()->getAttribute('name') }}';
+                        const messageClass = isCurrentUser ? 'from-current-user' : 'from-other-user';
+                        const sender = `<strong>${message.sender}:</strong>`;
+
+                        // Anzeigen der Nachricht mit der entsprechenden Ausrichtung
+                        const messageHTML = `
+                        <div class="message ${messageClass}">
+                            ${isCurrentUser ? message.body + ' ' + sender : sender + ' ' + message.body}
+                        <hr>
+                        </div>`;
+                        $('#messages').append(messageHTML);
+
+                    });
+                    // Chatverlauf nach unten scrollen, nachdem die Nachricht angezeigt wurde
+                    scrollToBottom();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log('ERROR:' + jqXHR.status + ': ' + errorThrown);
                 }
             });
         }

@@ -11,11 +11,11 @@ use App\Models\Car;
 use App\Models\ParkingSpot;
 use App\Models\User;
 use Carbon\Carbon;
-use http\Exception\InvalidArgumentException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use InvalidArgumentException;
 
 class UserService
 {

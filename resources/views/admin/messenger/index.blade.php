@@ -64,19 +64,19 @@
                         </div>
                     </div>
                     <div id="admin-form">
-                        <form action="{{ route('admin.messages.update', ':threadId') }}" method="post">
-                            {{ method_field('put') }}
+                        <form id="updateMessageForm" method="post">
+                            {{method_field('put')}}
                             {{ csrf_field() }}
-                            <input type="hidden" name="thread_id" value="{{ $thread->id }}">
+                            <input type="hidden" name="threadId" id="threadId" value="">
 
                             <!-- Subject Form Input -->
                             <div class="form-group">
-                                <label for="subject">Betreff: {{$thread->subject}}</label>
+                                <label id="subject" for="subject"></label>
                             </div>
 
                             <!-- Message Form Input -->
                             <div class="form-group">
-                                <label for="message">Nachricht:</label>
+                                <label id="messageTo"></label>
                                 <textarea name="message" class="form-control" id="message" placeholder="Nachricht..."></textarea>
                             </div>
 
@@ -102,16 +102,28 @@
 <script>
     let currentThreadId;
 
-    function getId(threadID){
-        currentThreadId = threadID;
-        return currentThreadId;
-    }
-
     function showThread(threadId) {
         $('#admin-subject').css('display', 'flex');
         $('#admin-messages').empty();
         $('#admin-form').css('display', 'block');
-        currentThreadId = threadId;
+        const id = document.getElementById('threadId');
+        const subject = document.getElementById('subject');
+        const messageTo = document.getElementById('messageTo');
+
+        const form = document.getElementById('updateMessageForm');
+        id.value = threadId;
+        form.setAttribute('action', '/admin/messages/update/' + id.value);
+
+        const messageField = document.getElementById('message');
+
+        messageField.addEventListener('keypress', function (event){
+            console.log(event)
+            if (event.code === "Enter" && !event.shiftKey) {
+                form.submit();
+            }else if(event.code === "Enter" && event.shiftKey){
+                form.setAttribute('message', form.getAttribute('message') + "<br>");
+            }
+        })
 
         // Abrufen aller Nachrichten des Threads mithilfe von AJAX
         $.ajax({
@@ -122,22 +134,21 @@
             },
             success: function (data) {
                 $('#admin-thread-subject').text(data.subject);
-
                 // Anzeigen aller Nachrichten im rechten Teil der Chatansicht
+                console.dir(data);
                 data.messages.forEach(function (message) {
                     // Bestimmen, ob die Nachricht von Auth::User oder von einem anderen Benutzer gesendet wurde
                     const isCurrentUser = message.sender === '{{ Auth::user()->getAttribute('name') }}';
                     const messageClass = isCurrentUser ? 'from-current-user' : 'from-other-user';
                     const sender = `<strong>${message.sender}:</strong>`;
 
+                    subject.textContent = "Betreff: " + data.subject;
+                    messageTo.textContent = 'Antworten: ';
                     // Anzeigen der Nachricht mit der entsprechenden Ausrichtung
-                    const messageHTML = `
-                        <div class="message ${messageClass}">
-                            ${isCurrentUser ? message.body + ' ' + sender : sender + ' ' + message.body}
+                    const messageHTML = `<div class="message ${messageClass}">${sender + '<br>' + message.body}
                         <hr>
                         </div>`;
                     $('#admin-messages').append(messageHTML);
-
                 });
                 // Chatverlauf nach unten scrollen, nachdem die Nachricht angezeigt wurde
                 scrollToBottom();
@@ -147,39 +158,6 @@
             }
         });
     }
-
-    {{--function sendMessage(threadId) {--}}
-    {{--    // Get message from form--}}
-    {{--    const message = $('#admin-form-message').val();--}}
-
-    {{--    // Send message to server using AJAX--}}
-    {{--    $.ajax({--}}
-    {{--        url: '/admin/messages/' + threadId,--}}
-    {{--        method: 'POST',--}}
-    {{--        data: {--}}
-    {{--            _token: '{{ csrf_token() }}',--}}
-    {{--            message: message--}}
-    {{--        },--}}
-    {{--        success: function (data) {--}}
-    {{--            // Append message to chat window--}}
-    {{--            const messageHTML = `--}}
-    {{--      <div class="message from-current-user">--}}
-    {{--        ${message}--}}
-    {{--        <hr>--}}
-    {{--      </div>`;--}}
-    {{--            $('#admin-messages').append(messageHTML);--}}
-
-    {{--            // Clear message form--}}
-    {{--            $('#admin-form-message').val('');--}}
-
-    {{--            // Scroll chat window to bottom--}}
-    {{--            scrollToBottom();--}}
-    {{--        },--}}
-    {{--        error: function (jqXHR, textStatus, errorThrown) {--}}
-    {{--            console.log(jqXHR.status + ': ' + errorThrown);--}}
-    {{--        }--}}
-    {{--    });--}}
-    {{--}--}}
 
     function scrollToBottom() {
         const chatMessages = document.getElementById('admin-messages');
@@ -193,31 +171,25 @@
         const newMessageElement = document.getElementById('admin-new-message');
         const tabChatBtn = document.getElementById('adminTabChatBtn');
         const tabNewMessageBtn = document.getElementById('adminTabNewMessageBtn');
-
         if (chatElement && newMessageElement && tabChatBtn && tabNewMessageBtn) {
             if (chatElement.style.display === 'block') {
                 chatElement.style.display = 'none';
                 newMessageElement.style.display = 'block';
-
                 tabChatBtn.classList.remove('active');
                 tabNewMessageBtn.classList.add('active');
             } else {
                 chatElement.style.display = 'block';
                 newMessageElement.style.display = 'none';
-
                 tabChatBtn.classList.add('active');
                 tabNewMessageBtn.classList.remove('active');
             }
         }
     }
-
     tabButtons.forEach(function (btn) {
         btn.addEventListener('click', function (event) {
             showTab(event.target.dataset.tab);
         });
     });
-
-
     window.onload = function () {
         // show default tab
         showTab('#admin-chat');
@@ -225,6 +197,11 @@
         showThread({{Auth::user()->last_thread_id}});
     };
 
-
+    const messageField = document.getElementById('message');
+    messageField.addEventListener('keypress', function (event){
+        console.log(event)
+        if(event.code === 'Enter'){
+            form.submit();
+        }
+    })
 </script>
-

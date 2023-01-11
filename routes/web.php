@@ -150,7 +150,7 @@ Route::group(['prefix' => 'admin/messages'], function () {
         'uses' => 'App\Http\Controllers\Admin\AdminMessagesController@store']);
     Route::get('{id}', ['as' => 'admin.messages.show',
         'uses' => 'App\Http\Controllers\Admin\AdminMessagesController@show']);
-    Route::put('{id}', ['as' => 'admin.messages.update',
+    Route::put('update/{id}', ['as' => 'admin.messages.update',
         'uses' => 'App\Http\Controllers\Admin\AdminMessagesController@update']);
 });
 

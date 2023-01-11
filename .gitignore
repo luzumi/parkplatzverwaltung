@@ -21,3 +21,4 @@ yarn-error.log
 /storage/app/
 /storage/framework/
 /bootstrap/cache/*
+/server.log

@@ -195,48 +195,58 @@ topmenu
     transform: translateX(calc(421px + 56px * 8));
 }
 
-.message.from-current-user {
+.message.from-current-user
+{
     background-color: #d3e3f3;
     color: #333;
     text-align: right;
+    white-space: pre-wrap;
 }
 
-.message.from-other-user {
+.message.from-other-user
+{
     background-color: #f3e3d3;
     color: #333;
     text-align: left;
+    white-space: pre-wrap;
 }
 
 .chat-messages
 {
     height: 40vh;
 }
+
 .messageView
 {
     height: 40vh;
     overflow-y: scroll;
 }
-.tabs {
-    display: flex; /* Stelle die Schaltflächen nebeneinander dar */
+.tabs
+{
+    display: flex;
     width: 30rem;
 }
 
-.tab-btn {
-    flex: 1; /* Verteile den Platz gleichmäßig auf die Schaltflächen */
+.tab-btn
+{
+    flex: 1;
     border: none;
     background-color: white;
     color: black;
     cursor: pointer;
 }
 
-.tab-btn.active {
-    background-color: #ddd; /* Färbe die aktive Schaltfläche grau */
+.tab-btn.active
+{
+    background-color: #ddd;
 }
 
-.tab-content {
+.tab-content
+{
     display: none; /* Verberge alle Tab-Inhalte standardmäßig */
 }
 
-.tab-content.active {
+.tab-content.active
+{
     display: block; /* Zeige den aktiven Tab-Inhalt an */
 }

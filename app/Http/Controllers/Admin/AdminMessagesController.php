@@ -158,7 +158,6 @@ class AdminMessagesController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         try {
             $thread = Thread::findOrFail($id);
 

@@ -43,7 +43,6 @@ class MessagesController extends Controller
 
     public function show($id)
     {
-
         try {
             $thread = Thread::findOrFail($id);
             Auth::user()->update([
