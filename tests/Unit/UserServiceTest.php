@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Actions\CreateMessage;
 use App\Actions\SetImageName;
+use App\Http\Middleware\VerifyCsrfToken;
 use App\Http\Requests\UserPictureRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\Car;
@@ -32,7 +33,7 @@ class UserServiceTest extends TestCase
         // Zähle die Anzahl der Benutzer in der Datenbank vor dem Löschen
         $beforeCount = User::where('deleted_at', null)->count();
 
-        $this->actingAs($this->user)->delete('/user/delete/');
+        $this->actingAs($this->user)->delete(route('user.delete'));
 
         // Prüfe, ob der Benutzer erfolgreich gelöscht wurde
         $this->assertDatabaseMissing('users', ['id' => $this->user->id, 'deleted_at' => null]);
@@ -54,7 +55,7 @@ class UserServiceTest extends TestCase
     {
         $this->actingAs($this->user)->delete('/user/delete/');
         $this->assertDatabaseHas('parking_spots', [
-            'user_id' => 1,
+            'user_id' => $this->user->id,
             'image' => 'frei.jpg',
             'status' => 'frei',
         ]);
@@ -185,8 +186,7 @@ class UserServiceTest extends TestCase
         $this->user = User::create([
             'name' => 'testName',
             'email' => 'test@test.test',
-            'password' => 'test',
-            'deleted_at' => null
+            'password' => 'test'
         ]);
 
         $this->car = Car::create([

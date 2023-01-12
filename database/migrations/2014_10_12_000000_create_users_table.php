@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('telefon')->nullable();
             $table->string('status')->default(true);
             $table->string('role')->default('client');
-            $table->integer('last_thread_id');
+            $table->integer('last_thread_id')->nullable();
             $table->integer('balance')->default(5555);
             $table->string('deleted_at')->nullable();
             $table->rememberToken();

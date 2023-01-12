@@ -44,9 +44,12 @@ class AdminParkingSpotController extends Controller
         AdminCreateNewParkingSpot $createNewParkingSpot,
         CreateMessage             $createMessage
     ): RedirectResponse {
-        $createNewParkingSpot->handle($request, $createMessage);
-
-        return back();
+dd();
+        if (Auth::user()->hasRole('admin')){
+            $createNewParkingSpot->handle($request, $createMessage);
+            return back();
+        }
+        return abort(403,'Sie haben nicht die erforderlichen Berechtigungen, um diese Aktion durchzuführen.' );
     }
 
 

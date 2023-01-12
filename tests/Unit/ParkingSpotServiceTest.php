@@ -30,14 +30,16 @@ class ParkingSpotServiceTest extends TestCase
             'role' => 'admin',
             'name' => 'admin',
             'email' => 'admin@admin.admin',
-            'password' => 'admin'
+            'password' => 'admin',
+            'last_thread_id' => 1
         ]);
 
         $this->user = User::create([
             'name' => 'testName',
             'email' => 'test@test.test',
             'password' => 'test',
-            'deleted_at' => null
+            'deleted_at' => null,
+            'last_thread_id' => 1
         ]);
 
         $this->car = Car::create([

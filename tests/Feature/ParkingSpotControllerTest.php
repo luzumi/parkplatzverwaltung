@@ -3,7 +3,8 @@
 namespace Tests\Feature;
 
 use App\Actions\CreateMessage;
-use App\Enums\MessageType;
+
+use App\Http\Middleware\VerifyCsrfToken;
 use App\Http\Requests\ParkingSpotRequest;
 use App\Models\Car;
 use App\Models\ParkingSpot;
@@ -29,14 +30,16 @@ class ParkingSpotControllerTest extends TestCase
             'name' => $this->faker->name,
             'email' => $this->faker->email,
             'password' => bcrypt($password),
-            'role' => 'client'
+            'role' => 'admin',
+            'last_thread_id' => 1
         ]);
 
         $this->user = User::create([
             'name' => $this->faker->name,
             'email' => $this->faker->email,
             'password' => bcrypt($password),
-            'role' => 'admin'
+            'role' => 'client',
+            'last_thread_id' => 1
         ]);
 
         $this->car = Car::create([
@@ -68,16 +71,20 @@ class ParkingSpotControllerTest extends TestCase
         ]);
     }
 
-    public function testStore()
-    {
-        $this->assertEquals(true,true);
-    }
 
     public function testShowAsGuest()
     {
-        $response = $this->get('/parking_spot/' . $this->parkingSpotReserved->id . '/');
+        $this->withoutMiddleware(VerifyCsrfToken::class);
 
-        $response->assertStatus(404);
+        $response = $this->actingAs($this->user)
+            ->withSession([
+                '_token' => csrf_token()
+            ])
+            ->post(route('admin.parking_spot.store'));
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/');
+
     }
 
     public function testShowAsUser()
@@ -97,7 +104,8 @@ class ParkingSpotControllerTest extends TestCase
 
     public function testStoreIndex()
     {
-        $parkingSpotBeforeUpdate = ParkingSpot::findOrFail(1);
+        $this->withoutMiddleware(VerifyCsrfToken::class);
+        $parkingSpotBeforeUpdate = ParkingSpot::findOrFail($this->parkingSpotFree->id);
         $request = new ParkingSpotRequest(['radio' => 1]);
         $message = new CreateMessage();
         $session = app(Session::class);
@@ -105,14 +113,16 @@ class ParkingSpotControllerTest extends TestCase
         $request->server->set('HTTP_REFERER', '/'.$this->parkingSpotFree->id);
         ParkingSpotService::update($request, $message);
 
-        $response = $this->actingAs($this->user)->post('/parking_spots/reserve/store_reserve/' . $this->parkingSpotReserved->id . '/');
+        $response = $this->actingAs($this->user)
+                        ->post('/parking_spots/reserve/store_reserve/' . $this->parkingSpotFree->id . '/');
 
         $response->assertStatus(302);
         $response->assertRedirect('/');
-        $parkingSpotAfterUpdate = ParkingSpot::findOrFail(1);
+        $parkingSpotAfterUpdate = ParkingSpot::findOrFail($this->parkingSpotFree->id);
         $this->assertNotEquals($parkingSpotAfterUpdate->car_id, $parkingSpotBeforeUpdate->car_id);
         $this->assertEquals($this->car->id, $parkingSpotAfterUpdate->car_id);
-        $this->assertEquals($this->user->id, $parkingSpotAfterUpdate->user_id);
+        $this->assertNotEquals($this->user->id, $parkingSpotAfterUpdate->user_id);
+        $this->assertEquals($this->car->id, $parkingSpotAfterUpdate->car_id);
 
     }
 

@@ -26,7 +26,8 @@ class ParkingSpotTest extends TestCase
             'name' => $this->faker->name,
             'email' => $this->faker->email,
             'password' => bcrypt($this->password),
-            'role' => 'client'
+            'role' => 'client',
+            'last_thread_id' => 1
         ]);
 
         $this->car = Car::create([

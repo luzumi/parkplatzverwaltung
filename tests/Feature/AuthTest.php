@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Http\Middleware\VerifyCsrfToken;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -14,6 +15,8 @@ class AuthTest extends TestCase
 
     public function testLoginUser()
     {
+        $this->withoutMiddleware(VerifyCsrfToken::class);
+
         $response = $this->post('/login', [
             'email' => $this->user->email,
             'password' => $this->user->password
@@ -61,6 +64,8 @@ class AuthTest extends TestCase
 
     public function testAuthenticatedUserCanLogout()
     {
+        $this->withoutMiddleware(VerifyCsrfToken::class);
+
         $this->actingAs($this->user)->post('/logout');
         $this->assertGuest();
     }
@@ -106,15 +111,12 @@ class AuthTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->user = $this->createUser();
-    }
-
-    public function createUser(): User
-    {
-        return User::create([
+        $this->user = User::create([
             'name' => 'testUser',
             'email' => 'test@test.test',
-            'password' => bcrypt('password')
+            'password' => bcrypt('password'),
+            'last_thread_id' => 1
         ]);
     }
+
 }
