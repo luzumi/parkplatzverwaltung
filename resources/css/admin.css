@@ -3,8 +3,9 @@
 }
 
 .fixed {
-    -ms-flex: 0 0 250px;
-    flex: 0 0 250px;
+    -ms-flex: auto;
+    -webkit-box-flex: 0;
+    flex: auto;
 }
 
 .content-grey {
@@ -33,7 +34,7 @@ hr {
 }
 
 .table-fixed {
-    width: 100%;
+    width: 80%;
     background-color: #f3f3f3;
 }
 .table-fixed tbody {
@@ -58,11 +59,13 @@ hr {
 }
 .table-header-fixed
 {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
 }
 
 .table-header {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
 }
@@ -70,5 +73,3 @@ hr {
     height: 300px;
     overflow-y: scroll;
 }
-
-

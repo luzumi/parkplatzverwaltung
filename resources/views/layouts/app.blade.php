@@ -12,10 +12,9 @@
 <body>
 
 <!-- header -->
-<topmenu>
-    <nav class="navigation">
-        <a class="h1 text-decoration-none text-white" href="{{ route('home.index') }}">&nbsp;&nbsp;Parkplatzverwaltung&nbsp;&nbsp;&nbsp;&nbsp;</a>
-        <div class="container">
+<topmenu class="d-flex ">
+    <nav class="navigation w-80 d-flex">
+        <div class="container d-flex">
             {{--            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"--}}
             {{--                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">--}}
             {{--                <span class="navbar-toggler-icon"></span>--}}
@@ -91,6 +90,7 @@
                 <div class="indicator"></div>
             </ul>
         </div>
+        <a class="h1 text-decoration-none text-white" href="{{ route('home.index') }}">&nbsp;&nbsp;Parkplatzverwaltung&nbsp;&nbsp;&nbsp;&nbsp;</a>
     </nav>
 </topmenu>
 <header class="masthead bg-primary text-white text-center py-4">
