@@ -6,12 +6,10 @@ use App\Actions\CreateMessage;
 use App\Actions\CreateNewCar;
 use App\Actions\SetImageName;
 use App\Http\Controllers\CarController;
-use App\Http\Middleware\VerifyCsrfToken;
 use App\Http\Requests\CarRequest;
 use App\Models\Car;
 use App\Models\ParkingSpot;
 use App\Models\User;
-use App\Services\CarService;
 use Faker\Factory as Faker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -108,8 +106,8 @@ class CarControllerTest extends TestCase
         $this->parkingSpot = ParkingSpot::create([
             'user_id' => $this->admin->id,
             'car_id' => null,
-            'number' => $this->faker->numberBetween(1,10),
-            'row' => $this->faker->numberBetween(1,3),
+            'number' => $this->faker->numberBetween(1, 10),
+            'row' => $this->faker->numberBetween(1, 3),
             'image' => 'frei.jgp',
             'status' => 'frei'
         ]);
