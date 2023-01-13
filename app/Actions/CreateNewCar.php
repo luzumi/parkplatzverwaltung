@@ -18,9 +18,8 @@ class CreateNewCar extends Model
      */
     public function handle(CarRequest $request, SetImageName $setImageName, CreateMessage $message): Car
     {
-//        dd($request);
         $car = Car::create([
-            'user_id' => Auth::id(),
+            'user_id' => Auth::id()?? $request->input('user_id'),
             'sign' => $request->input('sign'),
             'manufacturer' => $request->input('manufacturer'),
             'model' => $request->input('model'),

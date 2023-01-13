@@ -55,7 +55,7 @@ class UserServiceTest extends TestCase
     {
         $this->actingAs($this->user)->delete('/user/delete/');
         $this->assertDatabaseHas('parking_spots', [
-            'user_id' => $this->user->id,
+            'user_id' => $this->admin->id,
             'image' => 'frei.jpg',
             'status' => 'frei',
         ]);
@@ -63,8 +63,8 @@ class UserServiceTest extends TestCase
         $this->assertDatabaseMissing('parking_spots', [
             'user_id' => $this->user->id,
             'car_id' => $this->car->id,
-            'number' => 1,
-            'row' => 1,
+            'number' => $this->parking_spot->number,
+            'row' => $this->parking_spot->row,
             'image' => 'besetzt',
             'status' => 'besetzt',
         ]);

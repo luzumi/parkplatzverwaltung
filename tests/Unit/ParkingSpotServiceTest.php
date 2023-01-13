@@ -54,7 +54,7 @@ class ParkingSpotServiceTest extends TestCase
         ]);
 
         $this->parking_spot = ParkingSpot::create([
-            'user_id' => '2',
+            'user_id' => $this->user->id,
             'car_id' => '1',
             'number' => '1',
             'row' => '1',
@@ -72,11 +72,11 @@ class ParkingSpotServiceTest extends TestCase
 
     public function testParkingSpotCanUpdateDataSuccessful()
     {
-        $this->parking_spot_service->update($this->request, new CreateMessage());
+        $this->actingAs($this->user)->parking_spot_service->update($this->request, new CreateMessage());
 
         $updated_parking_spot = ParkingSpot::findOrFail($this->parking_spot->id);
 
-        $this->assertEquals($this->user->id, $updated_parking_spot->getAttribute('user_id'));
+        $this->assertEquals($this->admin->id, $updated_parking_spot->getAttribute('user_id'));
         $this->assertEquals($this->car->id, $updated_parking_spot->car_id);
         $this->assertEquals('reserviert', $updated_parking_spot->status);
         $this->assertEquals('reserviert.jpg', $updated_parking_spot->image);

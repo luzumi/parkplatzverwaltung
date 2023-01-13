@@ -73,6 +73,7 @@ class CarController extends Controller
         CreateMessage $createMessage,
     ): Redirector|Application|RedirectResponse
     {
+
         $car = $createNewCar->handle($request, $setImageName, $createMessage);
         return redirect('/user/' . $car->user_id);
     }

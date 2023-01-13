@@ -90,7 +90,7 @@ class UserService
 
         ParkingSpot::where('user_id', $id)
             ->update([
-                'user_id' => '1',
+                'user_id' => User::where('role', '=', 'admin')->first()->id,
                 'image' => 'frei.jpg',
                 'status' => 'frei',
             ]);

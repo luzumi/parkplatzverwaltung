@@ -24,10 +24,10 @@ class CarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "sign" => "required|max:12",
-            'manufacturer' => "required",
-            "model" => "required",
-            "color" => "required",
+            "sign" => "required|max:12|alpha_num_spaces",
+            'manufacturer' => "required|alpha_num_spaces",
+            "model" => "required|alpha_num_spaces",
+            "color" => "required|alpha_num_spaces",
             "image" => "image",
         ];
     }

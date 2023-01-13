@@ -25,7 +25,7 @@ class PasswordRequest extends FormRequest
     {
         return [
             'old_password' => 'required',
-            'new_password' => 'required|confirmed',
+            'new_password' => 'required|confirmed|min:6|max:32|alpha_num_spaces',
         ];
     }
 }
