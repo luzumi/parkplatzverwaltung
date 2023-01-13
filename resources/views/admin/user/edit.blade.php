@@ -3,7 +3,7 @@
 @section('content')
     <div class="card mb-4">
         <div class="card-header">
-            Editiere Fahrzeug
+            Editiere Benutzer
         </div>
         <div class="card-body">
             <div class="card-img-top"
@@ -78,7 +78,7 @@
                             <div class="col-lg-10 col-md-6 col-sm-12">
                                 <label class="col-lg-10 col-md-6 col-sm-12 col-form-label">Land:</label>
                                 <label>
-                                    <input name="Land" value="{{ $viewData['address']->Land }}" type="text"
+                                    <input name="Land" value="{{ $viewData['address']->Land??'' }}" type="text"
                                            class="form-control-sm">
                                 </label>
                             </div>
@@ -91,7 +91,7 @@
                             <div class="col-lg-10 col-md-6 col-sm-12">
                                 <label class="col-lg-10 col-md-6 col-sm-12 col-form-label-sm">PLZ:</label>
                                 <label>
-                                    <input name="PLZ" value="{{ $viewData['address']->PLZ }}" type="text"
+                                    <input name="PLZ" value="{{ $viewData['address']->PLZ??'' }}" type="text"
                                            class="form-control-sm">
                                 </label>
                             </div>
@@ -104,7 +104,7 @@
                             <div class="col-lg-10 col-md-6 col-sm-12">
                                 <label class="col-lg-10 col-md-6 col-sm-12 col-form-label-sm">Stadt:</label>
                                 <label>
-                                    <input name="Stadt" value="{{ $viewData['address']->Stadt }}" type="text"
+                                    <input name="Stadt" value="{{ $viewData['address']->Stadt??'' }}" type="text"
                                            class="form-control-sm">
                                 </label>
                             </div>
@@ -117,7 +117,7 @@
                             <div class="col-lg-10 col-md-6 col-sm-12">
                                 <label class="col-lg-10 col-md-6 col-sm-12 col-form-label-sm">Strasse:</label>
                                 <label>
-                                    <input name="Strasse" value="{{ $viewData['address']->Strasse }}" type="text"
+                                    <input name="Strasse" value="{{ $viewData['address']->Strasse??'' }}" type="text"
                                            class="form-control-sm">
                                 </label>
                             </div>
@@ -129,7 +129,7 @@
                                 <label for="Nummer"
                                        class="col-lg-10 col-md-6 col-sm-12 col-form-label-sm">Nummer:</label>
                                 <label>
-                                    <input name="Nummer" value="{{ $viewData['address']->Nummer }}" type="text"
+                                    <input name="Nummer" value="{{ $viewData['address']->Nummer??'' }}" type="text"
                                            class="form-control-sm">
                                 </label>
                             </div>

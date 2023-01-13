@@ -82,7 +82,7 @@
                         <td>{{ $user->id }}</td>
                         <td><img src="{{ asset('/storage/media/'. $user->image) }}"
                                  class="img-profile" alt="image not found"></td>
-                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->getAttribute('name') }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->telefon }}</td>
                         <td>{{ $user->role }}</td>

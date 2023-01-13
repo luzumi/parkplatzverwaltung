@@ -90,7 +90,7 @@ class AdminUserController extends Controller
     public function edit($id): Factory|View|Application
     {
         $viewData = [];
-        $viewData['title'] = 'Admin-Page - Editiere Fahrzeug - Parkplatzverwaltung';
+        $viewData['title'] = 'Admin-Page - Editiere Benutzer - Parkplatzverwaltung';
         $viewData['user'] = User::findOrFail($id);
         $viewData['address'] = Address::where('user_id', $id)->first();
 
