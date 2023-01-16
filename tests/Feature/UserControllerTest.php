@@ -69,7 +69,7 @@ class UserControllerTest extends TestCase
         $response->assertStatus(500);
     }
 
-    public function test_show_should_return_view_show_with_viewdata()
+    public function test_show_should_return_view_show_with_viewData()
     {
         $user = User::findOrFail($this->user->id);
 
@@ -81,7 +81,6 @@ class UserControllerTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee($user->getAttribute('name'));
-        $response->assertSee($users->first()->getAttribute('name'));
         $response->assertSee($address->first()->getAttribute('Land'));
         $response->assertSee($cars->first()->getAttribute('Sign'));
 

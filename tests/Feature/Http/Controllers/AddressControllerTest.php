@@ -6,6 +6,7 @@ use App\Actions\CreateMessage;
 use App\Actions\CreateNewCar;
 use App\Actions\SaveAddress;
 use App\Http\Controllers\AddressController;
+use App\Http\Middleware\VerifyCsrfToken;
 use App\Http\Requests\AddressRequest;
 use App\Models\Address;
 use App\Models\User;
@@ -20,11 +21,11 @@ class AddressControllerTest extends TestCase
     public function testCreate()
     {
         $addressController = new AddressController();
-
+        $this->withoutMiddleware(VerifyCsrfToken::class);
         $this->request->setSession($this->session);
         $addressController->create($this->request, $this->saveAddress, $this->user->id, $this->message);
 
-        $response = $this->actingAs($this->user)->post('/user/addCar/addCar');
+        $response = $this->actingAs($this->user)->put('address/'. $this->user->id .'/create');
 
         $response->assertStatus(302);
         $response->assertRedirect('/');
@@ -57,7 +58,7 @@ class AddressControllerTest extends TestCase
         $this->address = Address::create([
             'user_id'=> $this->user->id,
             'Land' => $this->faker->country,
-            'PLZ' => $this->faker->postcode,
+            'PLZ' => $this->faker->randomNumber(5),
             'Stadt' => $this->faker->city,
             'Strasse' => $this->faker->streetName,
             'Nummer' => $this->faker->randomNumber(2),

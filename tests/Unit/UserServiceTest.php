@@ -32,7 +32,6 @@ class UserServiceTest extends TestCase
     {
         // Zähle die Anzahl der Benutzer in der Datenbank vor dem Löschen
         $beforeCount = User::where('deleted_at', null)->count();
-
         $this->actingAs($this->user)->delete(route('user.delete'));
 
         // Prüfe, ob der Benutzer erfolgreich gelöscht wurde
@@ -220,6 +219,7 @@ class UserServiceTest extends TestCase
             'image' => 'NewImage.jpg',
         ]);
 
+        $this->withoutMiddleware(VerifyCsrfToken::class);
         $this->userService = new UserService();
         $this->imagename = new SetImageName();
         $this->imagename->handle($this->pictureRequest, $this->user);

@@ -2,10 +2,13 @@
 
 namespace Http\Controllers;
 
+use App\Actions\Admin\AdminUpdateCar;
 use App\Actions\CreateMessage;
 use App\Actions\CreateNewCar;
 use App\Actions\SetImageName;
+use App\Http\Controllers\Admin\AdminCarController;
 use App\Http\Controllers\CarController;
+use App\Http\Middleware\VerifyCsrfToken;
 use App\Http\Requests\CarRequest;
 use App\Models\Car;
 use App\Models\ParkingSpot;
@@ -23,7 +26,7 @@ class CarControllerTest extends TestCase
     public function testAddCar()
     {
         $carController = new CarController();
-
+        $this->withoutMiddleware(VerifyCsrfToken::class);
         $this->request->setSession($this->session);
         $carController->addCar($this->request, $this->createNewCar, $this->setImage, $this->message);
 
@@ -65,9 +68,31 @@ class CarControllerTest extends TestCase
 
     }
 
-    public function testStoreIndex()
+    public function testEdit()
     {
+        $title = 'Admin-Page - Editiere Fahrzeug - Parkplatzverwaltung';
 
+        $response = $this->actingAs($this->admin)->get(route('admin.car.edit', [$this->car->id]));
+
+        $response->assertStatus(200);
+        $response->assertSee($title);
+        $response->assertSee($this->car->sign);
+    }
+
+    public function testUpdate()
+    {
+        $response = $this->actingAs($this->admin)
+            ->put(route('admin.car.update', $this->car->id), [
+                'sign' => 'ABCD1234',
+                'manufacturer' => "Manufacturer1",
+                "model" => "Model1",
+                "color" => "color",
+            ]);
+
+        $response->assertStatus(302);
+        $response->assertRedirect('admin/admin/cars/');
+        $this->assertDatabaseHas('cars', ['sign' => 'ABCD1234']);
+        $this->assertDatabaseHas('cars', ['image' => $this->car->image]);
     }
 
     protected function setUp(): void

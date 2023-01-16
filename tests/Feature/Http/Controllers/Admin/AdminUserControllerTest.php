@@ -7,6 +7,7 @@ use App\Actions\SaveAddress;
 use App\Actions\SetImageName;
 use App\Actions\UpdateUser;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Middleware\VerifyCsrfToken;
 use App\Http\Requests\AddressRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\Address;
@@ -22,6 +23,7 @@ class AdminUserControllerTest extends TestCase
 
     public function testStore()
     {
+        $this->withoutMiddleware(VerifyCsrfToken::class);
         $response = $this->actingAs($this->admin)->post(route("admin.user.store"));
 
         $response->assertStatus(302);
@@ -57,7 +59,7 @@ class AdminUserControllerTest extends TestCase
 
     public function testDelete()
     {
-
+        $this->withoutMiddleware(VerifyCsrfToken::class);
         $response = $this->actingAs($this->admin)->delete(route('admin.user.delete', $this->user->id));
 
         $response->assertStatus(302);
@@ -84,6 +86,7 @@ class AdminUserControllerTest extends TestCase
     {
         $title = 'Admin-Page - Editiere Fahrzeug - Parkplatzverwaltung';
         $userBefore = $this->user;
+        $this->withoutMiddleware(VerifyCsrfToken::class);
         $this->updateUser->update($this->request, $this->setImage, $this->user->id, $this->createMessage);
 
         $response = $this->actingAs($this->admin)->put(route('admin.user.update', $this->user->id));
