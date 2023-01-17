@@ -22,22 +22,22 @@
                             @if (count($threads) > 0)
                                 @foreach($threads as $thread)
                                     <li class="list-group-item m-0">
-                                        <a href="#" onclick="showThread({{ $thread->id }})">
+                                        <a href="#" onclick="showThread({{ e($thread->id) }})">
                                             <div class="row">
                                                 <div class="col-4">
                                                     <img
-                                                        src="{{ asset('storage/media/' . $thread->users[1]->image) }}"
+                                                        src="{{ asset('storage/media/' . e($thread->users->last()->image)) }}"
                                                         class="col-12 rounded-circle align-self-center mr-2"
                                                         alt="User image">
                                                 </div>
                                                 <div class="col">
                                                     <h5><span
-                                                            class="mb-1">{{ $thread->users[1]->getAttribute('name')}}</span>
+                                                            class="mb-1">{{ e($thread->users->last()->getAttribute('name'))}}</span>
                                                         <span
-                                                            class="mb-3 text-sm-end">{{substr($thread->subject, 0, 16) . '...'}}</span>
+                                                            class="mb-3 text-sm-end">{{e(substr($thread->subject, 0, 16)) . '...'}}</span>
                                                     </h5>
                                                     <small
-                                                        class="mb-4 text-xs">{{ substr($thread->latestMessage->body, 0, 20) . '...' }}</small>
+                                                        class="mb-4 text-xs">{{ e(substr($thread->latestMessage->body, 0, 20)) . '...' }}</small>
                                                 </div>
                                             </div>
                                         </a>

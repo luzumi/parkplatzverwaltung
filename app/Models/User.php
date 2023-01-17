@@ -32,7 +32,6 @@ class User extends Authenticatable
         'deleted_at',
         'last_thread_id',
         'role',
-        'deleted_at'
     ];
 
     /**

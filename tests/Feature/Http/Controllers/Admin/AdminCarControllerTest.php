@@ -6,7 +6,6 @@ use App\Actions\CreateMessage;
 use App\Actions\CreateNewCar;
 use App\Actions\SetImageName;
 use App\Enums\MessageType;
-use App\Http\Controllers\Admin\AdminCarController;
 use App\Http\Controllers\CarController;
 use App\Http\Middleware\VerifyCsrfToken;
 use App\Http\Requests\CarRequest;
