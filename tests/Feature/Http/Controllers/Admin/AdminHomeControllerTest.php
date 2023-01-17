@@ -2,9 +2,11 @@
 
 namespace Http\Controllers\Admin;
 
+use App\Enums\MessageType;
 use App\Http\Controllers\Admin\AdminHomeController;
 use App\Models\Address;
 use App\Models\Car;
+use App\Models\LogMessage;
 use App\Models\ParkingSpot;
 use App\Models\User;
 use Faker\Factory as Faker;
@@ -55,6 +57,29 @@ class AdminHomeControllerTest extends TestCase
             'status' => $this->faker->boolean
         ]);
 
-        $response = $response = $this->actingAs($this->admin);
+        $this->logMessage = LogMessage::create([
+            'user_id' => $this->user->id,
+            'receiver_user_id' => $this->admin->id,
+            'message' => MessageType::EditParkingSpot->value,
+            'car_id' => $this->car->id,
+            'parking_spot_id' => $this->parkingSpot->id,
+            'status' => 'open'
+        ]);
+
+        $response = $this->actingAs($this->admin)->get(route('admin.home.index'));
+
+        $response->assertStatus(200);
+        $response->assertSee($title);
+        $response->assertSee($subtitle);
+        $response->assertSee($this->logMessage->message);
+        $this->assertEquals(MessageType::EditParkingSpot->value, $response->original->viewData['messages']->first()->message);
+        $this->assertDatabaseHas('log_messages', [
+            'user_id' => $this->user->id,
+            'receiver_user_id' => $this->admin->id,
+            'message' => MessageType::EditParkingSpot->value,
+            'car_id' => $this->car->id,
+            'parking_spot_id' => $this->parkingSpot->id,
+            'status' => 'open'
+        ]);
     }
 }
