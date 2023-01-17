@@ -116,13 +116,13 @@ class AdminParkingSpotControllerTest extends TestCase
 
     public function testDelete()
     {
-        $countBefore = ParkingSpot::count();
+        $countBefore = ParkingSpot::where('deleted_at', null)->count();
 
         $response = $this->actingAs($this->admin)
             ->delete(route('admin.parking_spot.delete', [ 'id' => $this->parking_spot->id]));
 
         $response->assertStatus(302);
-        $this->assertEquals($countBefore, ParkingSpot::count());
+        $this->assertEquals($countBefore - 1, ParkingSpot::where('deleted_at', null)->count());
         $this->assertDatabaseMissing('parking_spots', ['deleted_at' => null]);
     }
 

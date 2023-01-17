@@ -56,9 +56,10 @@ class AdminCarController extends Controller
     {
         $car = Car::findOrFail($car_id);
         $car->update([
-            "deleted-at" => now()
+            "deleted_at" => now(),
         ]);
         $createMessage->handle(MessageType::DeleteCar, $car->id, $car_id, null);
+
         return back();
     }
 
