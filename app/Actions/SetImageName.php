@@ -24,6 +24,7 @@ class SetImageName
         UserRequest|UserPictureRequest|CarRequest|ParkingSpotRequest $request,
         Model                                                        $model
     ): string|null {
+
         if ($model instanceof User) {
             $model->image = $this->setUserImage($request, $model);
         }
