@@ -20,7 +20,7 @@ class UpdateUserTest extends TestCase
 
         parent::setUp();
 
-        $this->user = User::create([
+        $this->admin = User::create([
             'name' => $this->faker->name,
             'email' => $this->faker->email,
             'password' => bcrypt($this->password),
