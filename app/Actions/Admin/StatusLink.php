@@ -9,10 +9,11 @@ class StatusLink
 {
     public static function createLink($message)
     {
-//       dd($message);
         switch ($message->message) {
             case MessageType::ReserveParkingSpot->value:
+            {
                 return self::getParkingSpotLink($message);
+            }
 
             default:
                 return 'Done';
