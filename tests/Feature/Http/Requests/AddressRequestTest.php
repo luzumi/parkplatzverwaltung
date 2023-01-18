@@ -12,7 +12,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class AddressRequestTest extends TestCase
-{use RefreshDatabase;
+{
+    use RefreshDatabase;
 
     protected function setUp(): void
     {

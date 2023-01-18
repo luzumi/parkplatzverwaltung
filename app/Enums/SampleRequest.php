@@ -13,6 +13,7 @@ enum SampleRequest: string
     case ValidPassword = 'password';
     case SignWithSymbols = 'test; 123 {';
     case SqlInject = ' OR 1=1; --';
+    case Image = 'image.jpg';
     case LongText300Sign = 'asdfjklöweasdfjklöweasdfjklöweasdfjklöweasdfjklöweasdfjklöweasdfjklöweasdfjklöweasdfjklöwe
     asdfjklöweasdfjklöweasdfjklöweasdfjklöweasdfjklöweasdfjklöweasdfjklöweasdfjklöweasdfjklöwe
     asdfjklöweasdfjklöweasdfjklöweasdfjklöweasdfjklöweasdfjklöweasdfjklöweasdfjklöweasdfjklöwe';
