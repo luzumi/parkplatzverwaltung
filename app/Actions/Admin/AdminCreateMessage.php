@@ -42,7 +42,7 @@ class AdminCreateMessage
         }
 
         return LogMessage::create([
-            'user_id' => Auth::id(),
+            'user_id' => User::where('role', '=', 'admin')->first()->id,
             'receiver_user_id' => $user_id,
             'message' => $message,
             'car_id' => $car_id,
