@@ -21,6 +21,7 @@ use Tests\TestCase;
 class AdminParkingSpotControllerTest extends TestCase
 {
     use RefreshDatabase;
+
     protected function setUp(): void
     {
         parent::setUp();

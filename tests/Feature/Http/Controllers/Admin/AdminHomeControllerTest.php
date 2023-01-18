@@ -10,10 +10,12 @@ use App\Models\LogMessage;
 use App\Models\ParkingSpot;
 use App\Models\User;
 use Faker\Factory as Faker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class AdminHomeControllerTest extends TestCase
 {
+    use RefreshDatabase;
 
     public function testIndex()
     {

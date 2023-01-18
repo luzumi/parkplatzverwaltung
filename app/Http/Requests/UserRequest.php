@@ -24,8 +24,8 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:30|alpha_num_spaces',
-            'email' => 'email:rfc,dns|required|max:50'
+            'name' => ['required|string|max:30|alpha_num_spaces'],
+            'email' => ['email:rfc,dns|required|max:50']
         ];
     }
 }

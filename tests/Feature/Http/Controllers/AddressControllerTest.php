@@ -11,6 +11,7 @@ use App\Http\Requests\AddressRequest;
 use App\Models\Address;
 use App\Models\User;
 use Faker\Factory as Faker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Tests\TestCase;
 
@@ -18,6 +19,8 @@ use Tests\TestCase;
 
 class AddressControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testCreate()
     {
         $addressController = new AddressController();
