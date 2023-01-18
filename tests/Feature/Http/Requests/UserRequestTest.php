@@ -3,7 +3,7 @@
 namespace Http\Requests;
 
 use App\Enums\SampleRequest;
-use App\Http\Requests\UserRequest;
+use Faker\Factory as Faker;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -16,7 +16,7 @@ class UserRequestTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = User::create([
+        $this->admin = User::create([
             'name' => 'testUser',
             'email' => 'test@test.de',
             'password' => bcrypt('password'),
