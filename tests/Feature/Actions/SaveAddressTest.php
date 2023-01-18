@@ -31,6 +31,14 @@ class SaveAddressTest extends TestCase
             'last_thread_id' => 1
         ]);
 
+        $this->user = User::create([
+            'name' => $this->faker->name,
+            'email' => $this->faker->email,
+            'password' => bcrypt($this->password),
+            'role' => 'client',
+            'last_thread_id' => 1
+        ]);
+
         $this->address = Address::create([
             'user_id' => $this->admin->id,
             'Land' => $this->faker->country,
@@ -54,7 +62,7 @@ class SaveAddressTest extends TestCase
         ]);
         $message = new CreateMessage();
 
-        $saveAddress->handle($addressRequest, $this->admin->id, $message);
+        $saveAddress->handle($addressRequest, $this->user->id, $message);
 
         $this->assertDatabaseHas('addresses', [
             'user_id' => $this->admin->id,
