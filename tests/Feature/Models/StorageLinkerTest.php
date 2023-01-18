@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Models;
 
 use App\Models\StorageLinker;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

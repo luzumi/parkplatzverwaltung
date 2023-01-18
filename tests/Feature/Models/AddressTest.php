@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Feature\Models;
+
 use App\Models\Address;
 use App\Models\User;
 use Faker\Factory as Faker;
