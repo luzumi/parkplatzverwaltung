@@ -46,7 +46,7 @@ sudo ufw enable
 Geben Sie ‚y‚ ein, um fortzufahren, und die UFW-Firewall wurde aktiviert.
 Öffnen Sie dann Ihren Webbrowser und geben Sie die IP-Adresse Ihres Servers in die Adressleiste ein und Sie erhalten die Standard Apache index.html Seite.
 ***
-### Schritt 2 – Installieren und Konfigurieren von PHP 7.4
+### Schritt 2 – Installieren und Konfigurieren von PHP 8.1
 Die folgenden Abhängigkeiten müssen installiert werden, um PHP erfolgreich zu installieren.
 ``` 
 sudo apt install software-properties-common apt-transport-https -y
