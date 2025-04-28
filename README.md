@@ -74,7 +74,7 @@ Laravel benötigt folgende PHP-Module - Server Requirements.
 
 
 
-    PHP >= 8.0
+    PHP >= 8.1
     BCMath PHP Extension
     Ctype PHP Extension
     cURL PHP Extension
@@ -176,7 +176,7 @@ php artisan serve
 
 starten sie die parkplatzverwaltung im Webbrwoser unter der Adresse
 ````
-'serveradresse':8000
+localhost:8000
 ````
 
 
